@@ -48,49 +48,49 @@
     ],
     "2026-09-09": [
         {
-            "Ticker": "LULU",
-            "Price": 100.61,
-            "RSI": 31.79,
-            "Z-Score": -3.43,
-            "Bounce_Score": 100.0,
-            "Target_FrontRun": 116.54,
-            "Stop_Loss_Sugerido": 91.77
-        },
-        {
-            "Ticker": "FICO",
-            "Price": 932.26,
-            "RSI": 30.24,
-            "Z-Score": -2.93,
-            "Bounce_Score": 88.2,
-            "Target_FrontRun": 1083.13,
-            "Stop_Loss_Sugerido": 840.5
+            "Ticker": "CASY",
+            "Price": 629.03,
+            "RSI": 20.03,
+            "Z-Score": -2.8,
+            "Bounce_Score": 95.1,
+            "Target_FrontRun": 780.05,
+            "Stop_Loss_Sugerido": 577.32
         },
         {
             "Ticker": "PTC",
-            "Price": 141.02,
-            "RSI": 43.03,
-            "Z-Score": -2.51,
-            "Bounce_Score": 87.72,
-            "Target_FrontRun": 148.38,
-            "Stop_Loss_Sugerido": 133.05
+            "Price": 128.89,
+            "RSI": 32.97,
+            "Z-Score": -2.72,
+            "Bounce_Score": 93.03,
+            "Target_FrontRun": 146.45,
+            "Stop_Loss_Sugerido": 120.62
         },
         {
-            "Ticker": "CDNS",
-            "Price": 292.7,
-            "RSI": 31.05,
-            "Z-Score": -2.23,
-            "Bounce_Score": 80.78,
-            "Target_FrontRun": 315.82,
-            "Stop_Loss_Sugerido": 273.93
+            "Ticker": "COO",
+            "Price": 63.48,
+            "RSI": 23.67,
+            "Z-Score": -2.46,
+            "Bounce_Score": 86.52,
+            "Target_FrontRun": 71.23,
+            "Stop_Loss_Sugerido": 60.67
         },
         {
             "Ticker": "SYK",
-            "Price": 303.13,
-            "RSI": 34.07,
-            "Z-Score": -2.1,
-            "Bounce_Score": 77.4,
-            "Target_FrontRun": 322.76,
-            "Stop_Loss_Sugerido": 288.35
+            "Price": 275.39,
+            "RSI": 24.47,
+            "Z-Score": -2.43,
+            "Bounce_Score": 85.8,
+            "Target_FrontRun": 315.8,
+            "Stop_Loss_Sugerido": 259.06
+        },
+        {
+            "Ticker": "PHM",
+            "Price": 118.93,
+            "RSI": 35.57,
+            "Z-Score": -2.27,
+            "Bounce_Score": 81.83,
+            "Target_FrontRun": 124.39,
+            "Stop_Loss_Sugerido": 113.82
         }
     ]
 }
