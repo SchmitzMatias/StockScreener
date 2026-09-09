@@ -1,0 +1,49 @@
+{
+    "2026-09-08": [
+        {
+            "Ticker": "PTC",
+            "Price": 133.26,
+            "RSI": 36.16,
+            "Z-Score": -2.98,
+            "Bounce_Score": 99.41,
+            "Target_FrontRun": 147.51,
+            "Stop_Loss_Sugerido": 124.95
+        },
+        {
+            "Ticker": "SYK",
+            "Price": 276.43,
+            "RSI": 24.75,
+            "Z-Score": -2.97,
+            "Bounce_Score": 99.29,
+            "Target_FrontRun": 319.37,
+            "Stop_Loss_Sugerido": 259.7
+        },
+        {
+            "Ticker": "LULU",
+            "Price": 103.19,
+            "RSI": 35.24,
+            "Z-Score": -2.42,
+            "Bounce_Score": 85.58,
+            "Target_FrontRun": 115.33,
+            "Stop_Loss_Sugerido": 94.6
+        },
+        {
+            "Ticker": "BKNG",
+            "Price": 180.3,
+            "RSI": 32.8,
+            "Z-Score": -2.78,
+            "Bounce_Score": 84.58,
+            "Target_FrontRun": 201.06,
+            "Stop_Loss_Sugerido": 169.93
+        },
+        {
+            "Ticker": "HWM",
+            "Price": 231.53,
+            "RSI": 29.5,
+            "Z-Score": -2.35,
+            "Bounce_Score": 83.87,
+            "Target_FrontRun": 263.56,
+            "Stop_Loss_Sugerido": 215.83
+        }
+    ]
+}
