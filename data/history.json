@@ -45,5 +45,52 @@
             "Target_FrontRun": 263.56,
             "Stop_Loss_Sugerido": 215.83
         }
+    ],
+    "2026-09-09": [
+        {
+            "Ticker": "LULU",
+            "Price": 100.61,
+            "RSI": 31.79,
+            "Z-Score": -3.43,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 116.54,
+            "Stop_Loss_Sugerido": 91.77
+        },
+        {
+            "Ticker": "FICO",
+            "Price": 932.26,
+            "RSI": 30.24,
+            "Z-Score": -2.93,
+            "Bounce_Score": 88.2,
+            "Target_FrontRun": 1083.13,
+            "Stop_Loss_Sugerido": 840.5
+        },
+        {
+            "Ticker": "PTC",
+            "Price": 141.02,
+            "RSI": 43.03,
+            "Z-Score": -2.51,
+            "Bounce_Score": 87.72,
+            "Target_FrontRun": 148.38,
+            "Stop_Loss_Sugerido": 133.05
+        },
+        {
+            "Ticker": "CDNS",
+            "Price": 292.7,
+            "RSI": 31.05,
+            "Z-Score": -2.23,
+            "Bounce_Score": 80.78,
+            "Target_FrontRun": 315.82,
+            "Stop_Loss_Sugerido": 273.93
+        },
+        {
+            "Ticker": "SYK",
+            "Price": 303.13,
+            "RSI": 34.07,
+            "Z-Score": -2.1,
+            "Bounce_Score": 77.4,
+            "Target_FrontRun": 322.76,
+            "Stop_Loss_Sugerido": 288.35
+        }
     ]
 }
