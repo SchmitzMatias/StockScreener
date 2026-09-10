@@ -92,5 +92,52 @@
             "Target_FrontRun": 124.39,
             "Stop_Loss_Sugerido": 113.82
         }
+    ],
+    "2026-09-10": [
+        {
+            "Ticker": "COO",
+            "Price": 54.17,
+            "RSI": 14.68,
+            "Z-Score": -3.18,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 70.12,
+            "Stop_Loss_Sugerido": 50.22
+        },
+        {
+            "Ticker": "PPG",
+            "Price": 105.05,
+            "RSI": 33.17,
+            "Z-Score": -2.78,
+            "Bounce_Score": 94.61,
+            "Target_FrontRun": 109.88,
+            "Stop_Loss_Sugerido": 100.77
+        },
+        {
+            "Ticker": "PHM",
+            "Price": 116.41,
+            "RSI": 32.44,
+            "Z-Score": -2.36,
+            "Bounce_Score": 84.04,
+            "Target_FrontRun": 123.76,
+            "Stop_Loss_Sugerido": 111.21
+        },
+        {
+            "Ticker": "CASY",
+            "Price": 627.64,
+            "RSI": 19.93,
+            "Z-Score": -2.27,
+            "Bounce_Score": 81.81,
+            "Target_FrontRun": 769.69,
+            "Stop_Loss_Sugerido": 576.53
+        },
+        {
+            "Ticker": "MAS",
+            "Price": 67.64,
+            "RSI": 33.98,
+            "Z-Score": -2.65,
+            "Bounce_Score": 81.3,
+            "Target_FrontRun": 70.9,
+            "Stop_Loss_Sugerido": 64.66
+        }
     ]
 }
