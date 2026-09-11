@@ -139,5 +139,52 @@
             "Target_FrontRun": 70.9,
             "Stop_Loss_Sugerido": 64.66
         }
+    ],
+    "2026-09-11": [
+        {
+            "Ticker": "COO",
+            "Price": 53.91,
+            "RSI": 14.52,
+            "Z-Score": -2.5,
+            "Bounce_Score": 87.57,
+            "Target_FrontRun": 69.01,
+            "Stop_Loss_Sugerido": 49.98
+        },
+        {
+            "Ticker": "CPRT",
+            "Price": 29.95,
+            "RSI": 39.39,
+            "Z-Score": -2.39,
+            "Bounce_Score": 84.67,
+            "Target_FrontRun": 31.95,
+            "Stop_Loss_Sugerido": 28.13
+        },
+        {
+            "Ticker": "EW",
+            "Price": 84.37,
+            "RSI": 31.25,
+            "Z-Score": -2.61,
+            "Bounce_Score": 75.37,
+            "Target_FrontRun": 87.89,
+            "Stop_Loss_Sugerido": 81.07
+        },
+        {
+            "Ticker": "ALB",
+            "Price": 117.52,
+            "RSI": 34.95,
+            "Z-Score": -2.51,
+            "Bounce_Score": 72.63,
+            "Target_FrontRun": 130.28,
+            "Stop_Loss_Sugerido": 108.88
+        },
+        {
+            "Ticker": "PODD",
+            "Price": 131.96,
+            "RSI": 32.75,
+            "Z-Score": -2.42,
+            "Bounce_Score": 70.41,
+            "Target_FrontRun": 141.52,
+            "Stop_Loss_Sugerido": 123.16
+        }
     ]
 }
