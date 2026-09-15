@@ -4,6 +4,7 @@ import logging
 from typing import List, Dict, Any
 from datetime import datetime
 import os
+import json
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -119,6 +120,84 @@ def get_ticker_fundamentals(ticker: str) -> Dict[str, Any]:
         
     return result
 
+def evaluate_open_trades(backtest_data: list) -> list:
+    """
+    Filtra los trades abiertos (Exit_Reason == None) y consulta el 
+    precio High/Low de la rueda de hoy. Actualiza si toca SL o TP.
+    """
+    for trade in backtest_data:
+        if trade.get("Exit_Reason") is None:
+            ticker = trade["Ticker"]
+            
+            data = yf.download(ticker, period="1d", progress=False)
+            if data.empty:
+                continue
+            
+            low = float(data['Low'].iloc[-1])
+            high = float(data['High'].iloc[-1])
+            
+            entry_price = float(trade["Entry_Price"])
+            stop_loss = float(trade["Stop_Loss"])
+            target = float(trade["Target"])
+
+            if low <= stop_loss:
+                trade["Exit_Reason"] = "SL"
+                trade["Exit_Price"] = round(stop_loss, 2)
+                trade["PnL_Percent"] = round(((stop_loss - entry_price) / entry_price) * 100, 2)
+            elif high >= target:
+                trade["Exit_Reason"] = "TP"
+                trade["Exit_Price"] = round(target, 2)
+                trade["PnL_Percent"] = round(((target - entry_price) / entry_price) * 100, 2)
+                
+    return backtest_data
+
+def append_new_trades(backtest_data: list, top5_candidates: list, today_str: str) -> list:
+    """
+    Calcula el Target dinámico basándose en un RRR 1:0.85 y el Stop Loss, 
+    y anexa los nuevos trades de hoy al registro del backtest.
+    """
+    for candidate in top5_candidates:
+        entry_price = candidate["Price"]
+        stop_loss = candidate["Stop_Loss_Sugerido"]
+        
+        riesgo = entry_price - stop_loss
+        target = entry_price + (riesgo * 0.85)
+        
+        new_trade = {
+            "Entry_Date": today_str,
+            "Ticker": candidate["Ticker"],
+            "Entry_Price": round(entry_price, 2),
+            "Target": round(target, 2),
+            "Stop_Loss": round(stop_loss, 2),
+            "Exit_Price": None,
+            "Exit_Reason": None,
+            "PnL_Percent": None
+        }
+        backtest_data.append(new_trade)
+        
+    return backtest_data
+
+def update_backtest_file(top5_candidates: list, backtest_file_path: str):
+    """
+    Flujo principal: Lee el JSON, evalúa los abiertos, añade los nuevos y sobrescribe de forma segura.
+    """
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    
+    if os.path.exists(backtest_file_path):
+        with open(backtest_file_path, "r", encoding="utf-8") as f:
+            try:
+                backtest_data = json.load(f)
+            except json.JSONDecodeError:
+                backtest_data = []
+    else:
+        backtest_data = []
+
+    backtest_data = evaluate_open_trades(backtest_data)
+    backtest_data = append_new_trades(backtest_data, top5_candidates, today_str)
+    
+    with open(backtest_file_path, "w", encoding="utf-8") as f:
+        json.dump(backtest_data, f, indent=4)
+
 if __name__ == "__main__":
     import json
     from technical_analysis import process_technical_indicators, filter_base_technical
@@ -185,6 +264,11 @@ if __name__ == "__main__":
                             json.dump(historical_data, f, indent=4)
 
                         logger.info(f"Resultados exportados bajo la clave '{fecha_hoy}' en {json_file_path}")
+
+                        # 6. Actualizar paper trading (backtest.json)
+                        backtest_file_path = os.path.join(data_dir, "backtest.json")
+                        update_backtest_file(top_5_results, backtest_file_path)
+                        logger.info(f"Backtest paper trading actualizado en {backtest_file_path}")
                     else:
                         logger.info("No hay candidatas hoy que cumplan todos los filtros (Fundamentales/Scoring).")
                 else:
