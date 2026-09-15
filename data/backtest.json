@@ -1,0 +1,252 @@
+[
+    {
+        "Entry_Date": "2026-09-08",
+        "Ticker": "PTC",
+        "Entry_Price": 133.26,
+        "Target": 140.32,
+        "Stop_Loss": 124.95,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-08",
+        "Ticker": "SYK",
+        "Entry_Price": 276.43,
+        "Target": 290.65,
+        "Stop_Loss": 259.70,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-08",
+        "Ticker": "LULU",
+        "Entry_Price": 103.19,
+        "Target": 110.49,
+        "Stop_Loss": 94.60,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-08",
+        "Ticker": "BKNG",
+        "Entry_Price": 180.30,
+        "Target": 189.11,
+        "Stop_Loss": 169.93,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-08",
+        "Ticker": "HWM",
+        "Entry_Price": 231.53,
+        "Target": 244.88,
+        "Stop_Loss": 215.83,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-09",
+        "Ticker": "CASY",
+        "Entry_Price": 629.03,
+        "Target": 672.98,
+        "Stop_Loss": 577.32,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-09",
+        "Ticker": "PTC",
+        "Entry_Price": 128.89,
+        "Target": 135.92,
+        "Stop_Loss": 120.62,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-09",
+        "Ticker": "COO",
+        "Entry_Price": 63.48,
+        "Target": 65.87,
+        "Stop_Loss": 60.67,
+        "Exit_Price": 60.00,
+        "Exit_Reason": "SL",
+        "PnL_Percent": 5.42
+    },
+    {
+        "Entry_Date": "2026-09-09",
+        "Ticker": "SYK",
+        "Entry_Price": 275.39,
+        "Target": 289.27,
+        "Stop_Loss": 259.06,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-09",
+        "Ticker": "PHM",
+        "Entry_Price": 118.93,
+        "Target": 123.27,
+        "Stop_Loss": 113.82,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-10",
+        "Ticker": "COO",
+        "Entry_Price": 54.17,
+        "Target": 57.53,
+        "Stop_Loss": 50.22,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-10",
+        "Ticker": "PPG",
+        "Entry_Price": 105.05,
+        "Target": 108.69,
+        "Stop_Loss": 100.77,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-10",
+        "Ticker": "PHM",
+        "Entry_Price": 116.41,
+        "Target": 120.83,
+        "Stop_Loss": 111.21,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-10",
+        "Ticker": "CASY",
+        "Entry_Price": 627.64,
+        "Target": 671.08,
+        "Stop_Loss": 576.53,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-10",
+        "Ticker": "MAS",
+        "Entry_Price": 67.64,
+        "Target": 70.17,
+        "Stop_Loss": 64.66,
+        "Exit_Price": 70.17,
+        "Exit_Reason": "TP",
+        "PnL_Percent": 3.73
+    },
+    {
+        "Entry_Date": "2026-09-11",
+        "Ticker": "COO",
+        "Entry_Price": 53.91,
+        "Target": 57.25,
+        "Stop_Loss": 49.98,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-11",
+        "Ticker": "CPRT",
+        "Entry_Price": 29.95,
+        "Target": 31.50,
+        "Stop_Loss": 28.13,
+        "Exit_Price": 31.73,
+        "Exit_Reason": "TP",
+        "PnL_Percent": 5.94
+    },
+    {
+        "Entry_Date": "2026-09-11",
+        "Ticker": "EW",
+        "Entry_Price": 84.37,
+        "Target": 87.18,
+        "Stop_Loss": 81.07,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-11",
+        "Ticker": "ALB",
+        "Entry_Price": 117.52,
+        "Target": 124.86,
+        "Stop_Loss": 108.88,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-11",
+        "Ticker": "PODD",
+        "Entry_Price": 131.96,
+        "Target": 139.44,
+        "Stop_Loss": 123.16,
+        "Exit_Price": 139.42,
+        "Exit_Reason": "TP",
+        "PnL_Percent": 5.65
+    },
+    {
+        "Entry_Date": "2026-09-14",
+        "Ticker": "BKR",
+        "Entry_Price": 56.78,
+        "Target": 59.35,
+        "Stop_Loss": 53.76,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-14",
+        "Ticker": "COO",
+        "Entry_Price": 54.22,
+        "Target": 57.45,
+        "Stop_Loss": 50.42,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-14",
+        "Ticker": "O",
+        "Entry_Price": 59.27,
+        "Target": 60.38,
+        "Stop_Loss": 57.96,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-14",
+        "Ticker": "VRT",
+        "Entry_Price": 237.39,
+        "Target": 258.08,
+        "Stop_Loss": 213.05,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    },
+    {
+        "Entry_Date": "2026-09-14",
+        "Ticker": "MPWR",
+        "Entry_Price": 1143.24,
+        "Target": 1212.97,
+        "Stop_Loss": 1061.20,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null
+    }
+]
