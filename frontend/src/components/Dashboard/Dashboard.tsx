@@ -1,5 +1,18 @@
-import react, { ReactNode } from 'react';
-
+import React, { ReactNode } from 'react';
+import { DataTable } from './DataTable';
+import {
+    top5Columns,
+    theoricalTradesColumns,
+    livePositionsColumns,
+    tradeHistoryColumns,
+    Top5Candidate,
+    TheoricalTrade,
+    LivePosition,
+    TradeHistory
+} from './DashboardTables';
+import { TradeEntryForm } from './TradeEntryForm';
+import historyData from '../../../../data/history.json';
+import backtestDataRaw from '../../../../data/backtest.json';
 interface WidgetPanelProps {
     title: string,
     subtitle?: string,
@@ -50,63 +63,101 @@ const DashboardColumn = ({
 }
 
 export default function Dashboard() {
+    const rawData = historyData as Record<string, any>;
+
+    // Extraer la fecha más reciente (llave mayor)
+    const dates = Object.keys(rawData).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+    const latestDate = dates.length > 0 ? dates[0] : null;
+
+    // Type casting de la fecha más reciente
+    const top5Data = latestDate ? (rawData[latestDate] as Top5Candidate[]) : [];
+
+    // Procesar Backtest (Theorical Trades)
+    const backtestList = backtestDataRaw as TheoricalTrade[];
+    const closedTrades = backtestList.filter(trade => trade.Exit_Reason !== null);
+
+    const theoricalData = [...closedTrades]
+        .sort((a, b) => new Date(b.Entry_Date).getTime() - new Date(a.Entry_Date).getTime())
+        .slice(0, 7);
+
+    // Cálculos para el Footer
+    const totalTrades = closedTrades.length;
+    const winTrades = closedTrades.filter(t => t.Exit_Reason === 'TP').length;
+    const winRate = totalTrades > 0 ? (winTrades / totalTrades) * 100 : 0;
+    const totalPnl = closedTrades.reduce((sum, trade) => sum + (trade.PnL_Percent || 0), 0);
+    const rrr = "1 : 0.85";
+
+    // Inicializar las demás tablas vacías (manejo de faltantes)
+    const liveData: LivePosition[] = [];
+    const historyLog: TradeHistory[] = [];
+
+    const availableTickers = top5Data.map(t => t.Ticker);
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <DashboardColumn
                 title="1. El motor lógico"
                 icon="⚙️"
-                children={
-                    <div className='flex flex-col gap-3'>
-                        <WidgetPanel
-                            title="Today's top 5"
-                            subtitle="Candidates from yesterday's close"
-                            icon="🔥"
-                        >
-                        </WidgetPanel>
-                        <WidgetPanel
-                            title="Discarded log"
-                            subtitle="Discarded candidates from top5"
-                            icon="🚮"
-                        />
-                    </div>
-                }
-            />
+            >
+                <div className='flex flex-col gap-3'>
+                    <WidgetPanel
+                        title="Today's top 5"
+                        subtitle="Candidates from yesterday's close"
+                        icon="🔥"
+                    >
+                        <DataTable columns={top5Columns} data={top5Data} />
+                    </WidgetPanel>
+                    <WidgetPanel title="Journal Operativo" subtitle="Registro de operaciones reales" icon="📝">
+                        <TradeEntryForm availableTickers={availableTickers} />
+                    </WidgetPanel>
+                </div>
+            </DashboardColumn>
             <DashboardColumn
                 title="2. Rendimiento teórico"
                 icon="🤖"
-                children={
-                    <div className='flex flex-col gap-3'>
-                        <WidgetPanel
-                            title="Theorical Trades"
-                            subtitle="Backtest results from candidates"
-                            icon="📈"
-                        />
-                        <WidgetPanel
-                            title="Theorical PnL"
-                            subtitle='Assuming all trades were taken'
-                            icon="🔢"
-                        />
-                    </div>
-                }
-            />
+            >
+                <div className='flex flex-col gap-3'>
+                    <WidgetPanel
+                        title="Theorical Trades"
+                        subtitle="Backtest results from candidates"
+                        icon="📈"
+                    >
+                        <DataTable columns={theoricalTradesColumns} data={theoricalData} />
+                        <div className="flex justify-between items-center bg-slate-900/50 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400 bg-slate-950/40">
+                            <div>
+                                Win Rate: <span className={winRate > 50 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{winRate.toFixed(1)}%</span>
+                            </div>
+                            <div>
+                                RRR Promedio: <span className="font-semibold text-slate-300">{rrr}</span>
+                            </div>
+                            <div>
+                                PnL Acumulado: <span className={totalPnl >= 0 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{totalPnl > 0 ? '+' : ''}{totalPnl.toFixed(2)}%</span>
+                            </div>
+                        </div>
+                    </WidgetPanel>
+                </div>
+            </DashboardColumn>
             <DashboardColumn
                 title="3. Portfolio real"
                 icon="💸"
-                children={
-                    <div className='flex flex-col gap-3'>
-                        <WidgetPanel
-                            title="Live Positions"
-                            subtitle=""
-                            icon="🌱"
-                        />
-                        <WidgetPanel
-                            title="Trade History"
-                            subtitle=""
-                            icon="🎭"
-                        />
-                    </div>
-                }
-            />
+            >
+                <div className='flex flex-col gap-3'>
+                    <WidgetPanel
+                        title="Live Positions"
+                        subtitle=""
+                        icon="🌱"
+                    >
+                        <DataTable columns={livePositionsColumns} data={liveData} />
+                    </WidgetPanel>
+                    <WidgetPanel
+                        title="Trade History"
+                        subtitle=""
+                        icon="🎭"
+                    >
+                        <DataTable columns={tradeHistoryColumns} data={historyLog} />
+                    </WidgetPanel>
+                </div>
+            </DashboardColumn>
         </div>
     )
 }
