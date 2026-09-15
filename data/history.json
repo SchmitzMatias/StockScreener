@@ -45,5 +45,193 @@
             "Target_FrontRun": 263.56,
             "Stop_Loss_Sugerido": 215.83
         }
+    ],
+    "2026-09-09": [
+        {
+            "Ticker": "CASY",
+            "Price": 629.03,
+            "RSI": 20.03,
+            "Z-Score": -2.8,
+            "Bounce_Score": 95.1,
+            "Target_FrontRun": 780.05,
+            "Stop_Loss_Sugerido": 577.32
+        },
+        {
+            "Ticker": "PTC",
+            "Price": 128.89,
+            "RSI": 32.97,
+            "Z-Score": -2.72,
+            "Bounce_Score": 93.03,
+            "Target_FrontRun": 146.45,
+            "Stop_Loss_Sugerido": 120.62
+        },
+        {
+            "Ticker": "COO",
+            "Price": 63.48,
+            "RSI": 23.67,
+            "Z-Score": -2.46,
+            "Bounce_Score": 86.52,
+            "Target_FrontRun": 71.23,
+            "Stop_Loss_Sugerido": 60.67
+        },
+        {
+            "Ticker": "SYK",
+            "Price": 275.39,
+            "RSI": 24.47,
+            "Z-Score": -2.43,
+            "Bounce_Score": 85.8,
+            "Target_FrontRun": 315.8,
+            "Stop_Loss_Sugerido": 259.06
+        },
+        {
+            "Ticker": "PHM",
+            "Price": 118.93,
+            "RSI": 35.57,
+            "Z-Score": -2.27,
+            "Bounce_Score": 81.83,
+            "Target_FrontRun": 124.39,
+            "Stop_Loss_Sugerido": 113.82
+        }
+    ],
+    "2026-09-10": [
+        {
+            "Ticker": "COO",
+            "Price": 54.17,
+            "RSI": 14.68,
+            "Z-Score": -3.18,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 70.12,
+            "Stop_Loss_Sugerido": 50.22
+        },
+        {
+            "Ticker": "PPG",
+            "Price": 105.05,
+            "RSI": 33.17,
+            "Z-Score": -2.78,
+            "Bounce_Score": 94.61,
+            "Target_FrontRun": 109.88,
+            "Stop_Loss_Sugerido": 100.77
+        },
+        {
+            "Ticker": "PHM",
+            "Price": 116.41,
+            "RSI": 32.44,
+            "Z-Score": -2.36,
+            "Bounce_Score": 84.04,
+            "Target_FrontRun": 123.76,
+            "Stop_Loss_Sugerido": 111.21
+        },
+        {
+            "Ticker": "CASY",
+            "Price": 627.64,
+            "RSI": 19.93,
+            "Z-Score": -2.27,
+            "Bounce_Score": 81.81,
+            "Target_FrontRun": 769.69,
+            "Stop_Loss_Sugerido": 576.53
+        },
+        {
+            "Ticker": "MAS",
+            "Price": 67.64,
+            "RSI": 33.98,
+            "Z-Score": -2.65,
+            "Bounce_Score": 81.3,
+            "Target_FrontRun": 70.9,
+            "Stop_Loss_Sugerido": 64.66
+        }
+    ],
+    "2026-09-11": [
+        {
+            "Ticker": "COO",
+            "Price": 53.91,
+            "RSI": 14.52,
+            "Z-Score": -2.5,
+            "Bounce_Score": 87.57,
+            "Target_FrontRun": 69.01,
+            "Stop_Loss_Sugerido": 49.98
+        },
+        {
+            "Ticker": "CPRT",
+            "Price": 29.95,
+            "RSI": 39.39,
+            "Z-Score": -2.39,
+            "Bounce_Score": 84.67,
+            "Target_FrontRun": 31.95,
+            "Stop_Loss_Sugerido": 28.13
+        },
+        {
+            "Ticker": "EW",
+            "Price": 84.37,
+            "RSI": 31.25,
+            "Z-Score": -2.61,
+            "Bounce_Score": 75.37,
+            "Target_FrontRun": 87.89,
+            "Stop_Loss_Sugerido": 81.07
+        },
+        {
+            "Ticker": "ALB",
+            "Price": 117.52,
+            "RSI": 34.95,
+            "Z-Score": -2.51,
+            "Bounce_Score": 72.63,
+            "Target_FrontRun": 130.28,
+            "Stop_Loss_Sugerido": 108.88
+        },
+        {
+            "Ticker": "PODD",
+            "Price": 131.96,
+            "RSI": 32.75,
+            "Z-Score": -2.42,
+            "Bounce_Score": 70.41,
+            "Target_FrontRun": 141.52,
+            "Stop_Loss_Sugerido": 123.16
+        }
+    ],
+    "2026-09-14": [
+        {
+            "Ticker": "BKR",
+            "Price": 56.78,
+            "RSI": 29.73,
+            "Z-Score": -2.79,
+            "Bounce_Score": 79.73,
+            "Target_FrontRun": 61.3,
+            "Stop_Loss_Sugerido": 53.76
+        },
+        {
+            "Ticker": "COO",
+            "Price": 54.22,
+            "RSI": 15.74,
+            "Z-Score": -2.05,
+            "Bounce_Score": 76.23,
+            "Target_FrontRun": 67.93,
+            "Stop_Loss_Sugerido": 50.42
+        },
+        {
+            "Ticker": "O",
+            "Price": 59.27,
+            "RSI": 27.88,
+            "Z-Score": -1.99,
+            "Bounce_Score": 74.86,
+            "Target_FrontRun": 60.23,
+            "Stop_Loss_Sugerido": 57.96
+        },
+        {
+            "Ticker": "VRT",
+            "Price": 237.39,
+            "RSI": 38.96,
+            "Z-Score": -1.99,
+            "Bounce_Score": 74.67,
+            "Target_FrontRun": 258.25,
+            "Stop_Loss_Sugerido": 213.05
+        },
+        {
+            "Ticker": "MPWR",
+            "Price": 1143.24,
+            "RSI": 33.89,
+            "Z-Score": -1.92,
+            "Bounce_Score": 72.97,
+            "Target_FrontRun": 1238.39,
+            "Stop_Loss_Sugerido": 1061.2
+        }
     ]
 }
