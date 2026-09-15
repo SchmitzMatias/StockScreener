@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Kotegawa mountain logo</title>
+  <desc id="desc">Minimal vector mountain emblem with red arc.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Red/orange arc -->
+    <path d="M 88 303 A 174 174 0 1 1 424 303" stroke="#ff3b30" stroke-width="16"/>
+
+    <!-- Outer mountain silhouette -->
+    <path d="M 66 379 L 174 267 L 207 300 L 269 215 L 447 379"
+          stroke="#f5f7fa" stroke-width="8"/>
+
+    <!-- Main mountain inner ridge -->
+    <path d="M 151 379 L 207 321 L 235 349 L 269 304 L 342 379"
+          stroke="#f5f7fa" stroke-width="8"/>
+
+    <!-- Snow / ridge cuts -->
+    <path d="M 194 287 L 207 300 L 222 280" stroke="#f5f7fa" stroke-width="7"/>
+    <path d="M 249 242 L 269 215 L 291 239" stroke="#f5f7fa" stroke-width="7"/>
+
+    <!-- Subtle dark inner facets, defined as vector strokes -->
+    <path d="M 207 300 L 235 326 L 269 279 L 302 316" stroke="#6f7782" stroke-width="5" opacity="0.9"/>
+    <path d="M 174 267 L 207 321" stroke="#6f7782" stroke-width="5" opacity="0.9"/>
+    <path d="M 342 379 L 269 304" stroke="#6f7782" stroke-width="5" opacity="0.9"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta institucional de Kotegawa */
+  --color-background: #070b12;
+  /*#070b12;*/
+  --color-panel: #0e1626;
+  --color-accent: #10b981;
+  --color-danger: #f43f5e;
+
+}
+
+body {
+  background-color: var(--color-background);
+  color: white;
+}
