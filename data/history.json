@@ -236,49 +236,49 @@
     ],
     "2026-09-16": [
         {
-            "Ticker": "BKR",
-            "Price": 56.78,
-            "RSI": 29.73,
-            "Z-Score": -2.79,
-            "Bounce_Score": 79.73,
-            "Target_FrontRun": 61.3,
-            "Stop_Loss_Sugerido": 53.76
-        },
-        {
             "Ticker": "TT",
-            "Price": 426.01,
-            "RSI": 32.21,
-            "Z-Score": -2.19,
-            "Bounce_Score": 79.65,
-            "Target_FrontRun": 439.72,
-            "Stop_Loss_Sugerido": 410.07
+            "Price": 422.73,
+            "RSI": 30.81,
+            "Z-Score": -2.32,
+            "Bounce_Score": 82.92,
+            "Target_FrontRun": 437.19,
+            "Stop_Loss_Sugerido": 406.24
         },
         {
-            "Ticker": "ALB",
-            "Price": 115.03,
-            "RSI": 33.26,
-            "Z-Score": -2.29,
-            "Bounce_Score": 67.34,
-            "Target_FrontRun": 128.85,
-            "Stop_Loss_Sugerido": 106.72
+            "Ticker": "CARR",
+            "Price": 55.54,
+            "RSI": 30.83,
+            "Z-Score": -2.08,
+            "Bounce_Score": 77.02,
+            "Target_FrontRun": 57.52,
+            "Stop_Loss_Sugerido": 52.85
         },
         {
-            "Ticker": "IR",
-            "Price": 72.13,
-            "RSI": 28.52,
-            "Z-Score": -1.64,
-            "Bounce_Score": 66.1,
-            "Target_FrontRun": 75.73,
-            "Stop_Loss_Sugerido": 69.01
+            "Ticker": "JKHY",
+            "Price": 154.07,
+            "RSI": 41.16,
+            "Z-Score": -1.93,
+            "Bounce_Score": 73.34,
+            "Target_FrontRun": 161.31,
+            "Stop_Loss_Sugerido": 146.23
         },
         {
             "Ticker": "AVGO",
-            "Price": 344.72,
-            "RSI": 34.33,
-            "Z-Score": -2.05,
-            "Bounce_Score": 61.34,
-            "Target_FrontRun": 357.78,
-            "Stop_Loss_Sugerido": 326.03
+            "Price": 339.27,
+            "RSI": 32.27,
+            "Z-Score": -2.49,
+            "Bounce_Score": 72.22,
+            "Target_FrontRun": 355.17,
+            "Stop_Loss_Sugerido": 320.91
+        },
+        {
+            "Ticker": "DLTR",
+            "Price": 112.79,
+            "RSI": 30.78,
+            "Z-Score": -2.21,
+            "Bounce_Score": 70.26,
+            "Target_FrontRun": 124.7,
+            "Stop_Loss_Sugerido": 105.56
         }
     ]
 }
