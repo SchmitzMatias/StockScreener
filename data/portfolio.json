@@ -1,0 +1,29 @@
+{
+  "livePositions": [
+    {
+      "Entry_Date": "2026-09-12",
+      "Ticker": "DUMMY",
+      "Entry_Price": 56.85,
+      "Target": 59.35,
+      "Stop_Loss": 53.76,
+      "Exit_Price": null,
+      "Exit_Reason": null,
+      "PnL_Percent": null,
+      "Current_Price": 57.40,
+      "Days_Held": null
+    }
+  ],
+  "tradeHistory": [
+    {
+      "Entry_Date": "2026-08-17",
+      "Ticker": "TPR",
+      "Entry_Price": 128.67,
+      "Target": 137.84,
+      "Stop_Loss": 118.88,
+      "Exit_Price": 117.00,
+      "Exit_Reason": "SL",
+      "PnL_Percent": -8.44,
+      "Days_Held": 15
+    }
+  ]
+}

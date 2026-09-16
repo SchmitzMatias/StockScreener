@@ -7,7 +7,8 @@
         "Stop_Loss": 124.95,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-08",
@@ -17,7 +18,8 @@
         "Stop_Loss": 259.70,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-08",
@@ -27,7 +29,8 @@
         "Stop_Loss": 94.60,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-08",
@@ -37,7 +40,8 @@
         "Stop_Loss": 169.93,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-08",
@@ -47,7 +51,8 @@
         "Stop_Loss": 215.83,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-09",
@@ -57,7 +62,8 @@
         "Stop_Loss": 577.32,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-09",
@@ -67,7 +73,8 @@
         "Stop_Loss": 120.62,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-09",
@@ -77,7 +84,8 @@
         "Stop_Loss": 60.67,
         "Exit_Price": 60.00,
         "Exit_Reason": "SL",
-        "PnL_Percent": 5.42
+        "PnL_Percent": 5.42,
+        "Days_Held": 1
     },
     {
         "Entry_Date": "2026-09-09",
@@ -87,7 +95,8 @@
         "Stop_Loss": 259.06,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-09",
@@ -97,7 +106,8 @@
         "Stop_Loss": 113.82,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-10",
@@ -107,7 +117,8 @@
         "Stop_Loss": 50.22,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-10",
@@ -117,7 +128,8 @@
         "Stop_Loss": 100.77,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-10",
@@ -127,7 +139,8 @@
         "Stop_Loss": 111.21,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-10",
@@ -137,7 +150,8 @@
         "Stop_Loss": 576.53,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-10",
@@ -147,7 +161,8 @@
         "Stop_Loss": 64.66,
         "Exit_Price": 70.17,
         "Exit_Reason": "TP",
-        "PnL_Percent": 3.73
+        "PnL_Percent": 3.73,
+        "Days_Held": 3
     },
     {
         "Entry_Date": "2026-09-11",
@@ -157,7 +172,8 @@
         "Stop_Loss": 49.98,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-11",
@@ -167,7 +183,8 @@
         "Stop_Loss": 28.13,
         "Exit_Price": 31.73,
         "Exit_Reason": "TP",
-        "PnL_Percent": 5.94
+        "PnL_Percent": 5.94,
+        "Days_Held": 2
     },
     {
         "Entry_Date": "2026-09-11",
@@ -177,7 +194,8 @@
         "Stop_Loss": 81.07,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-11",
@@ -187,7 +205,8 @@
         "Stop_Loss": 108.88,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-11",
@@ -197,7 +216,8 @@
         "Stop_Loss": 123.16,
         "Exit_Price": 139.42,
         "Exit_Reason": "TP",
-        "PnL_Percent": 5.65
+        "PnL_Percent": 5.65,
+        "Days_Held": 3
     },
     {
         "Entry_Date": "2026-09-14",
@@ -207,7 +227,8 @@
         "Stop_Loss": 53.76,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-14",
@@ -217,7 +238,8 @@
         "Stop_Loss": 50.42,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-14",
@@ -227,7 +249,8 @@
         "Stop_Loss": 57.96,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-14",
@@ -237,7 +260,8 @@
         "Stop_Loss": 213.05,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     },
     {
         "Entry_Date": "2026-09-14",
@@ -247,6 +271,7 @@
         "Stop_Loss": 1061.20,
         "Exit_Price": null,
         "Exit_Reason": null,
-        "PnL_Percent": null
+        "PnL_Percent": null,
+        "Days_Held": null
     }
 ]

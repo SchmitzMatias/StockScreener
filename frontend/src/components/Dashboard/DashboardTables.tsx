@@ -19,30 +19,29 @@ export interface DiscardedItem {
   reason: string;
 }
 
-export interface TheoricalTrade {
+export interface ClosedTrade {
   Entry_Date: string;
   Ticker: string;
   Entry_Price: number;
   Target: number;
   Stop_Loss: number;
   Exit_Price: number | null;
-  Exit_Reason: "TP" | "SL" | null;
+  Exit_Reason: string | null;
   PnL_Percent: number | null;
+  Days_Held: number | null;
 }
 
 export interface LivePosition {
-  ticker: string;
-  entry: number;
-  floatingPnl: number;
-  pnlPercentage: number;
-}
-
-export interface TradeHistory {
-  ticker: string;
-  closeDate: string;
-  days: number;
-  resultAmount: number;
-  resultPercentage: number;
+  Entry_Date: string;
+  Ticker: string;
+  Entry_Price: number;
+  Target: number;
+  Stop_Loss: number;
+  Exit_Price: number | null;
+  Exit_Reason: string | null;
+  PnL_Percent: number | null;
+  Current_Price: number;
+  Days_Held: number | null;
 }
 
 // ==========================================
@@ -61,22 +60,24 @@ export const discardedColumns: ColumnDef<DiscardedItem>[] = [
   { header: 'Motivo del descarte', accessorKey: 'reason', cell: (item) => <span className="text-sm text-gray-500">{item.reason}</span> },
 ];
 
-export const theoricalTradesColumns: ColumnDef<TheoricalTrade>[] = [
+export const closedTradesColumns: ColumnDef<ClosedTrade>[] = [
   { header: 'Ticker', accessorKey: 'Ticker', cell: (item) => <span className="font-bold text-gray-100">{item.Ticker}</span> },
   { header: 'Entry', accessorKey: 'Entry_Price', cell: (item) => `$${item.Entry_Price.toFixed(2)}` },
   { 
     header: 'Exit', 
     accessorKey: 'Exit_Price', 
     cell: (item) => {
-      if (item.Exit_Price === null || item.Exit_Reason === null) return <span className="text-gray-500">-</span>;
-      const color = item.Exit_Reason === 'TP' ? 'text-accent' : 'text-danger';
+      if (item.Exit_Price === null || item.PnL_Percent === null) return <span className="text-gray-500">-</span>;
+      const color = item.PnL_Percent >= 0 ? 'text-accent' : 'text-danger';
       return (
         <span className={color}>
-          ${item.Exit_Price.toFixed(2)} ({item.Exit_Reason})
+          ${item.Exit_Price.toFixed(2)}
         </span>
       );
     }
   },
+  { header: 'Motivo', accessorKey: 'Exit_Reason' },
+  { header: 'Días', accessorKey: 'Days_Held' },
   { 
     header: 'PnL', 
     accessorKey: 'PnL_Percent', 
@@ -92,48 +93,31 @@ export const theoricalTradesColumns: ColumnDef<TheoricalTrade>[] = [
 ];
 
 export const livePositionsColumns: ColumnDef<LivePosition>[] = [
-  { header: 'Ticker', accessorKey: 'ticker', cell: (item) => <span className="font-bold text-gray-100">{item.ticker}</span> },
-  { header: 'Entry Real', accessorKey: 'entry', cell: (item) => `$${item.entry.toFixed(2)}` },
+  { header: 'Ticker', accessorKey: 'Ticker', cell: (item) => <span className="font-bold text-gray-100">{item.Ticker}</span> },
+  { header: 'Entry Real', accessorKey: 'Entry_Price', cell: (item) => `$${item.Entry_Price.toFixed(2)}` },
   { 
     header: 'PnL Flotante', 
-    accessorKey: 'floatingPnl', 
-    cell: (item) => (
-      <span className={item.floatingPnl >= 0 ? 'text-green-500 font-medium' : 'text-red-500 font-medium'}>
-        {item.floatingPnl > 0 ? '+' : ''}${item.floatingPnl.toFixed(2)}
-      </span>
-    ) 
+    accessorKey: 'Current_Price', 
+    cell: (item) => {
+      const pnlUsd = item.Current_Price - item.Entry_Price;
+      return (
+        <span className={pnlUsd >= 0 ? 'text-accent font-medium' : 'text-danger font-medium'}>
+          {pnlUsd > 0 ? '+' : ''}${pnlUsd.toFixed(2)}
+        </span>
+      );
+    } 
   },
   { 
     header: '% PNL', 
-    accessorKey: 'pnlPercentage', 
-    cell: (item) => (
-      <span className={item.pnlPercentage >= 0 ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}>
-        {item.pnlPercentage > 0 ? '+' : ''}{item.pnlPercentage.toFixed(2)}%
-      </span>
-    ) 
+    accessorKey: 'Current_Price', 
+    cell: (item) => {
+      const pnlPct = ((item.Current_Price - item.Entry_Price) / item.Entry_Price) * 100;
+      return (
+        <span className={pnlPct >= 0 ? 'text-accent font-bold' : 'text-danger font-bold'}>
+          {pnlPct > 0 ? '+' : ''}{pnlPct.toFixed(2)}%
+        </span>
+      );
+    } 
   },
 ];
 
-export const tradeHistoryColumns: ColumnDef<TradeHistory>[] = [
-  { header: 'Ticker', accessorKey: 'ticker', cell: (item) => <span className="font-bold text-gray-100">{item.ticker}</span> },
-  { header: 'Fecha Cierre', accessorKey: 'closeDate', cell: (item) => <span className="text-sm text-gray-400">{item.closeDate}</span> },
-  { header: 'Días', accessorKey: 'days' },
-  { 
-    header: 'Resultado ($)', 
-    accessorKey: 'resultAmount', 
-    cell: (item) => (
-      <span className={item.resultAmount >= 0 ? 'text-green-500 font-medium' : 'text-red-500 font-medium'}>
-        {item.resultAmount > 0 ? '+' : ''}${item.resultAmount.toFixed(2)}
-      </span>
-    ) 
-  },
-  { 
-    header: 'Resultado (%)', 
-    accessorKey: 'resultPercentage', 
-    cell: (item) => (
-      <span className={item.resultPercentage >= 0 ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}>
-        {item.resultPercentage > 0 ? '+' : ''}{item.resultPercentage.toFixed(2)}%
-      </span>
-    ) 
-  },
-];

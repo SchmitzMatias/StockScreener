@@ -2,17 +2,16 @@ import React, { ReactNode } from 'react';
 import { DataTable } from './DataTable';
 import {
     top5Columns,
-    theoricalTradesColumns,
+    closedTradesColumns,
     livePositionsColumns,
-    tradeHistoryColumns,
     Top5Candidate,
-    TheoricalTrade,
-    LivePosition,
-    TradeHistory
+    ClosedTrade,
+    LivePosition
 } from './DashboardTables';
 import { TradeEntryForm } from './TradeEntryForm';
 import historyData from '../../../../data/history.json';
 import backtestDataRaw from '../../../../data/backtest.json';
+import portfolioData from '../../../../data/portfolio.json';
 interface WidgetPanelProps {
     title: string,
     subtitle?: string,
@@ -73,7 +72,7 @@ export default function Dashboard() {
     const top5Data = latestDate ? (rawData[latestDate] as Top5Candidate[]) : [];
 
     // Procesar Backtest (Theorical Trades)
-    const backtestList = backtestDataRaw as TheoricalTrade[];
+    const backtestList = backtestDataRaw as ClosedTrade[];
     const closedTrades = backtestList.filter(trade => trade.Exit_Reason !== null);
 
     const theoricalData = [...closedTrades]
@@ -87,9 +86,9 @@ export default function Dashboard() {
     const totalPnl = closedTrades.reduce((sum, trade) => sum + (trade.PnL_Percent || 0), 0);
     const rrr = "1 : 0.85";
 
-    // Inicializar las demás tablas vacías (manejo de faltantes)
-    const liveData: LivePosition[] = [];
-    const historyLog: TradeHistory[] = [];
+    // Inicializar las demás tablas con la data real del portfolio
+    const liveData: LivePosition[] = portfolioData.livePositions as LivePosition[];
+    const historyLog: ClosedTrade[] = portfolioData.tradeHistory as ClosedTrade[];
 
     const availableTickers = top5Data.map(t => t.Ticker);
 
@@ -122,7 +121,7 @@ export default function Dashboard() {
                         subtitle="Backtest results from candidates"
                         icon="📈"
                     >
-                        <DataTable columns={theoricalTradesColumns} data={theoricalData} />
+                        <DataTable columns={closedTradesColumns} data={theoricalData} />
                         <div className="flex justify-between items-center bg-slate-900/50 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400 bg-slate-950/40">
                             <div>
                                 Win Rate: <span className={winRate > 50 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{winRate.toFixed(1)}%</span>
@@ -154,7 +153,7 @@ export default function Dashboard() {
                         subtitle=""
                         icon="🎭"
                     >
-                        <DataTable columns={tradeHistoryColumns} data={historyLog} />
+                        <DataTable columns={closedTradesColumns} data={historyLog} />
                     </WidgetPanel>
                 </div>
             </DashboardColumn>
