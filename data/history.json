@@ -16,7 +16,7 @@
             "Z-Score": -2.97,
             "Bounce_Score": 99.29,
             "Target_FrontRun": 290.65,
-            "Stop_Loss_Sugerido": 259.70
+            "Stop_Loss_Sugerido": 259.7
         },
         {
             "Ticker": "LULU",
@@ -25,12 +25,12 @@
             "Z-Score": -2.42,
             "Bounce_Score": 85.58,
             "Target_FrontRun": 110.49,
-            "Stop_Loss_Sugerido": 94.60
+            "Stop_Loss_Sugerido": 94.6
         },
         {
             "Ticker": "BKNG",
-            "Price": 180.30,
-            "RSI": 32.80,
+            "Price": 180.3,
+            "RSI": 32.8,
             "Z-Score": -2.78,
             "Bounce_Score": 84.58,
             "Target_FrontRun": 189.11,
@@ -39,7 +39,7 @@
         {
             "Ticker": "HWM",
             "Price": 231.53,
-            "RSI": 29.50,
+            "RSI": 29.5,
             "Z-Score": -2.35,
             "Bounce_Score": 83.87,
             "Target_FrontRun": 244.88,
@@ -51,8 +51,8 @@
             "Ticker": "CASY",
             "Price": 629.03,
             "RSI": 20.03,
-            "Z-Score": -2.80,
-            "Bounce_Score": 95.10,
+            "Z-Score": -2.8,
+            "Bounce_Score": 95.1,
             "Target_FrontRun": 672.98,
             "Stop_Loss_Sugerido": 577.32
         },
@@ -79,7 +79,7 @@
             "Price": 275.39,
             "RSI": 24.47,
             "Z-Score": -2.43,
-            "Bounce_Score": 85.80,
+            "Bounce_Score": 85.8,
             "Target_FrontRun": 289.27,
             "Stop_Loss_Sugerido": 259.06
         },
@@ -135,7 +135,7 @@
             "Price": 67.64,
             "RSI": 33.98,
             "Z-Score": -2.65,
-            "Bounce_Score": 81.30,
+            "Bounce_Score": 81.3,
             "Target_FrontRun": 70.17,
             "Stop_Loss_Sugerido": 64.66
         }
@@ -145,7 +145,7 @@
             "Ticker": "COO",
             "Price": 53.91,
             "RSI": 14.52,
-            "Z-Score": -2.50,
+            "Z-Score": -2.5,
             "Bounce_Score": 87.57,
             "Target_FrontRun": 57.25,
             "Stop_Loss_Sugerido": 49.98
@@ -156,7 +156,7 @@
             "RSI": 39.39,
             "Z-Score": -2.39,
             "Bounce_Score": 84.67,
-            "Target_FrontRun": 31.50,
+            "Target_FrontRun": 31.5,
             "Stop_Loss_Sugerido": 28.13
         },
         {
@@ -231,7 +231,54 @@
             "Z-Score": -1.92,
             "Bounce_Score": 72.97,
             "Target_FrontRun": 1212.97,
-            "Stop_Loss_Sugerido": 1061.20
+            "Stop_Loss_Sugerido": 1061.2
+        }
+    ],
+    "2026-09-16": [
+        {
+            "Ticker": "BKR",
+            "Price": 56.78,
+            "RSI": 29.73,
+            "Z-Score": -2.79,
+            "Bounce_Score": 79.73,
+            "Target_FrontRun": 61.3,
+            "Stop_Loss_Sugerido": 53.76
+        },
+        {
+            "Ticker": "TT",
+            "Price": 426.01,
+            "RSI": 32.21,
+            "Z-Score": -2.19,
+            "Bounce_Score": 79.65,
+            "Target_FrontRun": 439.72,
+            "Stop_Loss_Sugerido": 410.07
+        },
+        {
+            "Ticker": "ALB",
+            "Price": 115.03,
+            "RSI": 33.26,
+            "Z-Score": -2.29,
+            "Bounce_Score": 67.34,
+            "Target_FrontRun": 128.85,
+            "Stop_Loss_Sugerido": 106.72
+        },
+        {
+            "Ticker": "IR",
+            "Price": 72.13,
+            "RSI": 28.52,
+            "Z-Score": -1.64,
+            "Bounce_Score": 66.1,
+            "Target_FrontRun": 75.73,
+            "Stop_Loss_Sugerido": 69.01
+        },
+        {
+            "Ticker": "AVGO",
+            "Price": 344.72,
+            "RSI": 34.33,
+            "Z-Score": -2.05,
+            "Bounce_Score": 61.34,
+            "Target_FrontRun": 357.78,
+            "Stop_Loss_Sugerido": 326.03
         }
     ]
 }
