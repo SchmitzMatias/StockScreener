@@ -149,10 +149,14 @@ def evaluate_open_trades(backtest_data: list) -> list:
                 trade["Exit_Reason"] = "SL"
                 trade["Exit_Price"] = round(stop_loss, 2)
                 trade["PnL_Percent"] = round(((stop_loss - entry_price) / entry_price) * 100, 2)
+                entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
+                trade["Days_Held"] = (datetime.now() - entry_date_obj).days
             elif high >= target:
                 trade["Exit_Reason"] = "TP"
                 trade["Exit_Price"] = round(target, 2)
                 trade["PnL_Percent"] = round(((target - entry_price) / entry_price) * 100, 2)
+                entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
+                trade["Days_Held"] = (datetime.now() - entry_date_obj).days
                 
     return backtest_data
 
@@ -176,7 +180,8 @@ def append_new_trades(backtest_data: list, top5_candidates: list, today_str: str
             "Stop_Loss": round(stop_loss, 2),
             "Exit_Price": None,
             "Exit_Reason": None,
-            "PnL_Percent": None
+            "PnL_Percent": None,
+            "Days_Held": None
         }
         backtest_data.append(new_trade)
         
