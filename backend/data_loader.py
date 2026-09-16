@@ -129,16 +129,17 @@ def evaluate_open_trades(backtest_data: list) -> list:
         if trade.get("Exit_Reason") is None:
             ticker = trade["Ticker"]
             
-            # Usamos Ticker().history() en lugar de download() para evitar el MultiIndex de pandas
+            # Usamos Ticker().history() en lugar de download()
             ticker_obj = yf.Ticker(ticker)
             data = ticker_obj.history(period="1d")
             
             if data.empty:
                 continue
             
-            # Ahora extraer la columna 'Low' y 'High' es 100% seguro y devuelve un escalar
-            low = float(data['Low'].iloc[-1])
-            high = float(data['High'].iloc[-1])
+            # FIX INDESTRUCTIBLE: Convertimos a numpy crudo, aplanamos y sacamos el último valor.
+            # Esto es inmune a si yfinance devuelve un DataFrame, una Serie o un MultiIndex.
+            low = float(data['Low'].to_numpy().flatten()[-1])
+            high = float(data['High'].to_numpy().flatten()[-1])
             
             entry_price = float(trade["Entry_Price"])
             stop_loss = float(trade["Stop_Loss"])
@@ -155,7 +156,6 @@ def evaluate_open_trades(backtest_data: list) -> list:
                 
     return backtest_data
 
-    
 def append_new_trades(backtest_data: list, top5_candidates: list, today_str: str) -> list:
     """
     Calcula el Target dinámico basándose en un RRR 1:0.85 y el Stop Loss, 
