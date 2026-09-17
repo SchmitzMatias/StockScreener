@@ -280,5 +280,52 @@
             "Target_FrontRun": 997.39,
             "Stop_Loss_Sugerido": 894.6
         }
+    ],
+    "2026-09-17": [
+        {
+            "Ticker": "JBHT",
+            "Price": 238.96,
+            "RSI": 32.89,
+            "Z-Score": -2.36,
+            "Bounce_Score": 68.95,
+            "Target_FrontRun": 259.06,
+            "Stop_Loss_Sugerido": 224.59
+        },
+        {
+            "Ticker": "TPL",
+            "Price": 348.77,
+            "RSI": 39.81,
+            "Z-Score": -2.3,
+            "Bounce_Score": 67.42,
+            "Target_FrontRun": 360.84,
+            "Stop_Loss_Sugerido": 326.62
+        },
+        {
+            "Ticker": "BA",
+            "Price": 198.48,
+            "RSI": 32.59,
+            "Z-Score": -2.66,
+            "Bounce_Score": 66.47,
+            "Target_FrontRun": 204.84,
+            "Stop_Loss_Sugerido": 190.09
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 133.68,
+            "RSI": 39.64,
+            "Z-Score": -2.25,
+            "Bounce_Score": 66.31,
+            "Target_FrontRun": 134.24,
+            "Stop_Loss_Sugerido": 130.02
+        },
+        {
+            "Ticker": "HBAN",
+            "Price": 15.82,
+            "RSI": 29.78,
+            "Z-Score": -2.59,
+            "Bounce_Score": 64.7,
+            "Target_FrontRun": 16.42,
+            "Stop_Loss_Sugerido": 15.24
+        }
     ]
 }

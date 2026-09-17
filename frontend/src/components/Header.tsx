@@ -1,6 +1,7 @@
 import react, { ReactNode } from 'react';
 import logoImg from '../assets/logo.png';
 import clockImg from '../assets/clock.png';
+import metaData from '../../../data/meta.json';
 import Sparkline from './SparkLine';
 
 // 1. define interface
@@ -30,6 +31,8 @@ const MetricCard = ({
 
         return 'text-slate-400';
     };
+
+    const [runDate, runTime] = metaData.last_run.split(' ');
 
     return (
         <div className={`bg-panel border border-slate-800 rounded-lg p-3 flex justify-around items-center shadow-sm ${className}`}>
@@ -100,8 +103,8 @@ export default function Header() {
             {/* Card 5 */}
             <MetricCard
                 title="Cronjob"
-                value="10/09/26"
-                subText="20:25 hs"
+                value={metaData.last_run.split(' ')[0]}
+                subText={metaData.last_run.split(' ')[1]}
             >
                 <div className='w-30 h-30 shrink-0 hidden lg:flex'>
                     <img

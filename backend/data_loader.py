@@ -279,6 +279,18 @@ if __name__ == "__main__":
                         backtest_file_path = os.path.join(data_dir, "backtest.json")
                         update_backtest_file(top_5_results, backtest_file_path)
                         logger.info(f"Backtest paper trading actualizado en {backtest_file_path}")
+
+                        # 7. Crear el recibo de última ejecución (Metadata)
+                        current_time = datetime.now().strftime("%Y-%m-%d %H:%M") # Formato: YYYY-MM-DD HH:MM
+                        meta_data = {
+                            "last_run": current_time
+                        }
+
+                        meta_file_path = os.path.join(data_dir, "meta.json")
+                        with open(meta_file_path, "w", encoding="utf-8") as f:
+                            json.dump(meta_data, f, indent=4)
+
+                        logger.info(f"Metadata actualizada en {meta_file_path}")
                     else:
                         logger.info("No hay candidatas hoy que cumplan todos los filtros (Fundamentales/Scoring).")
                 else:

@@ -15,7 +15,7 @@
         "Ticker": "SYK",
         "Entry_Price": 276.43,
         "Target": 290.65,
-        "Stop_Loss": 259.70,
+        "Stop_Loss": 259.7,
         "Exit_Price": null,
         "Exit_Reason": null,
         "PnL_Percent": null,
@@ -26,7 +26,7 @@
         "Ticker": "LULU",
         "Entry_Price": 103.19,
         "Target": 110.49,
-        "Stop_Loss": 94.60,
+        "Stop_Loss": 94.6,
         "Exit_Price": null,
         "Exit_Reason": null,
         "PnL_Percent": null,
@@ -35,13 +35,13 @@
     {
         "Entry_Date": "2026-09-08",
         "Ticker": "BKNG",
-        "Entry_Price": 180.30,
+        "Entry_Price": 180.3,
         "Target": 189.11,
         "Stop_Loss": 169.93,
-        "Exit_Price": null,
-        "Exit_Reason": null,
-        "PnL_Percent": null,
-        "Days_Held": null
+        "Exit_Price": 169.93,
+        "Exit_Reason": "SL",
+        "PnL_Percent": -5.75,
+        "Days_Held": 9
     },
     {
         "Entry_Date": "2026-09-08",
@@ -82,7 +82,7 @@
         "Entry_Price": 63.48,
         "Target": 65.87,
         "Stop_Loss": 60.67,
-        "Exit_Price": 60.00,
+        "Exit_Price": 60.0,
         "Exit_Reason": "SL",
         "PnL_Percent": -5.42,
         "Days_Held": 1
@@ -179,7 +179,7 @@
         "Entry_Date": "2026-09-11",
         "Ticker": "CPRT",
         "Entry_Price": 29.95,
-        "Target": 31.50,
+        "Target": 31.5,
         "Stop_Loss": 28.13,
         "Exit_Price": 31.73,
         "Exit_Reason": "TP",
@@ -192,10 +192,10 @@
         "Entry_Price": 84.37,
         "Target": 87.18,
         "Stop_Loss": 81.07,
-        "Exit_Price": null,
-        "Exit_Reason": null,
-        "PnL_Percent": null,
-        "Days_Held": null
+        "Exit_Price": 87.18,
+        "Exit_Reason": "TP",
+        "PnL_Percent": 3.33,
+        "Days_Held": 6
     },
     {
         "Entry_Date": "2026-09-11",
@@ -247,10 +247,10 @@
         "Entry_Price": 59.27,
         "Target": 60.38,
         "Stop_Loss": 57.96,
-        "Exit_Price": null,
-        "Exit_Reason": null,
-        "PnL_Percent": null,
-        "Days_Held": null
+        "Exit_Price": 57.96,
+        "Exit_Reason": "SL",
+        "PnL_Percent": -2.21,
+        "Days_Held": 3
     },
     {
         "Entry_Date": "2026-09-14",
@@ -268,7 +268,62 @@
         "Ticker": "MPWR",
         "Entry_Price": 1143.24,
         "Target": 1212.97,
-        "Stop_Loss": 1061.20,
+        "Stop_Loss": 1061.2,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "JBHT",
+        "Entry_Price": 238.96,
+        "Target": 251.17,
+        "Stop_Loss": 224.59,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "TPL",
+        "Entry_Price": 348.77,
+        "Target": 367.6,
+        "Stop_Loss": 326.62,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "BA",
+        "Entry_Price": 198.48,
+        "Target": 205.61,
+        "Stop_Loss": 190.09,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "HIG",
+        "Entry_Price": 133.68,
+        "Target": 136.79,
+        "Stop_Loss": 130.02,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "HBAN",
+        "Entry_Price": 15.82,
+        "Target": 16.31,
+        "Stop_Loss": 15.24,
         "Exit_Price": null,
         "Exit_Reason": null,
         "PnL_Percent": null,
