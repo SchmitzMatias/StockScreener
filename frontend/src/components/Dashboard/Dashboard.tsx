@@ -80,6 +80,18 @@ export default function Dashboard() {
         .slice(0, 7);
 
     // Cálculos para el Footer
+    const openTrades = backtestList.filter(trade => !trade.Exit_Reason);
+    const openCount = openTrades.length;
+
+    const today = new Date();
+    const totalDaysOpen = openTrades.reduce((sum, trade) => {
+        const entryDate = new Date(trade.Entry_Date);
+        const diffTime = Math.abs(today.getTime() - entryDate.getTime());
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        return sum + diffDays;
+    }, 0);
+    const avgDaysOpen = openCount > 0 ? Math.round(totalDaysOpen / openCount) : 0;
+
     const totalTrades = closedTrades.length;
     const winTrades = closedTrades.filter(t => t.Exit_Reason === 'TP').length;
     const winRate = totalTrades > 0 ? (winTrades / totalTrades) * 100 : 0;
@@ -95,7 +107,7 @@ export default function Dashboard() {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <DashboardColumn
-                title="1. El motor lógico"
+                title="1. Screener Engine"
                 icon="⚙️"
             >
                 <div className='flex flex-col gap-3'>
@@ -106,18 +118,18 @@ export default function Dashboard() {
                     >
                         <DataTable columns={top5Columns} data={top5Data} />
                     </WidgetPanel>
-                    <WidgetPanel title="Journal Operativo" subtitle="Registro de operaciones reales" icon="📝">
+                    <WidgetPanel title="Trading Journal" subtitle="Real trades log" icon="📝">
                         <TradeEntryForm availableTickers={availableTickers} />
                     </WidgetPanel>
                 </div>
             </DashboardColumn>
             <DashboardColumn
-                title="2. Rendimiento teórico"
+                title="2. Theoretical Performance"
                 icon="🤖"
             >
                 <div className='flex flex-col gap-3'>
                     <WidgetPanel
-                        title="Theorical Trades"
+                        title="Theoretical Trades"
                         subtitle="Backtest results from candidates"
                         icon="📈"
                     >
@@ -127,17 +139,23 @@ export default function Dashboard() {
                                 Win Rate: <span className={winRate > 50 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{winRate.toFixed(1)}%</span>
                             </div>
                             <div>
-                                RRR Promedio: <span className="font-semibold text-slate-300">{rrr}</span>
+                                Avg RRR: <span className="font-semibold text-slate-300">{rrr}</span>
                             </div>
                             <div>
-                                PnL Acumulado: <span className={totalPnl >= 0 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{totalPnl > 0 ? '+' : ''}{totalPnl.toFixed(2)}%</span>
+                                Cumulative PNL: <span className={totalPnl >= 0 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{totalPnl > 0 ? '+' : ''}{totalPnl.toFixed(2)}%</span>
+                            </div>
+                            <div>
+                                Open Positions: <span className="font-semibold text-slate-300">{openCount}</span>
+                            </div>
+                            <div>
+                                Avg Days Held: <span className="font-semibold text-slate-300">{avgDaysOpen}</span>
                             </div>
                         </div>
                     </WidgetPanel>
                 </div>
             </DashboardColumn>
             <DashboardColumn
-                title="3. Portfolio real"
+                title="3. Real Portfolio"
                 icon="💸"
             >
                 <div className='flex flex-col gap-3'>

@@ -7,7 +7,7 @@ interface TradeEntryFormProps {
 export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({ availableTickers }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form submitted!");
+        window.alert("Feature will be implemented post-MVP 🚀");
     };
 
     return (
@@ -23,22 +23,22 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({ availableTickers
             </div>
             
             <div className="flex flex-col gap-1">
-                <label htmlFor="price">Precio de Entrada Real</label>
+                <label htmlFor="price">Actual Entry Price</label>
                 <input 
                     type="number" 
                     id="price" 
                     step="0.01" 
-                    placeholder="Precio ejecutado en InvertirOnline" 
+                    placeholder="Executed price on InvertirOnline" 
                     className="bg-slate-900/50 border border-slate-700 rounded p-1.5 focus:ring-1 focus:ring-accent focus:outline-none placeholder:text-slate-600"
                 />
             </div>
 
             <div className="flex flex-col gap-1">
-                <label htmlFor="notes">Tesis / Notas</label>
+                <label htmlFor="notes">Thesis / Notes</label>
                 <textarea 
                     id="notes" 
                     rows={2} 
-                    placeholder="Tesis, patrón o motivo de la entrada..."
+                    placeholder="Thesis, pattern, or entry reason..."
                     className="bg-slate-900/50 border border-slate-700 rounded p-1.5 focus:ring-1 focus:ring-accent focus:outline-none placeholder:text-slate-600 resize-none"
                 />
             </div>
@@ -47,7 +47,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({ availableTickers
                 type="submit"
                 className="w-full mt-2 py-2 rounded bg-accent/10 text-accent hover:bg-accent/20 transition-colors font-semibold"
             >
-                Registrar en Portfolio
+                Add to Portfolio
             </button>
         </form>
     );

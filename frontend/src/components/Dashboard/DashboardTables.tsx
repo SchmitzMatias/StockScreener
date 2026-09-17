@@ -50,7 +50,7 @@ export interface LivePosition {
 
 export const top5Columns: ColumnDef<Top5Candidate>[] = [
   { header: 'Ticker', accessorKey: 'Ticker', cell: (item) => <span className="font-bold text-gray-100">{item.Ticker}</span> },
-  { header: 'Precio Cierre', accessorKey: 'Price', cell: (item) => `$${item.Price.toFixed(2)}` },
+  { header: 'CLOSE PRICE', accessorKey: 'Price', cell: (item) => `$${item.Price.toFixed(2)}` },
   { header: 'Bounce Score', accessorKey: 'Bounce_Score', cell: (item) => item.Bounce_Score.toFixed(2) },
   { header: 'Target', accessorKey: 'Target_FrontRun', cell: (item) => `$${item.Target_FrontRun.toFixed(2)}` }
 ];
@@ -76,10 +76,10 @@ export const closedTradesColumns: ColumnDef<ClosedTrade>[] = [
       );
     }
   },
-  { header: 'Motivo', accessorKey: 'Exit_Reason' },
-  { header: 'Días', accessorKey: 'Days_Held' },
+  { header: 'REASON', accessorKey: 'Exit_Reason' },
+  { header: 'DAYS HELD', accessorKey: 'Days_Held' },
   { 
-    header: 'PnL', 
+    header: 'PNL (%)', 
     accessorKey: 'PnL_Percent', 
     cell: (item) => {
       if (item.PnL_Percent === null) return <span className="text-gray-500">-</span>;
@@ -94,9 +94,9 @@ export const closedTradesColumns: ColumnDef<ClosedTrade>[] = [
 
 export const livePositionsColumns: ColumnDef<LivePosition>[] = [
   { header: 'Ticker', accessorKey: 'Ticker', cell: (item) => <span className="font-bold text-gray-100">{item.Ticker}</span> },
-  { header: 'Entry Real', accessorKey: 'Entry_Price', cell: (item) => `$${item.Entry_Price.toFixed(2)}` },
+  { header: 'ACTUAL ENTRY', accessorKey: 'Entry_Price', cell: (item) => `$${item.Entry_Price.toFixed(2)}` },
   { 
-    header: 'PnL Flotante', 
+    header: 'OPEN PNL', 
     accessorKey: 'Current_Price', 
     cell: (item) => {
       const pnlUsd = item.Current_Price - item.Entry_Price;
@@ -108,7 +108,7 @@ export const livePositionsColumns: ColumnDef<LivePosition>[] = [
     } 
   },
   { 
-    header: '% PNL', 
+    header: 'PNL (%)', 
     accessorKey: 'Current_Price', 
     cell: (item) => {
       const pnlPct = ((item.Current_Price - item.Entry_Price) / item.Entry_Price) * 100;
