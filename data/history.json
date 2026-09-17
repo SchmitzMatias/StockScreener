@@ -280,5 +280,52 @@
             "Target_FrontRun": 997.39,
             "Stop_Loss_Sugerido": 894.6
         }
+    ],
+    "2026-09-17": [
+        {
+            "Ticker": "JBHT",
+            "Price": 236.8,
+            "RSI": 31.13,
+            "Z-Score": -2.48,
+            "Bounce_Score": 87.12,
+            "Target_FrontRun": 258.95,
+            "Stop_Loss_Sugerido": 222.43
+        },
+        {
+            "Ticker": "BA",
+            "Price": 197.0,
+            "RSI": 31.46,
+            "Z-Score": -2.86,
+            "Bounce_Score": 86.45,
+            "Target_FrontRun": 204.77,
+            "Stop_Loss_Sugerido": 188.49
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 133.14,
+            "RSI": 38.48,
+            "Z-Score": -2.49,
+            "Bounce_Score": 72.2,
+            "Target_FrontRun": 134.21,
+            "Stop_Loss_Sugerido": 129.48
+        },
+        {
+            "Ticker": "AXP",
+            "Price": 311.17,
+            "RSI": 31.09,
+            "Z-Score": -2.24,
+            "Bounce_Score": 71.08,
+            "Target_FrontRun": 321.12,
+            "Stop_Loss_Sugerido": 301.65
+        },
+        {
+            "Ticker": "ON",
+            "Price": 68.3,
+            "RSI": 39.5,
+            "Z-Score": -1.83,
+            "Bounce_Score": 70.8,
+            "Target_FrontRun": 71.01,
+            "Stop_Loss_Sugerido": 62.54
+        }
     ]
 }
