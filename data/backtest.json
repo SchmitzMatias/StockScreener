@@ -84,7 +84,7 @@
         "Stop_Loss": 60.67,
         "Exit_Price": 60.00,
         "Exit_Reason": "SL",
-        "PnL_Percent": 5.42,
+        "PnL_Percent": -5.42,
         "Days_Held": 1
     },
     {
