@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import logoImg from '../assets/logo.png';
 import clockImg from '../assets/clock.png';
 import metaData from '../../../data/meta.json';
-import { ResponsiveContainer, LineChart, Line, YAxis, ReferenceLine, Tooltip } from 'recharts';
+import SparkLine from './SparkLine';
 
 // 1. define interface
 interface MetricCardProps {
@@ -75,47 +75,15 @@ export default function Header() {
                 subText={`${metaData.spy_change >= 0 ? '+' : ''}${metaData.spy_change.toFixed(2)}%`}
             >
                 <div className="w-40 h-20 text-accent">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={spyChartData}>
-                            <YAxis
-                                hide
-                                domain={[
-                                    (dataMin: number) => Math.min(dataMin, baseline),
-                                    (dataMax: number) => Math.max(dataMax, baseline)
-                                ]}
-                            />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: '#1e293b',
-                                    borderColor: '#334155',
-                                    borderRadius: '0.5rem',
-                                    color: '#f8fafc',
-                                    fontSize: '0.875rem',
-                                    padding: '4px 8px'
-                                }}
-                                itemStyle={{ color: '#10b981' }}
-                                formatter={(value: any) => [`$${value}`, '']}
-                                labelStyle={{ display: 'none' }}
-                                cursor={{ stroke: '#64748b', strokeWidth: 1, strokeDasharray: '3 3' }}
-                            />
-                            <ReferenceLine opacity={1.0} stroke="#c0c0c0ff" strokeDasharray="3 3" y={baseline} />
-                            <Line
-                                type="monotone"
-                                dataKey="value"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                dot={false}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <SparkLine data={spyChartData} baseline={baseline} />
                 </div>
             </MetricCard>
 
             {/* Card 3 */}
             <MetricCard
-                title="VIX"
+                title="Volatility Index"
                 value="18.12"
-                subText="-12%"
+                subText=""
 
             >
                 <div className="mt-4">
@@ -127,8 +95,8 @@ export default function Header() {
 
             {/* Card 4 */}
             <MetricCard
-                title="Stocks > SMA20"
-                value="46.5%"
+                title=""
+                value="46.5% > SMA20"
                 subText="Bullish participation"
             >
                 {/* Forzamos un ancho mínimo (min-w) y usamos block para evitar colapsos de flexbox */}
