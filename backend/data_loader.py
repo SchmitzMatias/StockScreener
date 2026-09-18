@@ -33,6 +33,28 @@ def get_sp500_tickers() -> List[str]:
         logger.error(f"Error al extraer los tickers desde CSV: {e}")
         return []
 
+def get_spy_metrics():
+    """Descarga 1 mes de SPY para calcular el precio, variación y la curva del gráfico."""
+    try:
+        spy = yf.Ticker("SPY")
+        data = spy.history(period="1mo") # ~20 a 22 ruedas operativas
+        
+        if len(data) >= 2:
+            closes = data['Close'].to_numpy().flatten()
+            
+            current_price = float(closes[-1])
+            prev_close = float(closes[-2])
+            pct_change = ((current_price - prev_close) / prev_close) * 100
+            
+            # Convertimos la lista de numpy a una lista normal de Python redondeada a 2 decimales
+            history_list = [round(float(price), 2) for price in closes]
+            
+            return round(current_price, 2), round(pct_change, 2), history_list
+    except Exception as e:
+        logger.error(f"Error al obtener SPY: {e}")
+        
+    return 0.0, 0.0, []
+
 def download_historical_data(tickers: List[str], period: str = "250d") -> pd.DataFrame:
     """
     Descarga los datos históricos diarios (OHLCV) en modo batch para una lista de tickers.
@@ -282,8 +304,12 @@ if __name__ == "__main__":
 
                         # 7. Crear el recibo de última ejecución (Metadata)
                         current_time = datetime.now().strftime("%Y-%m-%d %H:%M") # Formato: YYYY-MM-DD HH:MM
+                        spy_price, spy_change, spy_history = get_spy_metrics()
                         meta_data = {
-                            "last_run": current_time
+                            "last_run": current_time,
+                            "spy_price": spy_price,
+                            "spy_change": spy_change,
+                            "spy_history": spy_history
                         }
 
                         meta_file_path = os.path.join(data_dir, "meta.json")

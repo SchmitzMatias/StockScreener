@@ -284,48 +284,48 @@
     "2026-09-17": [
         {
             "Ticker": "JBHT",
-            "Price": 238.96,
-            "RSI": 32.89,
-            "Z-Score": -2.36,
-            "Bounce_Score": 68.95,
-            "Target_FrontRun": 259.06,
-            "Stop_Loss_Sugerido": 224.59
-        },
-        {
-            "Ticker": "TPL",
-            "Price": 348.77,
-            "RSI": 39.81,
-            "Z-Score": -2.3,
-            "Bounce_Score": 67.42,
-            "Target_FrontRun": 360.84,
-            "Stop_Loss_Sugerido": 326.62
+            "Price": 236.8,
+            "RSI": 31.13,
+            "Z-Score": -2.48,
+            "Bounce_Score": 87.12,
+            "Target_FrontRun": 258.95,
+            "Stop_Loss_Sugerido": 222.43
         },
         {
             "Ticker": "BA",
-            "Price": 198.48,
-            "RSI": 32.59,
-            "Z-Score": -2.66,
-            "Bounce_Score": 66.47,
-            "Target_FrontRun": 204.84,
-            "Stop_Loss_Sugerido": 190.09
+            "Price": 197.0,
+            "RSI": 31.46,
+            "Z-Score": -2.86,
+            "Bounce_Score": 86.45,
+            "Target_FrontRun": 204.77,
+            "Stop_Loss_Sugerido": 188.49
         },
         {
             "Ticker": "HIG",
-            "Price": 133.68,
-            "RSI": 39.64,
-            "Z-Score": -2.25,
-            "Bounce_Score": 66.31,
-            "Target_FrontRun": 134.24,
-            "Stop_Loss_Sugerido": 130.02
+            "Price": 133.14,
+            "RSI": 38.48,
+            "Z-Score": -2.49,
+            "Bounce_Score": 72.2,
+            "Target_FrontRun": 134.21,
+            "Stop_Loss_Sugerido": 129.48
         },
         {
-            "Ticker": "HBAN",
-            "Price": 15.82,
-            "RSI": 29.78,
-            "Z-Score": -2.59,
-            "Bounce_Score": 64.7,
-            "Target_FrontRun": 16.42,
-            "Stop_Loss_Sugerido": 15.24
+            "Ticker": "AXP",
+            "Price": 311.17,
+            "RSI": 31.09,
+            "Z-Score": -2.24,
+            "Bounce_Score": 71.08,
+            "Target_FrontRun": 321.12,
+            "Stop_Loss_Sugerido": 301.65
+        },
+        {
+            "Ticker": "ON",
+            "Price": 68.3,
+            "RSI": 39.5,
+            "Z-Score": -1.83,
+            "Bounce_Score": 70.8,
+            "Target_FrontRun": 71.01,
+            "Stop_Loss_Sugerido": 62.54
         }
     ]
 }

@@ -328,5 +328,115 @@
         "Exit_Reason": null,
         "PnL_Percent": null,
         "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "JBHT",
+        "Entry_Price": 236.8,
+        "Target": 249.01,
+        "Stop_Loss": 222.43,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "BA",
+        "Entry_Price": 197.0,
+        "Target": 204.23,
+        "Stop_Loss": 188.49,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "HIG",
+        "Entry_Price": 133.14,
+        "Target": 136.25,
+        "Stop_Loss": 129.48,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "AXP",
+        "Entry_Price": 311.17,
+        "Target": 319.26,
+        "Stop_Loss": 301.65,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "ON",
+        "Entry_Price": 68.3,
+        "Target": 73.2,
+        "Stop_Loss": 62.54,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "JBHT",
+        "Entry_Price": 236.8,
+        "Target": 249.01,
+        "Stop_Loss": 222.43,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "BA",
+        "Entry_Price": 197.0,
+        "Target": 204.23,
+        "Stop_Loss": 188.49,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "HIG",
+        "Entry_Price": 133.14,
+        "Target": 136.25,
+        "Stop_Loss": 129.48,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "AXP",
+        "Entry_Price": 311.17,
+        "Target": 319.26,
+        "Stop_Loss": 301.65,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-17",
+        "Ticker": "ON",
+        "Entry_Price": 68.3,
+        "Target": 73.2,
+        "Stop_Loss": 62.54,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
     }
 ]
