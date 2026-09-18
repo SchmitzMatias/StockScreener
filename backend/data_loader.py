@@ -55,6 +55,24 @@ def get_spy_metrics():
         
     return 0.0, 0.0, []
 
+def get_vix_metrics():
+    """Descarga últimos 5 días del VIX para calcular el precio actual y variación."""
+    try:
+        vix = yf.Ticker("^VIX")
+        data = vix.history(period="5d")
+        
+        if len(data) >= 2:
+            closes = data['Close'].to_numpy().flatten()
+            current_price = float(closes[-1])
+            prev_close = float(closes[-2])
+            pct_change = ((current_price - prev_close) / prev_close) * 100
+            
+            return round(current_price, 2), round(pct_change, 2)
+    except Exception as e:
+        logger.error(f"Error al obtener VIX: {e}")
+        
+    return 0.0, 0.0
+
 def download_historical_data(tickers: List[str], period: str = "250d") -> pd.DataFrame:
     """
     Descarga los datos históricos diarios (OHLCV) en modo batch para una lista de tickers.
@@ -305,11 +323,23 @@ if __name__ == "__main__":
                         # 7. Crear el recibo de última ejecución (Metadata)
                         current_time = datetime.now().strftime("%Y-%m-%d %H:%M") # Formato: YYYY-MM-DD HH:MM
                         spy_price, spy_change, spy_history = get_spy_metrics()
+                        vix_price, vix_change = get_vix_metrics()
+                        
+                        # Calculo de % de stocks sobre SMA20 usando df_procesado
+                        df_reset = df_procesado.reset_index()
+                        last_day_df = df_reset.groupby('Ticker').last()
+                        total_scanned = len(last_day_df)
+                        above_sma20 = len(last_day_df[last_day_df['Close'] > last_day_df['SMA_20']])
+                        sma20_bull_pct = round((above_sma20 / total_scanned) * 100, 2) if total_scanned > 0 else 0
+
                         meta_data = {
                             "last_run": current_time,
                             "spy_price": spy_price,
                             "spy_change": spy_change,
-                            "spy_history": spy_history
+                            "spy_history": spy_history,
+                            "vix_price": vix_price,
+                            "vix_change": vix_change,
+                            "sma20_bull_pct": sma20_bull_pct
                         }
 
                         meta_file_path = os.path.join(data_dir, "meta.json")

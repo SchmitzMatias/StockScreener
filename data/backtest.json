@@ -438,5 +438,60 @@
         "Exit_Reason": null,
         "PnL_Percent": null,
         "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-18",
+        "Ticker": "NFLX",
+        "Entry_Price": 72.01,
+        "Target": 75.1,
+        "Stop_Loss": 68.37,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-18",
+        "Ticker": "HIG",
+        "Entry_Price": 132.63,
+        "Target": 135.7,
+        "Stop_Loss": 129.02,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-18",
+        "Ticker": "JBHT",
+        "Entry_Price": 234.8,
+        "Target": 246.58,
+        "Stop_Loss": 220.94,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-18",
+        "Ticker": "PCAR",
+        "Entry_Price": 115.25,
+        "Target": 119.02,
+        "Stop_Loss": 110.82,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
+    },
+    {
+        "Entry_Date": "2026-09-18",
+        "Ticker": "CPRT",
+        "Entry_Price": 29.21,
+        "Target": 30.67,
+        "Stop_Loss": 27.49,
+        "Exit_Price": null,
+        "Exit_Reason": null,
+        "PnL_Percent": null,
+        "Days_Held": null
     }
 ]

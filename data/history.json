@@ -327,5 +327,52 @@
             "Target_FrontRun": 71.01,
             "Stop_Loss_Sugerido": 62.54
         }
+    ],
+    "2026-09-18": [
+        {
+            "Ticker": "NFLX",
+            "Price": 72.01,
+            "RSI": 36.65,
+            "Z-Score": -2.39,
+            "Bounce_Score": 84.8,
+            "Target_FrontRun": 77.35,
+            "Stop_Loss_Sugerido": 68.37
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 132.63,
+            "RSI": 37.37,
+            "Z-Score": -2.28,
+            "Bounce_Score": 66.97,
+            "Target_FrontRun": 134.02,
+            "Stop_Loss_Sugerido": 129.02
+        },
+        {
+            "Ticker": "JBHT",
+            "Price": 234.8,
+            "RSI": 30.34,
+            "Z-Score": -2.18,
+            "Bounce_Score": 64.62,
+            "Target_FrontRun": 257.01,
+            "Stop_Loss_Sugerido": 220.94
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 115.25,
+            "RSI": 25.3,
+            "Z-Score": -2.07,
+            "Bounce_Score": 61.7,
+            "Target_FrontRun": 121.28,
+            "Stop_Loss_Sugerido": 110.82
+        },
+        {
+            "Ticker": "CPRT",
+            "Price": 29.21,
+            "RSI": 38.44,
+            "Z-Score": -2.06,
+            "Bounce_Score": 61.38,
+            "Target_FrontRun": 31.43,
+            "Stop_Loss_Sugerido": 27.49
+        }
     ]
 }
