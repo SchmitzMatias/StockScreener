@@ -17,6 +17,7 @@ interface WidgetPanelProps {
     subtitle?: string,
     icon: string,
     children?: ReactNode,
+    className?: string,
 }
 
 const WidgetPanel = ({
@@ -24,9 +25,10 @@ const WidgetPanel = ({
     subtitle,
     icon,
     children,
+    className = "",
 }: WidgetPanelProps) => {
     return (
-        <div className="flex flex-col bg-panel border border-slate-800 rounded-lg min-h-full p-2">
+        <div className={`flex flex-col bg-panel border border-slate-800 rounded-lg min-h-full p-2 ${className}`}>
             <div className='flex border-b border-slate-700/50 pb-3 items-center gap-2'>
                 <span>{icon}</span>
                 <div>
@@ -34,7 +36,7 @@ const WidgetPanel = ({
                     <p className='text-xs text-slate-400'>{subtitle}</p>
                 </div>
             </div>
-            <div>{children}</div>
+            <div className="flex-1 min-h-0 flex flex-col">{children}</div>
         </div>
     )
 }
@@ -76,8 +78,7 @@ export default function Dashboard() {
     const closedTrades = backtestList.filter(trade => trade.Exit_Reason !== null);
 
     const theoricalData = [...closedTrades]
-        .sort((a, b) => new Date(b.Entry_Date).getTime() - new Date(a.Entry_Date).getTime())
-        .slice(0, 7);
+        .sort((a, b) => new Date(b.Entry_Date).getTime() - new Date(a.Entry_Date).getTime());
 
     // Cálculos para el Footer
     const openTrades = backtestList.filter(trade => !trade.Exit_Reason);
@@ -127,11 +128,12 @@ export default function Dashboard() {
                 title="2. Theoretical Performance"
                 icon="🤖"
             >
-                <div className='flex flex-col gap-3'>
+                <div className='flex flex-col gap-3 h-full'>
                     <WidgetPanel
                         title="Theoretical Trades"
                         subtitle="Backtest results from candidates"
                         icon="📈"
+                        className="flex-1 flex flex-col min-h-0"
                     >
                         <DataTable columns={closedTradesColumns} data={theoricalData} />
                         <div className="flex justify-between items-center bg-slate-900/50 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400 bg-slate-950/40">

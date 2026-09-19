@@ -166,37 +166,39 @@ def evaluate_open_trades(backtest_data: list) -> list:
     precio High/Low de la rueda de hoy. Actualiza si toca SL o TP.
     """
     for trade in backtest_data:
-        if trade.get("Exit_Reason") is None:
-            ticker = trade["Ticker"]
+        if trade.get("Exit_Reason") is not None:
+            continue
             
-            # Usamos Ticker().history() en lugar de download()
-            ticker_obj = yf.Ticker(ticker)
-            data = ticker_obj.history(period="1d")
-            
-            if data.empty:
-                continue
-            
-            # FIX INDESTRUCTIBLE: Convertimos a numpy crudo, aplanamos y sacamos el último valor.
-            # Esto es inmune a si yfinance devuelve un DataFrame, una Serie o un MultiIndex.
-            low = float(data['Low'].to_numpy().flatten()[-1])
-            high = float(data['High'].to_numpy().flatten()[-1])
-            
-            entry_price = float(trade["Entry_Price"])
-            stop_loss = float(trade["Stop_Loss"])
-            target = float(trade["Target"])
+        ticker = trade["Ticker"]
+        
+        # Usamos Ticker().history() en lugar de download()
+        ticker_obj = yf.Ticker(ticker)
+        data = ticker_obj.history(period="1d")
+        
+        if data.empty:
+            continue
+        
+        # FIX INDESTRUCTIBLE: Convertimos a numpy crudo, aplanamos y sacamos el último valor.
+        # Esto es inmune a si yfinance devuelve un DataFrame, una Serie o un MultiIndex.
+        low = float(data['Low'].to_numpy().flatten()[-1])
+        high = float(data['High'].to_numpy().flatten()[-1])
+        
+        entry_price = float(trade["Entry_Price"])
+        stop_loss = float(trade["Stop_Loss"])
+        target = float(trade["Target"])
 
-            if low <= stop_loss:
-                trade["Exit_Reason"] = "SL"
-                trade["Exit_Price"] = round(stop_loss, 2)
-                trade["PnL_Percent"] = round(((stop_loss - entry_price) / entry_price) * 100, 2)
-                entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
-                trade["Days_Held"] = (datetime.now() - entry_date_obj).days
-            elif high >= target:
-                trade["Exit_Reason"] = "TP"
-                trade["Exit_Price"] = round(target, 2)
-                trade["PnL_Percent"] = round(((target - entry_price) / entry_price) * 100, 2)
-                entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
-                trade["Days_Held"] = (datetime.now() - entry_date_obj).days
+        if low <= stop_loss:
+            trade["Exit_Reason"] = "SL"
+            trade["Exit_Price"] = round(stop_loss, 2)
+            trade["PnL_Percent"] = round(((stop_loss - entry_price) / entry_price) * 100, 2)
+            entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
+            trade["Days_Held"] = (datetime.now() - entry_date_obj).days
+        elif high >= target:
+            trade["Exit_Reason"] = "TP"
+            trade["Exit_Price"] = round(target, 2)
+            trade["PnL_Percent"] = round(((target - entry_price) / entry_price) * 100, 2)
+            entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
+            trade["Days_Held"] = (datetime.now() - entry_date_obj).days
                 
     return backtest_data
 

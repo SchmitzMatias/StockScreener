@@ -14,7 +14,7 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ columns, data }: DataTableProps<T>) {
     return (
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
             <table className="w-full text-left border-collapse">
                 <thead>
                     <tr>
