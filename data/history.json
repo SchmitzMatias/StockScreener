@@ -330,49 +330,49 @@
     ],
     "2026-09-18": [
         {
-            "Ticker": "NFLX",
-            "Price": 72.01,
-            "RSI": 36.65,
-            "Z-Score": -2.39,
-            "Bounce_Score": 84.8,
-            "Target_FrontRun": 77.35,
-            "Stop_Loss_Sugerido": 68.37
+            "Ticker": "HIG",
+            "Price": 131.89,
+            "RSI": 35.87,
+            "Z-Score": -2.54,
+            "Bounce_Score": 88.39,
+            "Target_FrontRun": 133.98,
+            "Stop_Loss_Sugerido": 128.28
         },
         {
-            "Ticker": "HIG",
-            "Price": 132.63,
-            "RSI": 37.37,
-            "Z-Score": -2.28,
-            "Bounce_Score": 66.97,
-            "Target_FrontRun": 134.02,
-            "Stop_Loss_Sugerido": 129.02
+            "Ticker": "NFLX",
+            "Price": 71.79,
+            "RSI": 36.28,
+            "Z-Score": -2.44,
+            "Bounce_Score": 86.04,
+            "Target_FrontRun": 77.34,
+            "Stop_Loss_Sugerido": 68.14
         },
         {
             "Ticker": "JBHT",
-            "Price": 234.8,
-            "RSI": 30.34,
-            "Z-Score": -2.18,
-            "Bounce_Score": 64.62,
-            "Target_FrontRun": 257.01,
-            "Stop_Loss_Sugerido": 220.94
+            "Price": 234.25,
+            "RSI": 30.13,
+            "Z-Score": -2.22,
+            "Bounce_Score": 80.38,
+            "Target_FrontRun": 256.98,
+            "Stop_Loss_Sugerido": 220.39
         },
         {
-            "Ticker": "PCAR",
-            "Price": 115.25,
-            "RSI": 25.3,
-            "Z-Score": -2.07,
-            "Bounce_Score": 61.7,
-            "Target_FrontRun": 121.28,
-            "Stop_Loss_Sugerido": 110.82
+            "Ticker": "O",
+            "Price": 56.66,
+            "RSI": 19.2,
+            "Z-Score": -2.05,
+            "Bounce_Score": 76.31,
+            "Target_FrontRun": 59.26,
+            "Stop_Loss_Sugerido": 55.24
         },
         {
             "Ticker": "CPRT",
-            "Price": 29.21,
-            "RSI": 38.44,
-            "Z-Score": -2.06,
-            "Bounce_Score": 61.38,
-            "Target_FrontRun": 31.43,
-            "Stop_Loss_Sugerido": 27.49
+            "Price": 29.28,
+            "RSI": 38.72,
+            "Z-Score": -2.02,
+            "Bounce_Score": 75.46,
+            "Target_FrontRun": 31.44,
+            "Stop_Loss_Sugerido": 27.56
         }
     ]
 }
