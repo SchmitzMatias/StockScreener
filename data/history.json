@@ -374,5 +374,52 @@
             "Target_FrontRun": 31.44,
             "Stop_Loss_Sugerido": 27.56
         }
+    ],
+    "2026-09-22": [
+        {
+            "Ticker": "HIG",
+            "Price": 131.89,
+            "RSI": 35.87,
+            "Z-Score": -2.54,
+            "Bounce_Score": 73.39,
+            "Target_FrontRun": 133.98,
+            "Stop_Loss_Sugerido": 128.28
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 116.06,
+            "RSI": 26.44,
+            "Z-Score": -1.92,
+            "Bounce_Score": 73.02,
+            "Target_FrontRun": 121.32,
+            "Stop_Loss_Sugerido": 111.63
+        },
+        {
+            "Ticker": "NFLX",
+            "Price": 71.79,
+            "RSI": 36.28,
+            "Z-Score": -2.44,
+            "Bounce_Score": 71.04,
+            "Target_FrontRun": 77.34,
+            "Stop_Loss_Sugerido": 68.14
+        },
+        {
+            "Ticker": "JBHT",
+            "Price": 234.25,
+            "RSI": 30.13,
+            "Z-Score": -2.22,
+            "Bounce_Score": 65.38,
+            "Target_FrontRun": 256.98,
+            "Stop_Loss_Sugerido": 220.39
+        },
+        {
+            "Ticker": "TPL",
+            "Price": 352.67,
+            "RSI": 42.36,
+            "Z-Score": -1.57,
+            "Bounce_Score": 64.3,
+            "Target_FrontRun": 359.96,
+            "Stop_Loss_Sugerido": 330.54
+        }
     ]
 }
