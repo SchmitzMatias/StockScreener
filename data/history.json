@@ -377,49 +377,49 @@
     ],
     "2026-09-22": [
         {
+            "Ticker": "RJF",
+            "Price": 159.39,
+            "RSI": 29.16,
+            "Z-Score": -2.16,
+            "Bounce_Score": 78.88,
+            "Target_FrontRun": 169.06,
+            "Stop_Loss_Sugerido": 153.11
+        },
+        {
             "Ticker": "HIG",
-            "Price": 131.89,
-            "RSI": 35.87,
-            "Z-Score": -2.54,
-            "Bounce_Score": 73.39,
-            "Target_FrontRun": 133.98,
-            "Stop_Loss_Sugerido": 128.28
+            "Price": 128.73,
+            "RSI": 30.04,
+            "Z-Score": -2.55,
+            "Bounce_Score": 73.83,
+            "Target_FrontRun": 133.28,
+            "Stop_Loss_Sugerido": 125.23
         },
         {
             "Ticker": "PCAR",
-            "Price": 116.06,
-            "RSI": 26.44,
-            "Z-Score": -1.92,
-            "Bounce_Score": 73.02,
-            "Target_FrontRun": 121.32,
-            "Stop_Loss_Sugerido": 111.63
+            "Price": 113.9,
+            "RSI": 23.33,
+            "Z-Score": -1.94,
+            "Bounce_Score": 73.52,
+            "Target_FrontRun": 119.73,
+            "Stop_Loss_Sugerido": 109.37
         },
         {
-            "Ticker": "NFLX",
-            "Price": 71.79,
-            "RSI": 36.28,
-            "Z-Score": -2.44,
-            "Bounce_Score": 71.04,
-            "Target_FrontRun": 77.34,
-            "Stop_Loss_Sugerido": 68.14
+            "Ticker": "BRO",
+            "Price": 62.44,
+            "RSI": 29.54,
+            "Z-Score": -1.82,
+            "Bounce_Score": 70.42,
+            "Target_FrontRun": 67.45,
+            "Stop_Loss_Sugerido": 59.48
         },
         {
-            "Ticker": "JBHT",
-            "Price": 234.25,
-            "RSI": 30.13,
-            "Z-Score": -2.22,
-            "Bounce_Score": 65.38,
-            "Target_FrontRun": 256.98,
-            "Stop_Loss_Sugerido": 220.39
-        },
-        {
-            "Ticker": "TPL",
-            "Price": 352.67,
-            "RSI": 42.36,
-            "Z-Score": -1.57,
-            "Bounce_Score": 64.3,
-            "Target_FrontRun": 359.96,
-            "Stop_Loss_Sugerido": 330.54
+            "Ticker": "RF",
+            "Price": 27.91,
+            "RSI": 26.82,
+            "Z-Score": -2.16,
+            "Bounce_Score": 68.96,
+            "Target_FrontRun": 29.02,
+            "Stop_Loss_Sugerido": 27.0
         }
     ]
 }
