@@ -421,5 +421,52 @@
             "Target_FrontRun": 29.02,
             "Stop_Loss_Sugerido": 27.0
         }
+    ],
+    "2026-09-23": [
+        {
+            "Ticker": "MCD",
+            "Price": 238.32,
+            "RSI": 26.24,
+            "Z-Score": -2.48,
+            "Bounce_Score": 77.11,
+            "Target_FrontRun": 249.53,
+            "Stop_Loss_Sugerido": 230.69
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 126.59,
+            "RSI": 33.59,
+            "Z-Score": -2.48,
+            "Bounce_Score": 72.0,
+            "Target_FrontRun": 133.75,
+            "Stop_Loss_Sugerido": 122.97
+        },
+        {
+            "Ticker": "CINF",
+            "Price": 162.57,
+            "RSI": 37.14,
+            "Z-Score": -2.32,
+            "Bounce_Score": 67.9,
+            "Target_FrontRun": 167.35,
+            "Stop_Loss_Sugerido": 158.12
+        },
+        {
+            "Ticker": "ED",
+            "Price": 102.61,
+            "RSI": 37.23,
+            "Z-Score": -2.5,
+            "Bounce_Score": 62.61,
+            "Target_FrontRun": 104.72,
+            "Stop_Loss_Sugerido": 100.11
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 112.09,
+            "RSI": 24.49,
+            "Z-Score": -2.0,
+            "Bounce_Score": 59.9,
+            "Target_FrontRun": 120.52,
+            "Stop_Loss_Sugerido": 107.77
+        }
     ]
 }
