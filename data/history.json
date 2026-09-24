@@ -468,5 +468,52 @@
             "Target_FrontRun": 120.52,
             "Stop_Loss_Sugerido": 107.77
         }
+    ],
+    "2026-09-24": [
+        {
+            "Ticker": "UPS",
+            "Price": 92.05,
+            "RSI": 28.83,
+            "Z-Score": -2.3,
+            "Bounce_Score": 72.62,
+            "Target_FrontRun": 98.39,
+            "Stop_Loss_Sugerido": 88.57
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 125.69,
+            "RSI": 31.64,
+            "Z-Score": -2.48,
+            "Bounce_Score": 72.0,
+            "Target_FrontRun": 133.75,
+            "Stop_Loss_Sugerido": 122.08
+        },
+        {
+            "Ticker": "CINF",
+            "Price": 162.33,
+            "RSI": 36.55,
+            "Z-Score": -2.32,
+            "Bounce_Score": 67.9,
+            "Target_FrontRun": 167.35,
+            "Stop_Loss_Sugerido": 157.93
+        },
+        {
+            "Ticker": "AMP",
+            "Price": 485.15,
+            "RSI": 31.42,
+            "Z-Score": -2.26,
+            "Bounce_Score": 66.53,
+            "Target_FrontRun": 542.63,
+            "Stop_Loss_Sugerido": 464.43
+        },
+        {
+            "Ticker": "ED",
+            "Price": 102.71,
+            "RSI": 37.84,
+            "Z-Score": -2.5,
+            "Bounce_Score": 62.61,
+            "Target_FrontRun": 104.72,
+            "Stop_Loss_Sugerido": 100.25
+        }
     ]
 }
