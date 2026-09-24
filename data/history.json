@@ -374,5 +374,99 @@
             "Target_FrontRun": 31.44,
             "Stop_Loss_Sugerido": 27.56
         }
+    ],
+    "2026-09-22": [
+        {
+            "Ticker": "RJF",
+            "Price": 159.39,
+            "RSI": 29.16,
+            "Z-Score": -2.16,
+            "Bounce_Score": 78.88,
+            "Target_FrontRun": 169.06,
+            "Stop_Loss_Sugerido": 153.11
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 128.73,
+            "RSI": 30.04,
+            "Z-Score": -2.55,
+            "Bounce_Score": 73.83,
+            "Target_FrontRun": 133.28,
+            "Stop_Loss_Sugerido": 125.23
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 113.9,
+            "RSI": 23.33,
+            "Z-Score": -1.94,
+            "Bounce_Score": 73.52,
+            "Target_FrontRun": 119.73,
+            "Stop_Loss_Sugerido": 109.37
+        },
+        {
+            "Ticker": "BRO",
+            "Price": 62.44,
+            "RSI": 29.54,
+            "Z-Score": -1.82,
+            "Bounce_Score": 70.42,
+            "Target_FrontRun": 67.45,
+            "Stop_Loss_Sugerido": 59.48
+        },
+        {
+            "Ticker": "RF",
+            "Price": 27.91,
+            "RSI": 26.82,
+            "Z-Score": -2.16,
+            "Bounce_Score": 68.96,
+            "Target_FrontRun": 29.02,
+            "Stop_Loss_Sugerido": 27.0
+        }
+    ],
+    "2026-09-23": [
+        {
+            "Ticker": "MCD",
+            "Price": 238.32,
+            "RSI": 26.24,
+            "Z-Score": -2.48,
+            "Bounce_Score": 77.11,
+            "Target_FrontRun": 249.53,
+            "Stop_Loss_Sugerido": 230.69
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 126.59,
+            "RSI": 33.59,
+            "Z-Score": -2.48,
+            "Bounce_Score": 72.0,
+            "Target_FrontRun": 133.75,
+            "Stop_Loss_Sugerido": 122.97
+        },
+        {
+            "Ticker": "CINF",
+            "Price": 162.57,
+            "RSI": 37.14,
+            "Z-Score": -2.32,
+            "Bounce_Score": 67.9,
+            "Target_FrontRun": 167.35,
+            "Stop_Loss_Sugerido": 158.12
+        },
+        {
+            "Ticker": "ED",
+            "Price": 102.61,
+            "RSI": 37.23,
+            "Z-Score": -2.5,
+            "Bounce_Score": 62.61,
+            "Target_FrontRun": 104.72,
+            "Stop_Loss_Sugerido": 100.11
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 112.09,
+            "RSI": 24.49,
+            "Z-Score": -2.0,
+            "Bounce_Score": 59.9,
+            "Target_FrontRun": 120.52,
+            "Stop_Loss_Sugerido": 107.77
+        }
     ]
 }
