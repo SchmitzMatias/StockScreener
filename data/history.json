@@ -515,5 +515,52 @@
             "Target_FrontRun": 104.72,
             "Stop_Loss_Sugerido": 100.25
         }
+    ],
+    "2026-09-26": [
+        {
+            "Ticker": "MGM",
+            "Price": 33.69,
+            "RSI": 15.99,
+            "Z-Score": -2.97,
+            "Bounce_Score": 89.33,
+            "Target_FrontRun": 39.0,
+            "Stop_Loss_Sugerido": 31.92
+        },
+        {
+            "Ticker": "FSLR",
+            "Price": 172.16,
+            "RSI": 30.72,
+            "Z-Score": -3.29,
+            "Bounce_Score": 85.0,
+            "Target_FrontRun": 197.25,
+            "Stop_Loss_Sugerido": 156.55
+        },
+        {
+            "Ticker": "AMP",
+            "Price": 485.15,
+            "RSI": 23.09,
+            "Z-Score": -2.83,
+            "Bounce_Score": 80.65,
+            "Target_FrontRun": 533.75,
+            "Stop_Loss_Sugerido": 461.97
+        },
+        {
+            "Ticker": "XYL",
+            "Price": 102.66,
+            "RSI": 30.44,
+            "Z-Score": -2.5,
+            "Bounce_Score": 72.49,
+            "Target_FrontRun": 105.6,
+            "Stop_Loss_Sugerido": 98.45
+        },
+        {
+            "Ticker": "ERIE",
+            "Price": 218.96,
+            "RSI": 29.09,
+            "Z-Score": -2.37,
+            "Bounce_Score": 69.31,
+            "Target_FrontRun": 241.19,
+            "Stop_Loss_Sugerido": 206.63
+        }
     ]
 }
