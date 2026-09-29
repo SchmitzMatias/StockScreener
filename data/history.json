@@ -562,5 +562,52 @@
             "Target_FrontRun": 241.19,
             "Stop_Loss_Sugerido": 206.63
         }
+    ],
+    "2026-09-29": [
+        {
+            "Ticker": "MGM",
+            "Price": 32.58,
+            "RSI": 14.34,
+            "Z-Score": -2.7,
+            "Bounce_Score": 82.54,
+            "Target_FrontRun": 38.49,
+            "Stop_Loss_Sugerido": 30.69
+        },
+        {
+            "Ticker": "XYL",
+            "Price": 102.63,
+            "RSI": 30.39,
+            "Z-Score": -2.31,
+            "Bounce_Score": 67.73,
+            "Target_FrontRun": 105.11,
+            "Stop_Loss_Sugerido": 98.55
+        },
+        {
+            "Ticker": "FSLR",
+            "Price": 177.71,
+            "RSI": 35.11,
+            "Z-Score": -2.19,
+            "Bounce_Score": 64.71,
+            "Target_FrontRun": 195.66,
+            "Stop_Loss_Sugerido": 162.28
+        },
+        {
+            "Ticker": "HIG",
+            "Price": 124.23,
+            "RSI": 23.6,
+            "Z-Score": -2.15,
+            "Bounce_Score": 63.75,
+            "Target_FrontRun": 131.44,
+            "Stop_Loss_Sugerido": 120.71
+        },
+        {
+            "Ticker": "WY",
+            "Price": 20.01,
+            "RSI": 23.63,
+            "Z-Score": -2.07,
+            "Bounce_Score": 61.82,
+            "Target_FrontRun": 21.61,
+            "Stop_Loss_Sugerido": 19.2
+        }
     ]
 }
