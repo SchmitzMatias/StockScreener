@@ -609,5 +609,52 @@
             "Target_FrontRun": 21.61,
             "Stop_Loss_Sugerido": 19.2
         }
+    ],
+    "2026-09-30": [
+        {
+            "Ticker": "XYL",
+            "Price": 100.91,
+            "RSI": 27.48,
+            "Z-Score": -2.61,
+            "Bounce_Score": 75.28,
+            "Target_FrontRun": 104.6,
+            "Stop_Loss_Sugerido": 96.91
+        },
+        {
+            "Ticker": "CINF",
+            "Price": 161.92,
+            "RSI": 30.12,
+            "Z-Score": -1.76,
+            "Bounce_Score": 68.93,
+            "Target_FrontRun": 164.42,
+            "Stop_Loss_Sugerido": 157.73
+        },
+        {
+            "Ticker": "BA",
+            "Price": 184.39,
+            "RSI": 27.45,
+            "Z-Score": -2.74,
+            "Bounce_Score": 68.54,
+            "Target_FrontRun": 199.56,
+            "Stop_Loss_Sugerido": 175.23
+        },
+        {
+            "Ticker": "CBOE",
+            "Price": 253.26,
+            "RSI": 29.99,
+            "Z-Score": -1.73,
+            "Bounce_Score": 68.33,
+            "Target_FrontRun": 274.57,
+            "Stop_Loss_Sugerido": 239.23
+        },
+        {
+            "Ticker": "HII",
+            "Price": 257.05,
+            "RSI": 22.29,
+            "Z-Score": -2.23,
+            "Bounce_Score": 65.66,
+            "Target_FrontRun": 272.95,
+            "Stop_Loss_Sugerido": 246.18
+        }
     ]
 }
