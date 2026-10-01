@@ -656,5 +656,52 @@
             "Target_FrontRun": 272.95,
             "Stop_Loss_Sugerido": 246.18
         }
+    ],
+    "2026-10-01": [
+        {
+            "Ticker": "FICO",
+            "Price": 617.87,
+            "RSI": 16.53,
+            "Z-Score": -2.99,
+            "Bounce_Score": 89.68,
+            "Target_FrontRun": 926.52,
+            "Stop_Loss_Sugerido": 530.29
+        },
+        {
+            "Ticker": "MDT",
+            "Price": 87.09,
+            "RSI": 39.79,
+            "Z-Score": -2.12,
+            "Bounce_Score": 78.06,
+            "Target_FrontRun": 89.0,
+            "Stop_Loss_Sugerido": 83.9
+        },
+        {
+            "Ticker": "WY",
+            "Price": 19.55,
+            "RSI": 21.25,
+            "Z-Score": -1.89,
+            "Bounce_Score": 72.19,
+            "Target_FrontRun": 21.25,
+            "Stop_Loss_Sugerido": 18.76
+        },
+        {
+            "Ticker": "TKO",
+            "Price": 177.58,
+            "RSI": 35.43,
+            "Z-Score": -2.39,
+            "Bounce_Score": 69.86,
+            "Target_FrontRun": 184.13,
+            "Stop_Loss_Sugerido": 169.4
+        },
+        {
+            "Ticker": "HII",
+            "Price": 259.64,
+            "RSI": 26.66,
+            "Z-Score": -1.72,
+            "Bounce_Score": 68.11,
+            "Target_FrontRun": 271.4,
+            "Stop_Loss_Sugerido": 248.93
+        }
     ]
 }
