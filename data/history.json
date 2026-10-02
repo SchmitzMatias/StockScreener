@@ -703,5 +703,52 @@
             "Target_FrontRun": 271.4,
             "Stop_Loss_Sugerido": 248.93
         }
+    ],
+    "2026-10-02": [
+        {
+            "Ticker": "NOC",
+            "Price": 483.48,
+            "RSI": 26.76,
+            "Z-Score": -2.94,
+            "Bounce_Score": 83.43,
+            "Target_FrontRun": 506.87,
+            "Stop_Loss_Sugerido": 465.02
+        },
+        {
+            "Ticker": "FICO",
+            "Price": 592.47,
+            "RSI": 15.74,
+            "Z-Score": -2.54,
+            "Bounce_Score": 78.58,
+            "Target_FrontRun": 901.47,
+            "Stop_Loss_Sugerido": 507.74
+        },
+        {
+            "Ticker": "MDT",
+            "Price": 86.29,
+            "RSI": 37.56,
+            "Z-Score": -2.12,
+            "Bounce_Score": 77.92,
+            "Target_FrontRun": 88.75,
+            "Stop_Loss_Sugerido": 83.19
+        },
+        {
+            "Ticker": "APP",
+            "Price": 290.43,
+            "RSI": 34.87,
+            "Z-Score": -2.42,
+            "Bounce_Score": 75.41,
+            "Target_FrontRun": 310.28,
+            "Stop_Loss_Sugerido": 266.89
+        },
+        {
+            "Ticker": "WY",
+            "Price": 19.05,
+            "RSI": 18.91,
+            "Z-Score": -1.99,
+            "Bounce_Score": 74.85,
+            "Target_FrontRun": 21.05,
+            "Stop_Loss_Sugerido": 18.25
+        }
     ]
 }
