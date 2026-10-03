@@ -750,5 +750,52 @@
             "Target_FrontRun": 21.05,
             "Stop_Loss_Sugerido": 18.25
         }
+    ],
+    "2026-10-03": [
+        {
+            "Ticker": "CTVA",
+            "Price": 12.57,
+            "RSI": 5.82,
+            "Z-Score": -4.16,
+            "Bounce_Score": 90.0,
+            "Target_FrontRun": 76.84,
+            "Stop_Loss_Sugerido": 2.38
+        },
+        {
+            "Ticker": "NOC",
+            "Price": 482.0,
+            "RSI": 26.29,
+            "Z-Score": -2.4,
+            "Bounce_Score": 85.03,
+            "Target_FrontRun": 504.82,
+            "Stop_Loss_Sugerido": 464.27
+        },
+        {
+            "Ticker": "APP",
+            "Price": 281.31,
+            "RSI": 32.01,
+            "Z-Score": -2.5,
+            "Bounce_Score": 77.45,
+            "Target_FrontRun": 308.43,
+            "Stop_Loss_Sugerido": 257.7
+        },
+        {
+            "Ticker": "MDT",
+            "Price": 86.44,
+            "RSI": 38.26,
+            "Z-Score": -1.76,
+            "Bounce_Score": 68.9,
+            "Target_FrontRun": 88.51,
+            "Stop_Loss_Sugerido": 83.39
+        },
+        {
+            "Ticker": "ABT",
+            "Price": 96.69,
+            "RSI": 25.69,
+            "Z-Score": -2.18,
+            "Bounce_Score": 64.42,
+            "Target_FrontRun": 100.72,
+            "Stop_Loss_Sugerido": 93.27
+        }
     ]
 }
