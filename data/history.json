@@ -797,5 +797,52 @@
             "Target_FrontRun": 100.72,
             "Stop_Loss_Sugerido": 93.27
         }
+    ],
+    "2026-10-06": [
+        {
+            "Ticker": "LEN",
+            "Price": 74.44,
+            "RSI": 34.51,
+            "Z-Score": -2.56,
+            "Bounce_Score": 88.95,
+            "Target_FrontRun": 78.52,
+            "Stop_Loss_Sugerido": 69.6
+        },
+        {
+            "Ticker": "DHI",
+            "Price": 133.23,
+            "RSI": 36.65,
+            "Z-Score": -2.25,
+            "Bounce_Score": 81.35,
+            "Target_FrontRun": 135.89,
+            "Stop_Loss_Sugerido": 127.44
+        },
+        {
+            "Ticker": "CHRW",
+            "Price": 140.61,
+            "RSI": 38.13,
+            "Z-Score": -2.54,
+            "Bounce_Score": 78.53,
+            "Target_FrontRun": 148.16,
+            "Stop_Loss_Sugerido": 131.86
+        },
+        {
+            "Ticker": "ALGN",
+            "Price": 140.65,
+            "RSI": 33.34,
+            "Z-Score": -2.02,
+            "Bounce_Score": 75.62,
+            "Target_FrontRun": 145.07,
+            "Stop_Loss_Sugerido": 133.66
+        },
+        {
+            "Ticker": "CTVA",
+            "Price": 12.39,
+            "RSI": 6.42,
+            "Z-Score": -2.31,
+            "Bounce_Score": 72.64,
+            "Target_FrontRun": 69.38,
+            "Stop_Loss_Sugerido": 3.39
+        }
     ]
 }
