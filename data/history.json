@@ -844,5 +844,52 @@
             "Target_FrontRun": 69.38,
             "Stop_Loss_Sugerido": 3.39
         }
+    ],
+    "2026-10-07": [
+        {
+            "Ticker": "CHRW",
+            "Price": 135.05,
+            "RSI": 33.81,
+            "Z-Score": -2.79,
+            "Bounce_Score": 84.79,
+            "Target_FrontRun": 147.42,
+            "Stop_Loss_Sugerido": 126.1
+        },
+        {
+            "Ticker": "CTVA",
+            "Price": 12.39,
+            "RSI": 6.42,
+            "Z-Score": -2.31,
+            "Bounce_Score": 72.64,
+            "Target_FrontRun": 69.38,
+            "Stop_Loss_Sugerido": 3.39
+        },
+        {
+            "Ticker": "WY",
+            "Price": 18.6,
+            "RSI": 19.29,
+            "Z-Score": -1.39,
+            "Bounce_Score": 59.73,
+            "Target_FrontRun": 20.2,
+            "Stop_Loss_Sugerido": 17.82
+        },
+        {
+            "Ticker": "BSX",
+            "Price": 42.19,
+            "RSI": 34.36,
+            "Z-Score": -1.84,
+            "Bounce_Score": 55.9,
+            "Target_FrontRun": 42.86,
+            "Stop_Loss_Sugerido": 40.23
+        },
+        {
+            "Ticker": "VICI",
+            "Price": 22.53,
+            "RSI": 23.53,
+            "Z-Score": -1.72,
+            "Bounce_Score": 53.06,
+            "Target_FrontRun": 23.26,
+            "Stop_Loss_Sugerido": 21.95
+        }
     ]
 }
