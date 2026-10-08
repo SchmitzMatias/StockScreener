@@ -891,5 +891,52 @@
             "Target_FrontRun": 23.26,
             "Stop_Loss_Sugerido": 21.95
         }
+    ],
+    "2026-10-08": [
+        {
+            "Ticker": "CHRW",
+            "Price": 135.05,
+            "RSI": 33.81,
+            "Z-Score": -2.79,
+            "Bounce_Score": 69.79,
+            "Target_FrontRun": 147.42,
+            "Stop_Loss_Sugerido": 126.1
+        },
+        {
+            "Ticker": "CTVA",
+            "Price": 13.91,
+            "RSI": 8.62,
+            "Z-Score": -1.9,
+            "Bounce_Score": 62.51,
+            "Target_FrontRun": 65.86,
+            "Stop_Loss_Sugerido": 5.37
+        },
+        {
+            "Ticker": "WY",
+            "Price": 18.6,
+            "RSI": 19.29,
+            "Z-Score": -1.39,
+            "Bounce_Score": 59.73,
+            "Target_FrontRun": 20.2,
+            "Stop_Loss_Sugerido": 17.82
+        },
+        {
+            "Ticker": "BSX",
+            "Price": 42.19,
+            "RSI": 34.36,
+            "Z-Score": -1.84,
+            "Bounce_Score": 55.9,
+            "Target_FrontRun": 42.86,
+            "Stop_Loss_Sugerido": 40.23
+        },
+        {
+            "Ticker": "ALGN",
+            "Price": 141.45,
+            "RSI": 35.04,
+            "Z-Score": -1.62,
+            "Bounce_Score": 50.51,
+            "Target_FrontRun": 144.48,
+            "Stop_Loss_Sugerido": 134.64
+        }
     ]
 }
