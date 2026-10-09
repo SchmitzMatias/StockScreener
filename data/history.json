@@ -938,5 +938,52 @@
             "Target_FrontRun": 144.48,
             "Stop_Loss_Sugerido": 134.64
         }
+    ],
+    "2026-10-09": [
+        {
+            "Ticker": "AOS",
+            "Price": 55.34,
+            "RSI": 33.71,
+            "Z-Score": -2.45,
+            "Bounce_Score": 71.24,
+            "Target_FrontRun": 56.06,
+            "Stop_Loss_Sugerido": 53.26
+        },
+        {
+            "Ticker": "TXT",
+            "Price": 73.03,
+            "RSI": 26.4,
+            "Z-Score": -2.23,
+            "Bounce_Score": 65.75,
+            "Target_FrontRun": 76.41,
+            "Stop_Loss_Sugerido": 70.38
+        },
+        {
+            "Ticker": "HWM",
+            "Price": 222.75,
+            "RSI": 36.5,
+            "Z-Score": -2.21,
+            "Bounce_Score": 65.34,
+            "Target_FrontRun": 223.68,
+            "Stop_Loss_Sugerido": 212.27
+        },
+        {
+            "Ticker": "HRL",
+            "Price": 19.55,
+            "RSI": 28.3,
+            "Z-Score": -1.59,
+            "Bounce_Score": 64.82,
+            "Target_FrontRun": 19.86,
+            "Stop_Loss_Sugerido": 18.85
+        },
+        {
+            "Ticker": "MDT",
+            "Price": 85.51,
+            "RSI": 37.61,
+            "Z-Score": -1.57,
+            "Bounce_Score": 64.16,
+            "Target_FrontRun": 87.45,
+            "Stop_Loss_Sugerido": 82.3
+        }
     ]
 }
