@@ -985,5 +985,52 @@
             "Target_FrontRun": 87.45,
             "Stop_Loss_Sugerido": 82.3
         }
+    ],
+    "2026-10-10": [
+        {
+            "Ticker": "HWM",
+            "Price": 222.56,
+            "RSI": 36.36,
+            "Z-Score": -1.94,
+            "Bounce_Score": 58.55,
+            "Target_FrontRun": 223.42,
+            "Stop_Loss_Sugerido": 212.28
+        },
+        {
+            "Ticker": "TXT",
+            "Price": 73.22,
+            "RSI": 27.56,
+            "Z-Score": -1.83,
+            "Bounce_Score": 55.73,
+            "Target_FrontRun": 76.12,
+            "Stop_Loss_Sugerido": 70.58
+        },
+        {
+            "Ticker": "HRL",
+            "Price": 19.42,
+            "RSI": 27.06,
+            "Z-Score": -1.66,
+            "Bounce_Score": 51.62,
+            "Target_FrontRun": 19.79,
+            "Stop_Loss_Sugerido": 18.75
+        },
+        {
+            "Ticker": "DOC",
+            "Price": 18.52,
+            "RSI": 24.51,
+            "Z-Score": -2.06,
+            "Bounce_Score": 51.58,
+            "Target_FrontRun": 19.52,
+            "Stop_Loss_Sugerido": 17.91
+        },
+        {
+            "Ticker": "SW",
+            "Price": 41.45,
+            "RSI": 33.56,
+            "Z-Score": -1.64,
+            "Bounce_Score": 51.06,
+            "Target_FrontRun": 43.24,
+            "Stop_Loss_Sugerido": 39.47
+        }
     ]
 }
