@@ -1032,5 +1032,52 @@
             "Target_FrontRun": 43.24,
             "Stop_Loss_Sugerido": 39.47
         }
+    ],
+    "2026-10-13": [
+        {
+            "Ticker": "ALB",
+            "Price": 98.51,
+            "RSI": 28.75,
+            "Z-Score": -1.88,
+            "Bounce_Score": 56.98,
+            "Target_FrontRun": 105.63,
+            "Stop_Loss_Sugerido": 92.45
+        },
+        {
+            "Ticker": "LEN",
+            "Price": 74.65,
+            "RSI": 39.0,
+            "Z-Score": -1.6,
+            "Bounce_Score": 50.11,
+            "Target_FrontRun": 77.32,
+            "Stop_Loss_Sugerido": 70.16
+        },
+        {
+            "Ticker": "TKO",
+            "Price": 173.45,
+            "RSI": 36.44,
+            "Z-Score": -1.5,
+            "Bounce_Score": 47.51,
+            "Target_FrontRun": 179.03,
+            "Stop_Loss_Sugerido": 165.13
+        },
+        {
+            "Ticker": "HRL",
+            "Price": 19.3,
+            "RSI": 27.84,
+            "Z-Score": -1.49,
+            "Bounce_Score": 47.22,
+            "Target_FrontRun": 19.64,
+            "Stop_Loss_Sugerido": 18.67
+        },
+        {
+            "Ticker": "CPRT",
+            "Price": 26.48,
+            "RSI": 33.53,
+            "Z-Score": -1.21,
+            "Bounce_Score": 40.15,
+            "Target_FrontRun": 27.51,
+            "Stop_Loss_Sugerido": 25.21
+        }
     ]
 }
