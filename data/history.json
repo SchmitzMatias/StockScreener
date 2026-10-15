@@ -1126,5 +1126,52 @@
             "Target_FrontRun": 27.51,
             "Stop_Loss_Sugerido": 25.21
         }
+    ],
+    "2026-10-15": [
+        {
+            "Ticker": "C",
+            "Price": 124.53,
+            "RSI": 36.28,
+            "Z-Score": -2.21,
+            "Bounce_Score": 55.27,
+            "Target_FrontRun": 127.84,
+            "Stop_Loss_Sugerido": 119.35
+        },
+        {
+            "Ticker": "ALB",
+            "Price": 97.65,
+            "RSI": 27.94,
+            "Z-Score": -1.78,
+            "Bounce_Score": 54.61,
+            "Target_FrontRun": 104.86,
+            "Stop_Loss_Sugerido": 91.76
+        },
+        {
+            "Ticker": "MLM",
+            "Price": 472.4,
+            "RSI": 35.39,
+            "Z-Score": -1.65,
+            "Bounce_Score": 51.28,
+            "Target_FrontRun": 475.78,
+            "Stop_Loss_Sugerido": 454.47
+        },
+        {
+            "Ticker": "MS",
+            "Price": 186.64,
+            "RSI": 30.31,
+            "Z-Score": -1.24,
+            "Bounce_Score": 45.93,
+            "Target_FrontRun": 190.3,
+            "Stop_Loss_Sugerido": 179.83
+        },
+        {
+            "Ticker": "LEN",
+            "Price": 74.92,
+            "RSI": 39.74,
+            "Z-Score": -1.34,
+            "Bounce_Score": 43.61,
+            "Target_FrontRun": 77.1,
+            "Stop_Loss_Sugerido": 70.54
+        }
     ]
 }
