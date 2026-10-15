@@ -1129,49 +1129,49 @@
     ],
     "2026-10-15": [
         {
-            "Ticker": "C",
-            "Price": 124.53,
-            "RSI": 36.28,
-            "Z-Score": -2.21,
-            "Bounce_Score": 55.27,
-            "Target_FrontRun": 127.84,
-            "Stop_Loss_Sugerido": 119.35
+            "Ticker": "AMAT",
+            "Price": 430.01,
+            "RSI": 32.94,
+            "Z-Score": -1.89,
+            "Bounce_Score": 72.13,
+            "Target_FrontRun": 482.29,
+            "Stop_Loss_Sugerido": 398.84
         },
         {
-            "Ticker": "ALB",
-            "Price": 97.65,
-            "RSI": 27.94,
-            "Z-Score": -1.78,
-            "Bounce_Score": 54.61,
-            "Target_FrontRun": 104.86,
-            "Stop_Loss_Sugerido": 91.76
+            "Ticker": "COHR",
+            "Price": 250.6,
+            "RSI": 36.69,
+            "Z-Score": -2.2,
+            "Bounce_Score": 64.9,
+            "Target_FrontRun": 297.35,
+            "Stop_Loss_Sugerido": 216.29
         },
         {
-            "Ticker": "MLM",
-            "Price": 472.4,
-            "RSI": 35.39,
-            "Z-Score": -1.65,
-            "Bounce_Score": 51.28,
-            "Target_FrontRun": 475.78,
-            "Stop_Loss_Sugerido": 454.47
+            "Ticker": "APO",
+            "Price": 111.87,
+            "RSI": 31.44,
+            "Z-Score": -1.47,
+            "Bounce_Score": 51.73,
+            "Target_FrontRun": 116.07,
+            "Stop_Loss_Sugerido": 106.18
         },
         {
-            "Ticker": "MS",
-            "Price": 186.64,
-            "RSI": 30.31,
-            "Z-Score": -1.24,
-            "Bounce_Score": 45.93,
-            "Target_FrontRun": 190.3,
-            "Stop_Loss_Sugerido": 179.83
+            "Ticker": "AKAM",
+            "Price": 92.32,
+            "RSI": 33.87,
+            "Z-Score": -1.99,
+            "Bounce_Score": 49.69,
+            "Target_FrontRun": 104.73,
+            "Stop_Loss_Sugerido": 82.88
         },
         {
-            "Ticker": "LEN",
-            "Price": 74.92,
-            "RSI": 39.74,
-            "Z-Score": -1.34,
-            "Bounce_Score": 43.61,
-            "Target_FrontRun": 77.1,
-            "Stop_Loss_Sugerido": 70.54
+            "Ticker": "Q",
+            "Price": 119.61,
+            "RSI": 39.45,
+            "Z-Score": -1.52,
+            "Bounce_Score": 47.99,
+            "Target_FrontRun": 122.99,
+            "Stop_Loss_Sugerido": 112.24
         }
     ]
 }
