@@ -1173,5 +1173,52 @@
             "Target_FrontRun": 122.99,
             "Stop_Loss_Sugerido": 112.24
         }
+    ],
+    "2026-10-16": [
+        {
+            "Ticker": "SMCI",
+            "Price": 31.63,
+            "RSI": 30.19,
+            "Z-Score": -2.84,
+            "Bounce_Score": 80.94,
+            "Target_FrontRun": 39.99,
+            "Stop_Loss_Sugerido": 27.81
+        },
+        {
+            "Ticker": "AVGO",
+            "Price": 328.75,
+            "RSI": 34.89,
+            "Z-Score": -2.45,
+            "Bounce_Score": 71.18,
+            "Target_FrontRun": 348.29,
+            "Stop_Loss_Sugerido": 311.4
+        },
+        {
+            "Ticker": "ETN",
+            "Price": 391.25,
+            "RSI": 34.86,
+            "Z-Score": -2.78,
+            "Bounce_Score": 69.61,
+            "Target_FrontRun": 420.67,
+            "Stop_Loss_Sugerido": 368.69
+        },
+        {
+            "Ticker": "COHR",
+            "Price": 232.9,
+            "RSI": 33.37,
+            "Z-Score": -2.33,
+            "Bounce_Score": 68.19,
+            "Target_FrontRun": 293.22,
+            "Stop_Loss_Sugerido": 199.0
+        },
+        {
+            "Ticker": "Q",
+            "Price": 115.37,
+            "RSI": 34.04,
+            "Z-Score": -2.28,
+            "Bounce_Score": 67.07,
+            "Target_FrontRun": 122.76,
+            "Stop_Loss_Sugerido": 108.05
+        }
     ]
 }
