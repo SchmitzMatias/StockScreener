@@ -1220,5 +1220,52 @@
             "Target_FrontRun": 122.76,
             "Stop_Loss_Sugerido": 108.05
         }
+    ],
+    "2026-10-20": [
+        {
+            "Ticker": "AVGO",
+            "Price": 328.75,
+            "RSI": 34.89,
+            "Z-Score": -2.45,
+            "Bounce_Score": 71.18,
+            "Target_FrontRun": 348.29,
+            "Stop_Loss_Sugerido": 311.4
+        },
+        {
+            "Ticker": "AMAT",
+            "Price": 409.29,
+            "RSI": 29.21,
+            "Z-Score": -2.23,
+            "Bounce_Score": 65.69,
+            "Target_FrontRun": 480.56,
+            "Stop_Loss_Sugerido": 377.91
+        },
+        {
+            "Ticker": "ORCL",
+            "Price": 128.23,
+            "RSI": 39.99,
+            "Z-Score": -1.98,
+            "Bounce_Score": 49.45,
+            "Target_FrontRun": 136.29,
+            "Stop_Loss_Sugerido": 117.5
+        },
+        {
+            "Ticker": "BAC",
+            "Price": 51.23,
+            "RSI": 24.06,
+            "Z-Score": -1.82,
+            "Bounce_Score": 45.48,
+            "Target_FrontRun": 53.29,
+            "Stop_Loss_Sugerido": 49.26
+        },
+        {
+            "Ticker": "MS",
+            "Price": 180.57,
+            "RSI": 25.42,
+            "Z-Score": -1.64,
+            "Bounce_Score": 40.94,
+            "Target_FrontRun": 187.15,
+            "Stop_Loss_Sugerido": 173.13
+        }
     ]
 }
