@@ -1267,5 +1267,52 @@
             "Target_FrontRun": 187.15,
             "Stop_Loss_Sugerido": 173.13
         }
+    ],
+    "2026-10-21": [
+        {
+            "Ticker": "AMAT",
+            "Price": 413.11,
+            "RSI": 30.76,
+            "Z-Score": -1.87,
+            "Bounce_Score": 56.75,
+            "Target_FrontRun": 478.05,
+            "Stop_Loss_Sugerido": 382.0
+        },
+        {
+            "Ticker": "IBKR",
+            "Price": 81.35,
+            "RSI": 35.42,
+            "Z-Score": -2.2,
+            "Bounce_Score": 54.89,
+            "Target_FrontRun": 85.58,
+            "Stop_Loss_Sugerido": 76.95
+        },
+        {
+            "Ticker": "LRCX",
+            "Price": 272.2,
+            "RSI": 35.17,
+            "Z-Score": -1.73,
+            "Bounce_Score": 53.29,
+            "Target_FrontRun": 306.47,
+            "Stop_Loss_Sugerido": 250.45
+        },
+        {
+            "Ticker": "MTB",
+            "Price": 213.74,
+            "RSI": 32.87,
+            "Z-Score": -2.13,
+            "Bounce_Score": 53.19,
+            "Target_FrontRun": 213.89,
+            "Stop_Loss_Sugerido": 207.11
+        },
+        {
+            "Ticker": "BAC",
+            "Price": 50.39,
+            "RSI": 21.79,
+            "Z-Score": -2.08,
+            "Bounce_Score": 52.02,
+            "Target_FrontRun": 52.92,
+            "Stop_Loss_Sugerido": 48.41
+        }
     ]
 }
