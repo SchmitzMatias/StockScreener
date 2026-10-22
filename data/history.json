@@ -1314,5 +1314,52 @@
             "Target_FrontRun": 52.92,
             "Stop_Loss_Sugerido": 48.41
         }
+    ],
+    "2026-10-22": [
+        {
+            "Ticker": "LRCX",
+            "Price": 263.45,
+            "RSI": 32.56,
+            "Z-Score": -1.81,
+            "Bounce_Score": 70.34,
+            "Target_FrontRun": 304.16,
+            "Stop_Loss_Sugerido": 241.97
+        },
+        {
+            "Ticker": "FIX",
+            "Price": 1397.09,
+            "RSI": 30.86,
+            "Z-Score": -2.11,
+            "Bounce_Score": 62.67,
+            "Target_FrontRun": 1597.46,
+            "Stop_Loss_Sugerido": 1277.87
+        },
+        {
+            "Ticker": "AMAT",
+            "Price": 404.98,
+            "RSI": 29.29,
+            "Z-Score": -1.81,
+            "Bounce_Score": 55.18,
+            "Target_FrontRun": 474.75,
+            "Stop_Loss_Sugerido": 374.58
+        },
+        {
+            "Ticker": "GM",
+            "Price": 77.09,
+            "RSI": 37.18,
+            "Z-Score": -1.98,
+            "Bounce_Score": 49.46,
+            "Target_FrontRun": 79.76,
+            "Stop_Loss_Sugerido": 73.29
+        },
+        {
+            "Ticker": "AVGO",
+            "Price": 334.37,
+            "RSI": 38.72,
+            "Z-Score": -1.49,
+            "Bounce_Score": 47.16,
+            "Target_FrontRun": 345.43,
+            "Stop_Loss_Sugerido": 317.17
+        }
     ]
 }
