@@ -1361,5 +1361,52 @@
             "Target_FrontRun": 345.43,
             "Stop_Loss_Sugerido": 317.17
         }
+    ],
+    "2026-10-23": [
+        {
+            "Ticker": "NFLX",
+            "Price": 65.04,
+            "RSI": 32.61,
+            "Z-Score": -2.57,
+            "Bounce_Score": 74.37,
+            "Target_FrontRun": 68.26,
+            "Stop_Loss_Sugerido": 61.89
+        },
+        {
+            "Ticker": "FIX",
+            "Price": 1401.27,
+            "RSI": 31.39,
+            "Z-Score": -1.79,
+            "Bounce_Score": 69.63,
+            "Target_FrontRun": 1586.46,
+            "Stop_Loss_Sugerido": 1284.14
+        },
+        {
+            "Ticker": "LRCX",
+            "Price": 260.81,
+            "RSI": 31.8,
+            "Z-Score": -1.68,
+            "Bounce_Score": 66.95,
+            "Target_FrontRun": 301.88,
+            "Stop_Loss_Sugerido": 239.6
+        },
+        {
+            "Ticker": "AMAT",
+            "Price": 408.94,
+            "RSI": 31.02,
+            "Z-Score": -1.53,
+            "Bounce_Score": 63.36,
+            "Target_FrontRun": 471.54,
+            "Stop_Loss_Sugerido": 379.75
+        },
+        {
+            "Ticker": "GM",
+            "Price": 76.11,
+            "RSI": 35.5,
+            "Z-Score": -2.04,
+            "Bounce_Score": 51.11,
+            "Target_FrontRun": 79.38,
+            "Stop_Loss_Sugerido": 72.36
+        }
     ]
 }
