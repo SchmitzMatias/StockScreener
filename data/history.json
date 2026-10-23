@@ -1364,49 +1364,49 @@
     ],
     "2026-10-23": [
         {
-            "Ticker": "NFLX",
-            "Price": 65.04,
-            "RSI": 32.61,
-            "Z-Score": -2.57,
-            "Bounce_Score": 74.37,
-            "Target_FrontRun": 68.26,
-            "Stop_Loss_Sugerido": 61.89
+            "Ticker": "GL",
+            "Price": 154.79,
+            "RSI": 26.01,
+            "Z-Score": -3.57,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 162.65,
+            "Stop_Loss_Sugerido": 148.68
         },
         {
             "Ticker": "FIX",
-            "Price": 1401.27,
-            "RSI": 31.39,
-            "Z-Score": -1.79,
-            "Bounce_Score": 69.63,
-            "Target_FrontRun": 1586.46,
-            "Stop_Loss_Sugerido": 1284.14
+            "Price": 1160.86,
+            "RSI": 21.05,
+            "Z-Score": -2.4,
+            "Bounce_Score": 85.0,
+            "Target_FrontRun": 1544.21,
+            "Stop_Loss_Sugerido": 1027.86
         },
         {
-            "Ticker": "LRCX",
-            "Price": 260.81,
-            "RSI": 31.8,
-            "Z-Score": -1.68,
-            "Bounce_Score": 66.95,
-            "Target_FrontRun": 301.88,
-            "Stop_Loss_Sugerido": 239.6
+            "Ticker": "NEM",
+            "Price": 108.87,
+            "RSI": 36.21,
+            "Z-Score": -2.95,
+            "Bounce_Score": 83.7,
+            "Target_FrontRun": 113.26,
+            "Stop_Loss_Sugerido": 102.93
         },
         {
-            "Ticker": "AMAT",
-            "Price": 408.94,
-            "RSI": 31.02,
-            "Z-Score": -1.53,
-            "Bounce_Score": 63.36,
-            "Target_FrontRun": 471.54,
-            "Stop_Loss_Sugerido": 379.75
+            "Ticker": "CBRE",
+            "Price": 123.3,
+            "RSI": 35.26,
+            "Z-Score": -2.74,
+            "Bounce_Score": 83.41,
+            "Target_FrontRun": 127.95,
+            "Stop_Loss_Sugerido": 116.26
         },
         {
-            "Ticker": "GM",
-            "Price": 76.11,
-            "RSI": 35.5,
-            "Z-Score": -2.04,
-            "Bounce_Score": 51.11,
-            "Target_FrontRun": 79.38,
-            "Stop_Loss_Sugerido": 72.36
+            "Ticker": "SNA",
+            "Price": 357.02,
+            "RSI": 35.27,
+            "Z-Score": -1.8,
+            "Bounce_Score": 70.05,
+            "Target_FrontRun": 357.08,
+            "Stop_Loss_Sugerido": 344.82
         }
     ]
 }
