@@ -1455,5 +1455,52 @@
             "Target_FrontRun": 127.95,
             "Stop_Loss_Sugerido": 116.26
         }
+    ],
+    "2026-10-28": [
+        {
+            "Ticker": "PCAR",
+            "Price": 104.37,
+            "RSI": 29.2,
+            "Z-Score": -2.77,
+            "Bounce_Score": 94.28,
+            "Target_FrontRun": 106.84,
+            "Stop_Loss_Sugerido": 100.43
+        },
+        {
+            "Ticker": "META",
+            "Price": 630.56,
+            "RSI": 33.67,
+            "Z-Score": -2.33,
+            "Bounce_Score": 83.37,
+            "Target_FrontRun": 699.13,
+            "Stop_Loss_Sugerido": 592.1
+        },
+        {
+            "Ticker": "GOOGL",
+            "Price": 316.8,
+            "RSI": 29.55,
+            "Z-Score": -2.37,
+            "Bounce_Score": 69.36,
+            "Target_FrontRun": 334.95,
+            "Stop_Loss_Sugerido": 304.3
+        },
+        {
+            "Ticker": "GOOG",
+            "Price": 314.19,
+            "RSI": 29.22,
+            "Z-Score": -2.34,
+            "Bounce_Score": 68.47,
+            "Target_FrontRun": 331.51,
+            "Stop_Loss_Sugerido": 301.95
+        },
+        {
+            "Ticker": "GL",
+            "Price": 156.82,
+            "RSI": 31.34,
+            "Z-Score": -2.32,
+            "Bounce_Score": 68.03,
+            "Target_FrontRun": 162.18,
+            "Stop_Loss_Sugerido": 150.65
+        }
     ]
 }
