@@ -1502,5 +1502,52 @@
             "Target_FrontRun": 162.18,
             "Stop_Loss_Sugerido": 150.65
         }
+    ],
+    "2026-10-29": [
+        {
+            "Ticker": "XYL",
+            "Price": 92.86,
+            "RSI": 27.66,
+            "Z-Score": -3.0,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 101.27,
+            "Stop_Loss_Sugerido": 87.81
+        },
+        {
+            "Ticker": "BA",
+            "Price": 168.18,
+            "RSI": 25.31,
+            "Z-Score": -3.81,
+            "Bounce_Score": 90.0,
+            "Target_FrontRun": 184.58,
+            "Stop_Loss_Sugerido": 159.04
+        },
+        {
+            "Ticker": "META",
+            "Price": 620.19,
+            "RSI": 31.94,
+            "Z-Score": -2.15,
+            "Bounce_Score": 78.8,
+            "Target_FrontRun": 693.32,
+            "Stop_Loss_Sugerido": 583.26
+        },
+        {
+            "Ticker": "HUBB",
+            "Price": 434.28,
+            "RSI": 35.27,
+            "Z-Score": -2.4,
+            "Bounce_Score": 75.09,
+            "Target_FrontRun": 456.23,
+            "Stop_Loss_Sugerido": 411.48
+        },
+        {
+            "Ticker": "PCAR",
+            "Price": 103.73,
+            "RSI": 28.11,
+            "Z-Score": -2.54,
+            "Bounce_Score": 73.42,
+            "Target_FrontRun": 106.44,
+            "Stop_Loss_Sugerido": 99.4
+        }
     ]
 }
