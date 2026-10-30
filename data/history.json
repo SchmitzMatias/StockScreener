@@ -1549,5 +1549,52 @@
             "Target_FrontRun": 106.44,
             "Stop_Loss_Sugerido": 99.4
         }
+    ],
+    "2026-10-30": [
+        {
+            "Ticker": "XYL",
+            "Price": 88.23,
+            "RSI": 23.53,
+            "Z-Score": -2.98,
+            "Bounce_Score": 99.5,
+            "Target_FrontRun": 100.63,
+            "Stop_Loss_Sugerido": 82.96
+        },
+        {
+            "Ticker": "BA",
+            "Price": 167.14,
+            "RSI": 24.75,
+            "Z-Score": -2.85,
+            "Bounce_Score": 86.31,
+            "Target_FrontRun": 183.66,
+            "Stop_Loss_Sugerido": 158.1
+        },
+        {
+            "Ticker": "RDDT",
+            "Price": 134.7,
+            "RSI": 34.2,
+            "Z-Score": -2.15,
+            "Bounce_Score": 78.66,
+            "Target_FrontRun": 147.65,
+            "Stop_Loss_Sugerido": 123.44
+        },
+        {
+            "Ticker": "ODFL",
+            "Price": 173.32,
+            "RSI": 37.15,
+            "Z-Score": -2.06,
+            "Bounce_Score": 76.57,
+            "Target_FrontRun": 179.38,
+            "Stop_Loss_Sugerido": 164.4
+        },
+        {
+            "Ticker": "DASH",
+            "Price": 169.49,
+            "RSI": 34.21,
+            "Z-Score": -1.99,
+            "Bounce_Score": 74.76,
+            "Target_FrontRun": 182.93,
+            "Stop_Loss_Sugerido": 156.93
+        }
     ]
 }
