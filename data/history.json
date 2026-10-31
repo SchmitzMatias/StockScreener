@@ -1596,5 +1596,52 @@
             "Target_FrontRun": 182.93,
             "Stop_Loss_Sugerido": 156.93
         }
+    ],
+    "2026-10-31": [
+        {
+            "Ticker": "GOOG",
+            "Price": 282.32,
+            "RSI": 22.08,
+            "Z-Score": -3.04,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 327.01,
+            "Stop_Loss_Sugerido": 266.62
+        },
+        {
+            "Ticker": "GOOGL",
+            "Price": 283.82,
+            "RSI": 22.32,
+            "Z-Score": -3.06,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 330.35,
+            "Stop_Loss_Sugerido": 267.81
+        },
+        {
+            "Ticker": "TT",
+            "Price": 431.1,
+            "RSI": 37.84,
+            "Z-Score": -2.54,
+            "Bounce_Score": 88.47,
+            "Target_FrontRun": 453.52,
+            "Stop_Loss_Sugerido": 407.84
+        },
+        {
+            "Ticker": "RDDT",
+            "Price": 129.6,
+            "RSI": 30.9,
+            "Z-Score": -2.28,
+            "Bounce_Score": 81.97,
+            "Target_FrontRun": 146.68,
+            "Stop_Loss_Sugerido": 118.25
+        },
+        {
+            "Ticker": "BG",
+            "Price": 96.02,
+            "RSI": 27.07,
+            "Z-Score": -2.65,
+            "Bounce_Score": 66.18,
+            "Target_FrontRun": 102.23,
+            "Stop_Loss_Sugerido": 91.01
+        }
     ]
 }
