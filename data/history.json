@@ -1690,5 +1690,52 @@
             "Target_FrontRun": 81.97,
             "Stop_Loss_Sugerido": 70.03
         }
+    ],
+    "2026-11-04": [
+        {
+            "Ticker": "MRVL",
+            "Price": 171.41,
+            "RSI": 28.82,
+            "Z-Score": -2.48,
+            "Bounce_Score": 87.0,
+            "Target_FrontRun": 238.13,
+            "Stop_Loss_Sugerido": 143.81
+        },
+        {
+            "Ticker": "RDDT",
+            "Price": 90.97,
+            "RSI": 17.29,
+            "Z-Score": -2.65,
+            "Bounce_Score": 76.13,
+            "Target_FrontRun": 141.01,
+            "Stop_Loss_Sugerido": 76.6
+        },
+        {
+            "Ticker": "FTNT",
+            "Price": 126.21,
+            "RSI": 23.62,
+            "Z-Score": -2.5,
+            "Bounce_Score": 72.41,
+            "Target_FrontRun": 171.33,
+            "Stop_Loss_Sugerido": 111.74
+        },
+        {
+            "Ticker": "ADM",
+            "Price": 75.77,
+            "RSI": 33.19,
+            "Z-Score": -1.84,
+            "Bounce_Score": 70.96,
+            "Target_FrontRun": 78.51,
+            "Stop_Loss_Sugerido": 72.84
+        },
+        {
+            "Ticker": "QCOM",
+            "Price": 162.08,
+            "RSI": 37.18,
+            "Z-Score": -2.43,
+            "Bounce_Score": 70.78,
+            "Target_FrontRun": 172.43,
+            "Stop_Loss_Sugerido": 150.61
+        }
     ]
 }
