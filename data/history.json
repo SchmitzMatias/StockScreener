@@ -1737,5 +1737,52 @@
             "Target_FrontRun": 172.43,
             "Stop_Loss_Sugerido": 150.61
         }
+    ],
+    "2026-11-05": [
+        {
+            "Ticker": "APTV",
+            "Price": 41.34,
+            "RSI": 35.61,
+            "Z-Score": -3.14,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 43.1,
+            "Stop_Loss_Sugerido": 39.1
+        },
+        {
+            "Ticker": "ADM",
+            "Price": 70.6,
+            "RSI": 23.41,
+            "Z-Score": -2.86,
+            "Bounce_Score": 96.47,
+            "Target_FrontRun": 77.94,
+            "Stop_Loss_Sugerido": 67.19
+        },
+        {
+            "Ticker": "SYY",
+            "Price": 74.11,
+            "RSI": 30.78,
+            "Z-Score": -2.69,
+            "Bounce_Score": 82.32,
+            "Target_FrontRun": 79.18,
+            "Stop_Loss_Sugerido": 71.0
+        },
+        {
+            "Ticker": "MRVL",
+            "Price": 171.97,
+            "RSI": 29.08,
+            "Z-Score": -2.1,
+            "Bounce_Score": 77.61,
+            "Target_FrontRun": 232.5,
+            "Stop_Loss_Sugerido": 145.28
+        },
+        {
+            "Ticker": "BKR",
+            "Price": 52.79,
+            "RSI": 39.68,
+            "Z-Score": -1.91,
+            "Bounce_Score": 72.85,
+            "Target_FrontRun": 54.33,
+            "Stop_Loss_Sugerido": 49.98
+        }
     ]
 }
