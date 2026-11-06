@@ -1784,5 +1784,52 @@
             "Target_FrontRun": 54.33,
             "Stop_Loss_Sugerido": 49.98
         }
+    ],
+    "2026-11-06": [
+        {
+            "Ticker": "CMI",
+            "Price": 471.84,
+            "RSI": 27.71,
+            "Z-Score": -2.99,
+            "Bounce_Score": 99.75,
+            "Target_FrontRun": 509.79,
+            "Stop_Loss_Sugerido": 447.57
+        },
+        {
+            "Ticker": "TPL",
+            "Price": 287.65,
+            "RSI": 25.64,
+            "Z-Score": -2.98,
+            "Bounce_Score": 99.47,
+            "Target_FrontRun": 333.85,
+            "Stop_Loss_Sugerido": 266.79
+        },
+        {
+            "Ticker": "BKR",
+            "Price": 49.87,
+            "RSI": 33.2,
+            "Z-Score": -2.84,
+            "Bounce_Score": 96.08,
+            "Target_FrontRun": 54.05,
+            "Stop_Loss_Sugerido": 46.84
+        },
+        {
+            "Ticker": "DDOG",
+            "Price": 188.72,
+            "RSI": 28.66,
+            "Z-Score": -2.68,
+            "Bounce_Score": 91.89,
+            "Target_FrontRun": 254.98,
+            "Stop_Loss_Sugerido": 163.02
+        },
+        {
+            "Ticker": "ADM",
+            "Price": 70.84,
+            "RSI": 24.52,
+            "Z-Score": -2.24,
+            "Bounce_Score": 81.04,
+            "Target_FrontRun": 77.43,
+            "Stop_Loss_Sugerido": 67.41
+        }
     ]
 }
