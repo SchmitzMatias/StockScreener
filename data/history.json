@@ -1831,5 +1831,52 @@
             "Target_FrontRun": 77.43,
             "Stop_Loss_Sugerido": 67.41
         }
+    ],
+    "2026-11-07": [
+        {
+            "Ticker": "MCHP",
+            "Price": 64.85,
+            "RSI": 32.56,
+            "Z-Score": -3.04,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 73.86,
+            "Stop_Loss_Sugerido": 58.65
+        },
+        {
+            "Ticker": "NWS",
+            "Price": 28.97,
+            "RSI": 32.4,
+            "Z-Score": -3.42,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 31.93,
+            "Stop_Loss_Sugerido": 27.4
+        },
+        {
+            "Ticker": "NWSA",
+            "Price": 26.48,
+            "RSI": 32.38,
+            "Z-Score": -3.4,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 29.18,
+            "Stop_Loss_Sugerido": 25.07
+        },
+        {
+            "Ticker": "ROK",
+            "Price": 381.05,
+            "RSI": 30.03,
+            "Z-Score": -3.45,
+            "Bounce_Score": 100.0,
+            "Target_FrontRun": 422.54,
+            "Stop_Loss_Sugerido": 357.02
+        },
+        {
+            "Ticker": "TPL",
+            "Price": 272.18,
+            "RSI": 22.32,
+            "Z-Score": -2.79,
+            "Bounce_Score": 94.8,
+            "Target_FrontRun": 329.66,
+            "Stop_Loss_Sugerido": 247.98
+        }
     ]
 }
