@@ -1878,5 +1878,52 @@
             "Target_FrontRun": 329.66,
             "Stop_Loss_Sugerido": 247.98
         }
+    ],
+    "2026-11-10": [
+        {
+            "Ticker": "AXON",
+            "Price": 303.18,
+            "RSI": 22.74,
+            "Z-Score": -2.77,
+            "Bounce_Score": 94.34,
+            "Target_FrontRun": 394.31,
+            "Stop_Loss_Sugerido": 265.75
+        },
+        {
+            "Ticker": "MCHP",
+            "Price": 61.5,
+            "RSI": 32.98,
+            "Z-Score": -2.1,
+            "Bounce_Score": 62.43,
+            "Target_FrontRun": 72.41,
+            "Stop_Loss_Sugerido": 54.68
+        },
+        {
+            "Ticker": "NWSA",
+            "Price": 26.57,
+            "RSI": 33.53,
+            "Z-Score": -2.09,
+            "Bounce_Score": 62.14,
+            "Target_FrontRun": 28.91,
+            "Stop_Loss_Sugerido": 25.23
+        },
+        {
+            "Ticker": "APTV",
+            "Price": 39.91,
+            "RSI": 36.27,
+            "Z-Score": -2.07,
+            "Bounce_Score": 61.71,
+            "Target_FrontRun": 42.5,
+            "Stop_Loss_Sugerido": 37.4
+        },
+        {
+            "Ticker": "OXY",
+            "Price": 55.76,
+            "RSI": 31.87,
+            "Z-Score": -2.04,
+            "Bounce_Score": 61.11,
+            "Target_FrontRun": 60.01,
+            "Stop_Loss_Sugerido": 53.09
+        }
     ]
 }
