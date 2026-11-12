@@ -1972,5 +1972,52 @@
             "Target_FrontRun": 28.91,
             "Stop_Loss_Sugerido": 25.23
         }
+    ],
+    "2026-11-12": [
+        {
+            "Ticker": "AXON",
+            "Price": 302.54,
+            "RSI": 22.66,
+            "Z-Score": -2.24,
+            "Bounce_Score": 66.11,
+            "Target_FrontRun": 388.88,
+            "Stop_Loss_Sugerido": 266.14
+        },
+        {
+            "Ticker": "MCHP",
+            "Price": 60.33,
+            "RSI": 31.92,
+            "Z-Score": -1.94,
+            "Bounce_Score": 58.46,
+            "Target_FrontRun": 71.73,
+            "Stop_Loss_Sugerido": 53.62
+        },
+        {
+            "Ticker": "APTV",
+            "Price": 39.57,
+            "RSI": 35.28,
+            "Z-Score": -1.92,
+            "Bounce_Score": 57.94,
+            "Target_FrontRun": 42.27,
+            "Stop_Loss_Sugerido": 37.12
+        },
+        {
+            "Ticker": "SRE",
+            "Price": 78.38,
+            "RSI": 34.98,
+            "Z-Score": -1.82,
+            "Bounce_Score": 55.4,
+            "Target_FrontRun": 81.31,
+            "Stop_Loss_Sugerido": 75.83
+        },
+        {
+            "Ticker": "NWSA",
+            "Price": 26.61,
+            "RSI": 33.87,
+            "Z-Score": -1.77,
+            "Bounce_Score": 54.31,
+            "Target_FrontRun": 28.76,
+            "Stop_Loss_Sugerido": 25.29
+        }
     ]
 }
