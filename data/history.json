@@ -2019,5 +2019,52 @@
             "Target_FrontRun": 28.76,
             "Stop_Loss_Sugerido": 25.29
         }
+    ],
+    "2026-11-13": [
+        {
+            "Ticker": "SYF",
+            "Price": 72.02,
+            "RSI": 42.14,
+            "Z-Score": -1.7,
+            "Bounce_Score": 57.4,
+            "Target_FrontRun": 72.63,
+            "Stop_Loss_Sugerido": 68.44
+        },
+        {
+            "Ticker": "APTV",
+            "Price": 39.41,
+            "RSI": 34.8,
+            "Z-Score": -1.73,
+            "Bounce_Score": 53.21,
+            "Target_FrontRun": 42.05,
+            "Stop_Loss_Sugerido": 37.06
+        },
+        {
+            "Ticker": "AXON",
+            "Price": 315.42,
+            "RSI": 27.83,
+            "Z-Score": -1.68,
+            "Bounce_Score": 52.04,
+            "Target_FrontRun": 384.32,
+            "Stop_Loss_Sugerido": 279.56
+        },
+        {
+            "Ticker": "SRE",
+            "Price": 78.22,
+            "RSI": 34.54,
+            "Z-Score": -1.67,
+            "Bounce_Score": 51.67,
+            "Target_FrontRun": 81.13,
+            "Stop_Loss_Sugerido": 75.79
+        },
+        {
+            "Ticker": "MCHP",
+            "Price": 62.13,
+            "RSI": 35.35,
+            "Z-Score": -1.5,
+            "Bounce_Score": 47.48,
+            "Target_FrontRun": 71.28,
+            "Stop_Loss_Sugerido": 55.53
+        }
     ]
 }
