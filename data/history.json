@@ -2066,5 +2066,52 @@
             "Target_FrontRun": 71.28,
             "Stop_Loss_Sugerido": 55.53
         }
+    ],
+    "2026-11-14": [
+        {
+            "Ticker": "APTV",
+            "Price": 38.75,
+            "RSI": 32.81,
+            "Z-Score": -1.58,
+            "Bounce_Score": 49.49,
+            "Target_FrontRun": 41.44,
+            "Stop_Loss_Sugerido": 36.52
+        },
+        {
+            "Ticker": "NWSA",
+            "Price": 26.27,
+            "RSI": 33.13,
+            "Z-Score": -1.57,
+            "Bounce_Score": 49.22,
+            "Target_FrontRun": 28.43,
+            "Stop_Loss_Sugerido": 25.0
+        },
+        {
+            "Ticker": "NWS",
+            "Price": 29.17,
+            "RSI": 35.89,
+            "Z-Score": -1.5,
+            "Bounce_Score": 47.58,
+            "Target_FrontRun": 31.19,
+            "Stop_Loss_Sugerido": 27.74
+        },
+        {
+            "Ticker": "SMCI",
+            "Price": 26.87,
+            "RSI": 36.18,
+            "Z-Score": -1.5,
+            "Bounce_Score": 47.53,
+            "Target_FrontRun": 30.66,
+            "Stop_Loss_Sugerido": 22.93
+        },
+        {
+            "Ticker": "SYF",
+            "Price": 71.66,
+            "RSI": 40.86,
+            "Z-Score": -1.74,
+            "Bounce_Score": 43.56,
+            "Target_FrontRun": 72.53,
+            "Stop_Loss_Sugerido": 68.18
+        }
     ]
 }
