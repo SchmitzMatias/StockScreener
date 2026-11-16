@@ -28,23 +28,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: ⚙️ Ejecutar el motor de Spy
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           cd backend
           python data_loader.py
-
-      - name: 💾 Commit y Push del JSON
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          
-          # Añadir el archivo modificado desde la raíz
-          git add data/history.json
-          
-          # Commit tolerante a fallos (si corres el bot y los datos son iguales, no rompe el pipeline)
-          git commit -m "🤖 Auto-update: Top 5 candidatas del día" || exit 0
-          
-          # Empujar cambios a la rama principal
-          git push origin main
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -57,6 +46,10 @@ jobs:
 
       - name: Build Frontend
         working-directory: ./frontend
+        env:
+          # Mapeamos los secrets a las variables VITE_ que espera el código de React
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
