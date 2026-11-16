@@ -134,15 +134,17 @@ def apply_fundamental_filters_and_score(tickers: List[str], df_processed: pd.Dat
         # Cap a 100
         score = min(score, 100.0)
         
-        # Gestión de Riesgo (Target y Stop Loss)
-        target = sma_20 * 0.98
+        # Gestión de Riesgo (Target y Stop Loss unificados bajo RRR 1:0.85)
         stop_loss = close_price - (1.5 * atr)
+        riesgo = close_price - stop_loss
+        target = close_price + (riesgo * 0.85)
         
         results.append({
             'Ticker': ticker,
             'Price': round(close_price, 2) if not pd.isna(close_price) else None,
             'RSI': round(rsi, 2) if not pd.isna(rsi) else None,
             'Z-Score': round(z_score, 2) if not pd.isna(z_score) else None,
+            'ATR_14': round(atr, 2) if not pd.isna(atr) else None,
             'Bounce_Score': round(score, 2),
             'Target_FrontRun': round(target, 2) if not pd.isna(target) else None,
             'Stop_Loss_Sugerido': round(stop_loss, 2) if not pd.isna(stop_loss) else None

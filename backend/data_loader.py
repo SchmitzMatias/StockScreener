@@ -1,14 +1,62 @@
 import pandas as pd
+import numpy as np
 import yfinance as yf
 import logging
-from typing import List, Dict, Any
+import math
+from typing import List, Dict, Any, Optional
 from datetime import datetime
 import os
 import json
+from dotenv import load_dotenv
+from supabase import create_client, Client
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Carga de variables de entorno (.env local en backend/ o raíz del proyecto)
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+load_dotenv()
+
+_supabase_client: Optional[Client] = None
+
+def get_supabase_client() -> Client:
+    """Retorna la instancia singleton del cliente de Supabase con credenciales de backend."""
+    global _supabase_client
+    if _supabase_client is None:
+        url = os.getenv("SUPABASE_URL")
+        key = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_KEY")
+        if not url or not key:
+            raise ValueError("Faltan variables de entorno SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY.")
+        _supabase_client = create_client(url, key)
+    return _supabase_client
+
+def sanitize_for_db(data: Any) -> Any:
+    """
+    Reemplaza recursivamente NaN, Inf y tipos escalares de NumPy (np.floating, np.integer, np.bool_)
+    por None y tipos nativos de Python para garantizar serialización JSON limpia hacia PostgreSQL.
+    """
+    if data is None:
+        return None
+    if isinstance(data, dict):
+        return {str(k): sanitize_for_db(v) for k, v in data.items()}
+    if isinstance(data, (list, tuple)):
+        return [sanitize_for_db(v) for v in data]
+    if isinstance(data, (np.bool_, bool)):
+        return bool(data)
+    if isinstance(data, (np.integer, int)):
+        return int(data)
+    if isinstance(data, (np.floating, float)):
+        val = float(data)
+        if math.isnan(val) or math.isinf(val):
+            return None
+        return val
+    try:
+        if pd.isna(data):
+            return None
+    except (TypeError, ValueError):
+        pass
+    return data
 
 def get_sp500_tickers() -> List[str]:
     """
@@ -160,198 +208,321 @@ def get_ticker_fundamentals(ticker: str) -> Dict[str, Any]:
         
     return result
 
-def evaluate_open_trades(backtest_data: list) -> list:
+def evaluate_open_trades(supabase_client: Optional[Client] = None) -> List[Dict[str, Any]]:
     """
-    Filtra los trades abiertos (Exit_Reason == None) y consulta el 
-    precio High/Low de la rueda de hoy. Actualiza si toca SL o TP.
+    Consulta los trades teóricos abiertos (status == 'OPEN' y taken == False) en Supabase,
+    verifica el precio High/Low de la rueda de hoy con yfinance y actualiza a 'CLOSED'
+    en la tabla 'trades' si alcanza el SL o TP.
     """
-    for trade in backtest_data:
-        if trade.get("Exit_Reason") is not None:
-            continue
-            
-        ticker = trade["Ticker"]
-        
-        # Usamos Ticker().history() en lugar de download()
-        ticker_obj = yf.Ticker(ticker)
-        data = ticker_obj.history(period="1d")
-        
-        if data.empty:
-            continue
-        
-        # FIX INDESTRUCTIBLE: Convertimos a numpy crudo, aplanamos y sacamos el último valor.
-        # Esto es inmune a si yfinance devuelve un DataFrame, una Serie o un MultiIndex.
-        low = float(data['Low'].to_numpy().flatten()[-1])
-        high = float(data['High'].to_numpy().flatten()[-1])
-        
-        entry_price = float(trade["Entry_Price"])
-        stop_loss = float(trade["Stop_Loss"])
-        target = float(trade["Target"])
-
-        if low <= stop_loss:
-            trade["Exit_Reason"] = "SL"
-            trade["Exit_Price"] = round(stop_loss, 2)
-            trade["PnL_Percent"] = round(((stop_loss - entry_price) / entry_price) * 100, 2)
-            entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
-            trade["Days_Held"] = (datetime.now() - entry_date_obj).days
-        elif high >= target:
-            trade["Exit_Reason"] = "TP"
-            trade["Exit_Price"] = round(target, 2)
-            trade["PnL_Percent"] = round(((target - entry_price) / entry_price) * 100, 2)
-            entry_date_obj = datetime.strptime(trade["Entry_Date"], "%Y-%m-%d")
-            trade["Days_Held"] = (datetime.now() - entry_date_obj).days
-                
-    return backtest_data
-
-def append_new_trades(backtest_data: list, top5_candidates: list, today_str: str) -> list:
-    """
-    Calcula el Target dinámico basándose en un RRR 1:0.85 y el Stop Loss, 
-    y anexa los nuevos trades de hoy al registro del backtest.
-    """
-    for candidate in top5_candidates:
-        entry_price = candidate["Price"]
-        stop_loss = candidate["Stop_Loss_Sugerido"]
-        
-        riesgo = entry_price - stop_loss
-        target = entry_price + (riesgo * 0.85)
-        
-        new_trade = {
-            "Entry_Date": today_str,
-            "Ticker": candidate["Ticker"],
-            "Entry_Price": round(entry_price, 2),
-            "Target": round(target, 2),
-            "Stop_Loss": round(stop_loss, 2),
-            "Exit_Price": None,
-            "Exit_Reason": None,
-            "PnL_Percent": None,
-            "Days_Held": None
-        }
-        backtest_data.append(new_trade)
-        
-    return backtest_data
-
-def update_backtest_file(top5_candidates: list, backtest_file_path: str):
-    """
-    Flujo principal: Lee el JSON, evalúa los abiertos, añade los nuevos y sobrescribe de forma segura.
-    """
+    client = supabase_client or get_supabase_client()
     today_str = datetime.now().strftime("%Y-%m-%d")
-    
-    if os.path.exists(backtest_file_path):
-        with open(backtest_file_path, "r", encoding="utf-8") as f:
-            try:
-                backtest_data = json.load(f)
-            except json.JSONDecodeError:
-                backtest_data = []
-    else:
-        backtest_data = []
+    closed_trades = []
 
-    backtest_data = evaluate_open_trades(backtest_data)
-    backtest_data = append_new_trades(backtest_data, top5_candidates, today_str)
-    
-    with open(backtest_file_path, "w", encoding="utf-8") as f:
-        json.dump(backtest_data, f, indent=4)
+    try:
+        response = (
+            client.table("trades")
+            .select("*")
+            .eq("status", "OPEN")
+            .eq("taken", False)
+            .execute()
+        )
+        open_trades = response.data or []
+    except Exception as e:
+        logger.error(f"Error al consultar trades abiertos en Supabase: {e}")
+        return []
+
+    logger.info(f"Evaluando {len(open_trades)} trades teóricos abiertos en Supabase...")
+
+    for trade in open_trades:
+        ticker = trade.get("ticker")
+        if not ticker:
+            continue
+
+        try:
+            ticker_obj = yf.Ticker(ticker)
+            data = ticker_obj.history(period="1d")
+            if data.empty:
+                continue
+
+            low = float(data["Low"].to_numpy().flatten()[-1])
+            high = float(data["High"].to_numpy().flatten()[-1])
+
+            entry_price = float(trade["entry_price"])
+            stop_loss = float(trade["stop_loss"])
+            target = float(trade["target"])
+
+            exit_reason = None
+            exit_price = None
+
+            if low <= stop_loss:
+                exit_reason = "SL"
+                exit_price = round(stop_loss, 2)
+            elif high >= target:
+                exit_reason = "TP"
+                exit_price = round(target, 2)
+
+            if exit_reason and exit_price is not None:
+                pnl_percent = round(((exit_price - entry_price) / entry_price) * 100, 2)
+                entry_date_raw = str(trade.get("entry_date", today_str))[:10]
+                entry_date_obj = datetime.strptime(entry_date_raw, "%Y-%m-%d")
+                days_held = max(0, (datetime.now() - entry_date_obj).days)
+
+                update_payload = sanitize_for_db({
+                    "status": "CLOSED",
+                    "exit_date": today_str,
+                    "exit_price": exit_price,
+                    "exit_reason": exit_reason,
+                    "pnl_percent": pnl_percent,
+                    "days_held": days_held,
+                })
+
+                client.table("trades").update(update_payload).eq("id", trade["id"]).execute()
+                logger.info(f"[{ticker}] Trade #{trade['id']} cerrado por {exit_reason} a ${exit_price} ({pnl_percent}%)")
+                closed_trades.append({**trade, **update_payload})
+        except Exception as e:
+            logger.error(f"[{ticker}] Error evaluando trade abierto #{trade.get('id')}: {e}")
+
+    return closed_trades
+
+
+def append_new_trades(
+    top5_candidates: List[Dict[str, Any]],
+    today_str: str,
+    supabase_client: Optional[Client] = None
+) -> List[Dict[str, Any]]:
+    """
+    Inserta los nuevos trades teóricos de hoy (taken = False) en la tabla 'trades' de Supabase,
+    reutilizando exactamente el 'Target_FrontRun' y 'Stop_Loss_Sugerido' calculados por el screener (DRY).
+    Evita duplicados si ya existen mocks para la misma fecha y ticker.
+    """
+    client = supabase_client or get_supabase_client()
+    inserted_trades = []
+
+    try:
+        existing_resp = (
+            client.table("trades")
+            .select("ticker")
+            .eq("entry_date", today_str)
+            .eq("strategy", "kotegawa")
+            .eq("taken", False)
+            .execute()
+        )
+        existing_tickers = {row["ticker"] for row in (existing_resp.data or [])}
+    except Exception as e:
+        logger.warning(f"No se pudo verificar existencia previa de trades para {today_str}: {e}")
+        existing_tickers = set()
+
+    for candidate in top5_candidates:
+        ticker = candidate["Ticker"]
+        if ticker in existing_tickers:
+            logger.info(f"[{ticker}] Mock trade ya registrado para {today_str}, omitiendo duplicado.")
+            continue
+
+        new_trade = sanitize_for_db({
+            "ticker": ticker,
+            "strategy": "kotegawa",
+            "taken": False,
+            "entry_date": today_str,
+            "entry_price": round(float(candidate["Price"]), 2) if candidate.get("Price") is not None else None,
+            "target": round(float(candidate["Target_FrontRun"]), 2) if candidate.get("Target_FrontRun") is not None else None,
+            "stop_loss": round(float(candidate["Stop_Loss_Sugerido"]), 2) if candidate.get("Stop_Loss_Sugerido") is not None else None,
+            "status": "OPEN",
+            "exit_date": None,
+            "exit_price": None,
+            "exit_reason": None,
+            "pnl_percent": None,
+            "days_held": None,
+            "strategy_props": {},
+        })
+
+        try:
+            res = client.table("trades").insert(new_trade).execute()
+            if res.data:
+                inserted_trades.extend(res.data)
+            else:
+                inserted_trades.append(new_trade)
+        except Exception as e:
+            logger.error(f"[{ticker}] Error al insertar mock trade en Supabase: {e}")
+
+    logger.info(f"Se insertaron {len(inserted_trades)} nuevos trades teóricos en Supabase.")
+    return inserted_trades
+
+
+def persist_screener_candidates(
+    top5_candidates: List[Dict[str, Any]],
+    today_str: str,
+    supabase_client: Optional[Client] = None
+) -> List[Dict[str, Any]]:
+    """
+    Persiste los candidatos del día en 'screener_candidates' mapeando las columnas universales
+    e inyectando las métricas específicas ('rsi', 'z_score', 'atr_14') en 'strategy_props' (JSONB).
+    """
+    client = supabase_client or get_supabase_client()
+    inserted_candidates = []
+
+    try:
+        existing_resp = (
+            client.table("screener_candidates")
+            .select("ticker")
+            .eq("created_at", today_str)
+            .eq("strategy", "kotegawa")
+            .execute()
+        )
+        existing_tickers = {row["ticker"] for row in (existing_resp.data or [])}
+    except Exception as e:
+        logger.warning(f"No se pudo verificar candidatos previos para {today_str}: {e}")
+        existing_tickers = set()
+
+    for c in top5_candidates:
+        ticker = c.get("Ticker")
+        if ticker in existing_tickers:
+            logger.info(f"[{ticker}] Candidato ya registrado en screener_candidates para {today_str}, omitiendo duplicado.")
+            continue
+
+        candidate_base = {
+            "created_at": today_str,
+            "ticker": ticker,
+            "strategy": "kotegawa",
+            "close_price": c.get("Price"),
+            "score": c.get("Bounce_Score"),
+            "target": c.get("Target_FrontRun"),
+            "stop_loss": c.get("Stop_Loss_Sugerido"),
+        }
+        candidate_with_props = sanitize_for_db({
+            **candidate_base,
+            "strategy_props": {
+                "rsi": c.get("RSI"),
+                "z_score": c.get("Z-Score"),
+                "atr_14": c.get("ATR_14"),
+            },
+        })
+
+        try:
+            res = client.table("screener_candidates").insert(candidate_with_props).execute()
+            if res.data:
+                inserted_candidates.extend(res.data)
+            else:
+                inserted_candidates.append(candidate_with_props)
+        except Exception as e:
+            if "strategy_props" in str(e) or "PGRST204" in str(e):
+                clean_base = sanitize_for_db(candidate_base)
+                res = client.table("screener_candidates").insert(clean_base).execute()
+                if res.data:
+                    inserted_candidates.extend(res.data)
+                else:
+                    inserted_candidates.append(clean_base)
+            else:
+                logger.error(f"[{ticker}] Error al insertar candidato en screener_candidates: {e}")
+
+    logger.info(f"Se persistieron {len(inserted_candidates)} candidatos en screener_candidates.")
+    return inserted_candidates
+
+
+def persist_market_metadata(
+    meta_data: Dict[str, Any],
+    supabase_client: Optional[Client] = None
+) -> Dict[str, Any]:
+    """
+    Realiza un upsert idempotente en 'market_metadata' (id = 1) con todas las métricas macro.
+    """
+    client = supabase_client or get_supabase_client()
+    base_payload = {
+        "id": 1,
+        "vix_price": meta_data.get("vix_price"),
+        "vix_change": meta_data.get("vix_change"),
+        "sma20_bull_pct": meta_data.get("sma20_bull_pct"),
+        "spy_price": meta_data.get("spy_price"),
+        "spy_change": meta_data.get("spy_change"),
+    }
+    full_payload = sanitize_for_db({
+        **base_payload,
+        "last_run": meta_data.get("last_run"),
+        "spy_history": meta_data.get("spy_history", []),
+    })
+
+    try:
+        client.table("market_metadata").upsert(full_payload).execute()
+        logger.info("Metadata macro actualizada exitosamente en Supabase (market_metadata id=1).")
+        return full_payload
+    except Exception as e:
+        if "PGRST204" in str(e) or "last_run" in str(e) or "spy_history" in str(e):
+            fallback_payload = sanitize_for_db({
+                **base_payload,
+                "updated_at": datetime.now().isoformat(),
+            })
+            client.table("market_metadata").upsert(fallback_payload).execute()
+            logger.info("Metadata macro actualizada en Supabase (esquema base con updated_at).")
+            return fallback_payload
+        logger.error(f"Error al hacer upsert en market_metadata: {e}")
+        raise
+
 
 if __name__ == "__main__":
-    import json
     from technical_analysis import process_technical_indicators, filter_base_technical
     from scoring_engine import apply_fundamental_filters_and_score
-    
-    # Bloque de prueba local integrando Partes 1, 2 y 3
-    logger.info("Iniciando prueba rápida integral (Partes 1, 2 y 3)...")
-    
+
+    logger.info("Iniciando ejecución del pipeline diario Kotegawa hacia Supabase...")
+    supabase = get_supabase_client()
+    fecha_hoy = datetime.now().strftime("%Y-%m-%d")
+
+    # 1. Mantenimiento de Trades Abiertos (Invariante #5.1)
+    evaluate_open_trades(supabase)
+
+    # 2. Escaneo y Calificación del S&P 500 (Invariante #5.2)
     sp500 = get_sp500_tickers()
-    
+
     if sp500:
-        # Aumentamos la muestra a X tickers para tener más chances de que pasen los filtros invertidos
-        sample = sp500[:500] 
-        logger.info(f"Tickers de muestra: {sample}")
-        
-        # Descarga en batch (250d para SMA_200)
+        sample = sp500[:500]
+        logger.info(f"Tickers a escanear: {len(sample)}")
+
         df_historico = download_historical_data(sample, period="250d")
-        
+
         if not df_historico.empty:
-            # Procesar Parte 2: Análisis Técnico
             df_procesado = process_technical_indicators(df_historico)
-            
+
             if not df_procesado.empty:
-                # Filtrar tickers
                 tickers_filtrados = filter_base_technical(df_procesado)
-                
-                # Procesar Parte 3: Scoring y Fundamentales
+
                 if tickers_filtrados:
                     top_5_results = apply_fundamental_filters_and_score(tickers_filtrados, df_procesado)
-                    
+
                     if top_5_results:
-                        print("\n" + "="*50)
+                        print("\n" + "=" * 50)
                         print("🚀 TOP 5 - SELECCIÓN FINAL 'BOUNCE SCORE' 🚀")
-                        print("="*50)
-                        print(json.dumps(top_5_results, indent=4))
+                        print("=" * 50)
+                        print(json.dumps(sanitize_for_db(top_5_results), indent=4))
 
-                        # 1. Obtener la fecha actual (YYYY-MM-DD)
-                        fecha_hoy = datetime.now().strftime("%Y-%m-%d")
-                        
-                        # 2. Definir la ruta al archivo
-                        data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
-                        os.makedirs(data_dir, exist_ok=True)
-                        json_file_path = os.path.join(data_dir, "history.json")
+                        # Persistir candidatos en screener_candidates
+                        persist_screener_candidates(top_5_results, fecha_hoy, supabase)
 
-                        # 3. Leer json histórico como un diccionario
-                        historical_data = {}
-                        if os.path.exists(json_file_path):
-                            with open(json_file_path, 'r', encoding='UTF-8') as f:
-                                try:
-                                    data = json.load(f)
-                                    # Proteccion: si detecta la lista plana de pruebas anteriores, la ignora
-                                    if isinstance(data, dict):
-                                        historical_data = data
-                                    else:
-                                        logger.warning("Formato JSON antiguo (lista) detectado. Se reinicia a Diccionario (Key-Value).")
-                                except json.JSONDecodeError:
-                                    logger.warning("El archivo JSON existía pero estaba corrupto/vacío.")
-                        
-                        # 4. Insersion o sobre-escritura O(1)
-                        historical_data[fecha_hoy] = top_5_results
-
-                        # 5. Escritura en el archivo
-                        with open(json_file_path, 'w', encoding='utf-8') as f:
-                            json.dump(historical_data, f, indent=4)
-
-                        logger.info(f"Resultados exportados bajo la clave '{fecha_hoy}' en {json_file_path}")
-
-                        # 6. Actualizar paper trading (backtest.json)
-                        backtest_file_path = os.path.join(data_dir, "backtest.json")
-                        update_backtest_file(top_5_results, backtest_file_path)
-                        logger.info(f"Backtest paper trading actualizado en {backtest_file_path}")
-
-                        # 7. Crear el recibo de última ejecución (Metadata)
-                        current_time = datetime.now().strftime("%Y-%m-%d %H:%M") # Formato: YYYY-MM-DD HH:MM
-                        spy_price, spy_change, spy_history = get_spy_metrics()
-                        vix_price, vix_change = get_vix_metrics()
-                        
-                        # Calculo de % de stocks sobre SMA20 usando df_procesado
-                        df_reset = df_procesado.reset_index()
-                        last_day_df = df_reset.groupby('Ticker').last()
-                        total_scanned = len(last_day_df)
-                        above_sma20 = len(last_day_df[last_day_df['Close'] > last_day_df['SMA_20']])
-                        sma20_bull_pct = round((above_sma20 / total_scanned) * 100, 2) if total_scanned > 0 else 0
-
-                        meta_data = {
-                            "last_run": current_time,
-                            "spy_price": spy_price,
-                            "spy_change": spy_change,
-                            "spy_history": spy_history,
-                            "vix_price": vix_price,
-                            "vix_change": vix_change,
-                            "sma20_bull_pct": sma20_bull_pct
-                        }
-
-                        meta_file_path = os.path.join(data_dir, "meta.json")
-                        with open(meta_file_path, "w", encoding="utf-8") as f:
-                            json.dump(meta_data, f, indent=4)
-
-                        logger.info(f"Metadata actualizada en {meta_file_path}")
+                        # 3. Generación de Mocks en trades (Invariante #5.3)
+                        append_new_trades(top_5_results, fecha_hoy, supabase)
                     else:
                         logger.info("No hay candidatas hoy que cumplan todos los filtros (Fundamentales/Scoring).")
                 else:
                     logger.warning("Ningún ticker pasó el filtro base técnico. No hay candidatas hoy.")
+
+                # 4. Actualización Macro en market_metadata (Invariante #5.4)
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+                spy_price, spy_change, spy_history = get_spy_metrics()
+                vix_price, vix_change = get_vix_metrics()
+
+                df_reset = df_procesado.reset_index()
+                last_day_df = df_reset.groupby("Ticker").last()
+                total_scanned = len(last_day_df)
+                above_sma20 = len(last_day_df[last_day_df["Close"] > last_day_df["SMA_20"]])
+                sma20_bull_pct = round((above_sma20 / total_scanned) * 100, 2) if total_scanned > 0 else 0.0
+
+                meta_data = {
+                    "last_run": current_time,
+                    "spy_price": spy_price,
+                    "spy_change": spy_change,
+                    "spy_history": spy_history,
+                    "vix_price": vix_price,
+                    "vix_change": vix_change,
+                    "sma20_bull_pct": sma20_bull_pct,
+                }
+
+                persist_market_metadata(meta_data, supabase)
         else:
             logger.error("No se descargaron datos históricos.")

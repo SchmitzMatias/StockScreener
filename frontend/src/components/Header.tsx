@@ -1,21 +1,31 @@
 /// <reference types="vite/client" />
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import logoImg from '../assets/logo.png';
 import clockImg from '../assets/clock.png';
-import metaData from '../../../data/meta.json';
 import SparkLine from './SparkLine';
+import { supabase } from '../lib/supabase';
 
-// 1. define interface
 interface MetricCardProps {
-    title: ReactNode,
-    value: ReactNode,
-    subText: string,
-    invertColors?: boolean,
-    children?: ReactNode,
+    title: ReactNode;
+    value: ReactNode;
+    subText: string;
+    invertColors?: boolean;
+    children?: ReactNode;
     className?: string;
 }
 
-// 2. de-estructure variables & type full object
+interface MarketMetadata {
+    id?: number;
+    last_run?: string | null;
+    updated_at?: string | null;
+    spy_price?: number | null;
+    spy_change?: number | null;
+    spy_history?: number[] | null;
+    vix_price?: number | null;
+    vix_change?: number | null;
+    sma20_bull_pct?: number | null;
+}
+
 const MetricCard = ({
     title,
     value,
@@ -36,7 +46,7 @@ const MetricCard = ({
     };
 
     return (
-        <div className={`bg-panel border border-slate-800 rounded-lg flex justify-around items-center shadow-sm ${className}`}>
+        <div className={`bg-panel border border-slate-800 rounded-lg flex justify-around items-center shadow-sm ${className || ''}`}>
             <div>
                 <span className='text-xl'>{title}</span>
                 <div className='text-2xl font-semibold'>{value}</div>
@@ -44,28 +54,91 @@ const MetricCard = ({
             </div>
             <div>{children}</div>
         </div>
-    )
-
-}
+    );
+};
 
 export default function Header() {
-    const spyChartData = metaData.spy_history.map(val => ({ value: val }));
-    const baseline = metaData.spy_history[0];
+    const [metaData, setMetaData] = useState<MarketMetadata | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const vixValue = parseFloat(String(metaData.vix_price));
-    let vixText = '';
-    let vixClasses = '';
+    useEffect(() => {
+        let isMounted = true;
 
-    if (vixValue < 15) {
-        vixText = 'Risk-On';
-        vixClasses = 'bg-emerald-500/10 text-emerald-500';
-    } else if (vixValue >= 15 && vixValue <= 20) {
-        vixText = 'Neutral';
-        vixClasses = 'bg-yellow-500/10 text-yellow-500';
-    } else {
-        vixText = 'Risk-Off';
-        vixClasses = 'bg-rose-500/10 text-rose-500';
+        async function fetchMetadata() {
+            setIsLoading(true);
+            try {
+                const { data, error } = await supabase
+                    .from('market_metadata')
+                    .select('*')
+                    .order('id', { ascending: true })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (error) {
+                    console.error('[Header] Error al consultar market_metadata:', error.message);
+                } else if (isMounted && data) {
+                    setMetaData(data as MarketMetadata);
+                }
+            } catch (err) {
+                console.error('[Header] Excepción inesperada consultando market_metadata:', err);
+            } finally {
+                if (isMounted) setIsLoading(false);
+            }
+        }
+
+        fetchMetadata();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const spyHistory = Array.isArray(metaData?.spy_history) ? metaData!.spy_history : [];
+    const spyChartData = spyHistory.map(val => ({ value: Number(val) }));
+    const baseline = spyChartData.length > 0 ? spyChartData[0].value : 0;
+
+    const spyPrice =
+        metaData?.spy_price != null
+            ? Number(metaData.spy_price)
+            : spyChartData.length > 0
+              ? spyChartData[spyChartData.length - 1].value
+              : null;
+    const spyChange = metaData?.spy_change != null ? Number(metaData.spy_change) : null;
+
+    const vixValue = metaData?.vix_price != null ? Number(metaData.vix_price) : null;
+    const vixChange = metaData?.vix_change != null ? Number(metaData.vix_change) : null;
+
+    let vixText = 'N/A';
+    let vixClasses = 'bg-slate-700/40 text-slate-400';
+
+    if (vixValue != null && !Number.isNaN(vixValue)) {
+        if (vixValue < 15) {
+            vixText = 'Risk-On';
+            vixClasses = 'bg-emerald-500/10 text-emerald-500';
+        } else if (vixValue >= 15 && vixValue <= 20) {
+            vixText = 'Neutral';
+            vixClasses = 'bg-yellow-500/10 text-yellow-500';
+        } else {
+            vixText = 'Risk-Off';
+            vixClasses = 'bg-rose-500/10 text-rose-500';
+        }
     }
+
+    const sma20BullPct = metaData?.sma20_bull_pct != null ? Number(metaData.sma20_bull_pct) : 0;
+
+    const formatLastRun = (raw?: string | null): [string, string] => {
+        if (!raw) return [isLoading ? 'Cargando...' : '-', ''];
+        if (raw.includes(' ')) {
+            const parts = raw.split(' ');
+            return [parts[0] || '-', parts[1] || ''];
+        }
+        if (raw.includes('T')) {
+            const [datePart, timePart] = raw.split('T');
+            return [datePart || '-', (timePart || '').slice(0, 5)];
+        }
+        return [raw, ''];
+    };
+
+    const [cronDate, cronTime] = formatLastRun(metaData?.last_run || metaData?.updated_at);
 
     return (
         <header className="grid grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
@@ -88,11 +161,17 @@ export default function Header() {
             <MetricCard
                 className="hidden lg:flex"
                 title="S&P 500(SPY)"
-                value={`${spyChartData[spyChartData.length - 1].value.toFixed(2)} pts`}
-                subText={`${metaData.spy_change >= 0 ? '+' : ''}${metaData.spy_change.toFixed(2)}%`}
+                value={spyPrice != null ? `${spyPrice.toFixed(2)} pts` : (isLoading ? '...' : '-')}
+                subText={spyChange != null ? `${spyChange >= 0 ? '+' : ''}${spyChange.toFixed(2)}%` : ''}
             >
                 <div className="w-40 h-20 text-accent">
-                    <SparkLine data={spyChartData} baseline={baseline} />
+                    {spyChartData.length > 0 ? (
+                        <SparkLine data={spyChartData} baseline={baseline} />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-xs text-slate-500">
+                            {isLoading ? 'Cargando...' : 'Sin historial'}
+                        </div>
+                    )}
                 </div>
             </MetricCard>
 
@@ -114,8 +193,8 @@ export default function Header() {
                         </div>
                     </div>
                 }
-                value={metaData.vix_price}
-                subText={`${metaData.vix_change >= 0 ? '+' : ''}${metaData.vix_change.toFixed(2)}%`}
+                value={vixValue != null ? vixValue.toFixed(2) : (isLoading ? '...' : '-')}
+                subText={vixChange != null ? `${vixChange >= 0 ? '+' : ''}${vixChange.toFixed(2)}%` : ''}
             >
                 <div className="mt-4">
                     <span className={`px-2 py-1 text-l font-semibold rounded ${vixClasses}`}>
@@ -127,14 +206,14 @@ export default function Header() {
             {/* Card 4 */}
             <MetricCard
                 title=""
-                value={`${metaData.sma20_bull_pct}% > SMA20`}
+                value={metaData?.sma20_bull_pct != null ? `${sma20BullPct}% > SMA20` : (isLoading ? '...' : '-')}
                 subText="Bullish participation"
             >
                 {/* Forzamos un ancho mínimo (min-w) y usamos block para evitar colapsos de flexbox */}
                 <div className="block w-full min-w-[150px] h-2 bg-slate-700 rounded-full mt-3 overflow-hidden">
                     <div
                         className="h-full bg-accent rounded-full transition-all duration-500"
-                        style={{ width: `${metaData.sma20_bull_pct}%` }}
+                        style={{ width: `${Math.min(100, Math.max(0, sma20BullPct))}%` }}
                     ></div>
                 </div>
             </MetricCard>
@@ -142,8 +221,8 @@ export default function Header() {
             {/* Card 5 */}
             <MetricCard
                 title="Cronjob"
-                value={metaData.last_run.split(' ')[0]}
-                subText={metaData.last_run.split(' ')[1]}
+                value={cronDate}
+                subText={cronTime}
             >
                 <div className='w-30 h-30 shrink-0 hidden lg:flex'>
                     <img
