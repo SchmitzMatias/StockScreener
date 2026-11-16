@@ -139,6 +139,15 @@ export const livePositionsColumns: ColumnDef<LivePosition>[] = [
     cell: (item) => <span className="font-bold text-gray-100">{item.ticker}</span>,
   },
   {
+    header: 'ENTRY DATE',
+    accessorKey: 'entry_date',
+    cell: (item) => (
+      <span className="text-slate-400">
+        {item.entry_date ? String(item.entry_date).slice(0, 10) : '-'}
+      </span>
+    ),
+  },
+  {
     header: 'ACTUAL ENTRY',
     accessorKey: 'entry_price',
     cell: (item) => (item.entry_price != null ? `$${Number(item.entry_price).toFixed(2)}` : '-'),
@@ -154,3 +163,59 @@ export const livePositionsColumns: ColumnDef<LivePosition>[] = [
     cell: (item) => (item.stop_loss != null ? `$${Number(item.stop_loss).toFixed(2)}` : '-'),
   },
 ];
+
+// ==========================================
+// 3. FACTORÍAS DE COLUMNAS INTERACTIVAS
+// ==========================================
+
+export function getTop5Columns(
+  onQuickAdd?: (candidate: Top5Candidate) => void
+): ColumnDef<Top5Candidate>[] {
+  if (!onQuickAdd) {
+    return top5Columns;
+  }
+
+  return [
+    ...top5Columns,
+    {
+      header: 'ACTION',
+      accessorKey: 'ticker',
+      cell: (item) => (
+        <button
+          type="button"
+          onClick={() => onQuickAdd(item)}
+          className="px-2 py-1 rounded bg-accent/15 hover:bg-accent/30 border border-accent/40 text-accent font-semibold text-[11px] transition-colors cursor-pointer whitespace-nowrap"
+          title={`Pre-cargar ${item.ticker} en Trading Journal`}
+        >
+          + Tomar
+        </button>
+      ),
+    },
+  ];
+}
+
+export function getLivePositionsColumns(
+  onCloseTrade?: (position: LivePosition) => void
+): ColumnDef<LivePosition>[] {
+  if (!onCloseTrade) {
+    return livePositionsColumns;
+  }
+
+  return [
+    ...livePositionsColumns,
+    {
+      header: 'ACTION',
+      accessorKey: 'ticker',
+      cell: (item) => (
+        <button
+          type="button"
+          onClick={() => onCloseTrade(item)}
+          className="px-2 py-1 rounded bg-danger/15 hover:bg-danger/30 border border-danger/40 text-danger font-semibold text-[11px] transition-colors cursor-pointer whitespace-nowrap"
+          title={`Cerrar posición de ${item.ticker}`}
+        >
+          Cerrar
+        </button>
+      ),
+    },
+  ];
+}

@@ -1,14 +1,16 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { Session } from '@supabase/supabase-js';
 import { DataTable } from './DataTable';
 import {
-    top5Columns,
     closedTradesColumns,
-    livePositionsColumns,
+    getTop5Columns,
+    getLivePositionsColumns,
     Top5Candidate,
     ClosedTrade,
-    LivePosition
+    LivePosition,
 } from './DashboardTables';
 import { TradeEntryForm } from './TradeEntryForm';
+import { CloseTradeModal } from './CloseTradeModal';
 import { supabase } from '../../lib/supabase';
 
 interface WidgetPanelProps {
@@ -70,78 +72,114 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+    const [session, setSession] = useState<Session | null>(null);
+    const [selectedCandidate, setSelectedCandidate] = useState<Top5Candidate | null>(null);
+    const [closingTrade, setClosingTrade] = useState<LivePosition | null>(null);
+    const [theoreticalTab, setTheoreticalTab] = useState<'CLOSED' | 'OPEN'>('CLOSED');
+
+    const isMountedRef = useRef(true);
+
     useEffect(() => {
-        let isMounted = true;
-
-        async function fetchDashboardData() {
-            setIsLoading(true);
-            setErrorMsg(null);
-
-            try {
-                const [candidatesRes, tradesRes] = await Promise.all([
-                    supabase
-                        .from('screener_candidates')
-                        .select('*')
-                        .order('created_at', { ascending: false })
-                        .order('score', { ascending: false })
-                        .limit(50),
-                    supabase
-                        .from('trades')
-                        .select('*')
-                        .order('entry_date', { ascending: false })
-                ]);
-
-                if (candidatesRes.error) {
-                    throw new Error(`screener_candidates: ${candidatesRes.error.message}`);
-                }
-                if (tradesRes.error) {
-                    throw new Error(`trades: ${tradesRes.error.message}`);
-                }
-
-                if (!isMounted) return;
-
-                // 1. Filtrar los candidatos de la fecha más reciente
-                const allCandidates = (candidatesRes.data || []) as Top5Candidate[];
-                if (allCandidates.length > 0) {
-                    const latestDate = allCandidates[0].created_at;
-                    const latestCandidates = allCandidates
-                        .filter(c => c.created_at === latestDate)
-                        .sort((a, b) => Number(b.score) - Number(a.score));
-                    setTop5Data(latestCandidates);
-                } else {
-                    setTop5Data([]);
-                }
-
-                // 2. Segregar trades por el flag booleano 'taken'
-                const allTrades = (tradesRes.data || []) as ClosedTrade[];
-                const theoretical = allTrades.filter(t => !t.taken);
-                const real = allTrades.filter(t => t.taken === true);
-
-                setMockTrades(theoretical);
-
-                setRealLivePositions(
-                    real.filter(t => t.status === 'OPEN' || (!t.status && t.exit_reason == null)) as LivePosition[]
-                );
-                setRealTradeHistory(
-                    real.filter(t => t.status === 'CLOSED' || t.exit_reason != null)
-                );
-            } catch (err: any) {
-                console.error('[Dashboard] Error cargando datos de Supabase:', err);
-                if (isMounted) {
-                    setErrorMsg(err?.message || 'Error al conectar con Supabase');
-                }
-            } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
-            }
-        }
-
-        fetchDashboardData();
+        isMountedRef.current = true;
         return () => {
-            isMounted = false;
+            isMountedRef.current = false;
         };
     }, []);
+
+    // Gestión de sesión de Operador Único en Supabase Auth
+    useEffect(() => {
+        let active = true;
+
+        supabase.auth.getSession().then(({ data }) => {
+            if (active) {
+                setSession(data.session ?? null);
+            }
+        });
+
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+            if (!active) return;
+            setSession(currentSession);
+            if (!currentSession) {
+                setSelectedCandidate(null);
+                setClosingTrade(null);
+            }
+        });
+
+        return () => {
+            active = false;
+            authListener.subscription.unsubscribe();
+        };
+    }, []);
+
+    const fetchDashboardData = useCallback(async () => {
+        setIsLoading(true);
+        setErrorMsg(null);
+
+        try {
+            const [candidatesRes, tradesRes] = await Promise.all([
+                supabase
+                    .from('screener_candidates')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .order('score', { ascending: false })
+                    .limit(50),
+                supabase
+                    .from('trades')
+                    .select('*')
+                    .order('entry_date', { ascending: false }),
+            ]);
+
+            if (candidatesRes.error) {
+                throw new Error(`screener_candidates: ${candidatesRes.error.message}`);
+            }
+            if (tradesRes.error) {
+                throw new Error(`trades: ${tradesRes.error.message}`);
+            }
+
+            if (!isMountedRef.current) return;
+
+            // 1. Filtrar los candidatos de la fecha más reciente
+            const allCandidates = (candidatesRes.data || []) as Top5Candidate[];
+            if (allCandidates.length > 0) {
+                const latestDate = allCandidates[0].created_at;
+                const latestCandidates = allCandidates
+                    .filter(c => c.created_at === latestDate)
+                    .sort((a, b) => Number(b.score) - Number(a.score));
+                setTop5Data(latestCandidates);
+            } else {
+                setTop5Data([]);
+            }
+
+            // 2. Segregar trades por el flag booleano 'taken'
+            const allTrades = (tradesRes.data || []) as ClosedTrade[];
+            const theoretical = allTrades.filter(t => !t.taken);
+            const real = allTrades.filter(t => t.taken === true);
+
+            setMockTrades(theoretical);
+
+            setRealLivePositions(
+                real.filter(
+                    t => t.status === 'OPEN' || (!t.status && t.exit_reason == null)
+                ) as LivePosition[]
+            );
+            setRealTradeHistory(
+                real.filter(t => t.status === 'CLOSED' || t.exit_reason != null)
+            );
+        } catch (err: any) {
+            console.error('[Dashboard] Error cargando datos de Supabase:', err);
+            if (isMountedRef.current) {
+                setErrorMsg(err?.message || 'Error al conectar con Supabase');
+            }
+        } finally {
+            if (isMountedRef.current) {
+                setIsLoading(false);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
 
     // Procesar Backtest (Theoretical Trades: taken = false)
     const closedTrades = mockTrades.filter(
@@ -174,7 +212,24 @@ export default function Dashboard() {
     const totalPnl = closedTrades.reduce((sum, trade) => sum + (Number(trade.pnl_percent) || 0), 0);
     const rrr = "1 : 0.85";
 
+    // Cálculos para el Footer de Real Portfolio (taken = true & status = 'CLOSED')
+    const realTotalClosed = realTradeHistory.length;
+    const realWins = realTradeHistory.filter(t => Number(t.pnl_percent) > 0).length;
+    const realWinRate = realTotalClosed > 0 ? (realWins / realTotalClosed) * 100 : 0;
+    const realTotalPnl = realTradeHistory.reduce(
+        (sum, trade) => sum + (Number(trade.pnl_percent) || 0),
+        0
+    );
+    const realAvgDays =
+        realTotalClosed > 0
+            ? Math.round(
+                  realTradeHistory.reduce((sum, t) => sum + (Number(t.days_held) || 0), 0) /
+                      realTotalClosed
+              )
+            : 0;
+
     const availableTickers = top5Data.map(t => t.ticker);
+    const isAuthenticated = Boolean(session);
 
     return (
         <div className="flex flex-col gap-3">
@@ -195,10 +250,22 @@ export default function Dashboard() {
                             subtitle={isLoading ? "Cargando candidatos..." : "Candidates from yesterday's close"}
                             icon="🔥"
                         >
-                            <DataTable columns={top5Columns} data={top5Data} />
+                            <DataTable
+                                columns={getTop5Columns(
+                                    isAuthenticated ? (cand) => setSelectedCandidate(cand) : undefined
+                                )}
+                                data={top5Data}
+                            />
                         </WidgetPanel>
                         <WidgetPanel title="Trading Journal" subtitle="Real trades log" icon="📝">
-                            <TradeEntryForm availableTickers={availableTickers} />
+                            <TradeEntryForm
+                                availableTickers={availableTickers}
+                                selectedCandidate={selectedCandidate}
+                                isAuthenticated={isAuthenticated}
+                                userEmail={session?.user?.email}
+                                onTradeCreated={fetchDashboardData}
+                                onClearSelectedCandidate={() => setSelectedCandidate(null)}
+                            />
                         </WidgetPanel>
                     </div>
                 </DashboardColumn>
@@ -213,8 +280,42 @@ export default function Dashboard() {
                             icon="📈"
                             className="flex-1 flex flex-col min-h-0"
                         >
-                            <DataTable columns={closedTradesColumns} data={theoricalData} />
-                            <div className="flex justify-between items-center bg-slate-900/50 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400 bg-slate-950/40">
+                            {/* Sub-tabs: Cerrados vs Abiertos */}
+                            <div className="flex items-center gap-1.5 py-2 border-b border-slate-800/70 mb-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setTheoreticalTab('CLOSED')}
+                                    className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                                        theoreticalTab === 'CLOSED'
+                                            ? 'bg-accent/15 text-accent border border-accent/30'
+                                            : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                                    }`}
+                                >
+                                    Cerrados (Historial) ({closedTrades.length})
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setTheoreticalTab('OPEN')}
+                                    className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                                        theoreticalTab === 'OPEN'
+                                            ? 'bg-accent/15 text-accent border border-accent/30'
+                                            : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                                    }`}
+                                >
+                                    Abiertos (En Curso) ({openCount})
+                                </button>
+                            </div>
+
+                            {theoreticalTab === 'CLOSED' ? (
+                                <DataTable columns={closedTradesColumns} data={theoricalData} />
+                            ) : (
+                                <DataTable
+                                    columns={getLivePositionsColumns()}
+                                    data={openTrades as LivePosition[]}
+                                />
+                            )}
+
+                            <div className="flex flex-wrap justify-between items-center gap-2 bg-slate-950/40 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400">
                                 <div>
                                     Win Rate: <span className={winRate > 50 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{winRate.toFixed(1)}%</span>
                                 </div>
@@ -244,7 +345,12 @@ export default function Dashboard() {
                             subtitle=""
                             icon="🌱"
                         >
-                            <DataTable columns={livePositionsColumns} data={realLivePositions} />
+                            <DataTable
+                                columns={getLivePositionsColumns(
+                                    isAuthenticated ? (pos) => setClosingTrade(pos) : undefined
+                                )}
+                                data={realLivePositions}
+                            />
                         </WidgetPanel>
                         <WidgetPanel
                             title="Trade History"
@@ -252,10 +358,30 @@ export default function Dashboard() {
                             icon="🎭"
                         >
                             <DataTable columns={closedTradesColumns} data={realTradeHistory} />
+                            <div className="flex flex-wrap justify-between items-center gap-2 bg-slate-950/40 p-2 border-t border-slate-800 rounded-b-lg text-xs text-slate-400">
+                                <div>
+                                    Win Rate: <span className={realWinRate > 50 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{realWinRate.toFixed(1)}%</span>
+                                </div>
+                                <div>
+                                    Cumulative PNL: <span className={realTotalPnl >= 0 ? 'text-accent font-semibold' : 'text-danger font-semibold'}>{realTotalPnl > 0 ? '+' : ''}{realTotalPnl.toFixed(2)}%</span>
+                                </div>
+                                <div>
+                                    Closed Trades: <span className="font-semibold text-slate-300">{realTotalClosed}</span>
+                                </div>
+                                <div>
+                                    Avg Days Held: <span className="font-semibold text-slate-300">{realAvgDays}</span>
+                                </div>
+                            </div>
                         </WidgetPanel>
                     </div>
                 </DashboardColumn>
             </div>
+
+            <CloseTradeModal
+                trade={closingTrade}
+                onClose={() => setClosingTrade(null)}
+                onTradeClosed={fetchDashboardData}
+            />
         </div>
     );
 }
