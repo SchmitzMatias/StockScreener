@@ -12,6 +12,7 @@ interface MetricCardProps {
     invertColors?: boolean;
     children?: ReactNode;
     className?: string;
+    subTextClassName?: string;
 }
 
 interface MarketMetadata {
@@ -20,7 +21,7 @@ interface MarketMetadata {
     updated_at?: string | null;
     spy_price?: number | null;
     spy_change?: number | null;
-    spy_history?: number[] | null;
+    spy_history?: number[] | string | null;
     vix_price?: number | null;
     vix_change?: number | null;
     sma20_bull_pct?: number | null;
@@ -32,7 +33,8 @@ const MetricCard = ({
     subText,
     invertColors,
     children,
-    className
+    className,
+    subTextClassName
 }: MetricCardProps) => {
 
     const getColorClass = (text: string) => {
@@ -46,13 +48,23 @@ const MetricCard = ({
     };
 
     return (
-        <div className={`bg-panel border border-slate-800 rounded-lg flex justify-around items-center shadow-sm ${className || ''}`}>
-            <div>
-                <span className='text-xl'>{title}</span>
-                <div className='text-2xl font-semibold'>{value}</div>
-                <div className={getColorClass(subText)}>{subText}</div>
+        <div className={`bg-panel border border-slate-800 rounded-lg flex flex-wrap justify-around items-center gap-1.5 2xl:gap-2 p-2 2xl:p-3 shadow-sm ${className || ''}`}>
+            <div className='min-w-0'>
+                {title && (
+                    <span className='block text-xs xl:text-sm 2xl:text-xl text-slate-300 leading-tight'>
+                        {title}
+                    </span>
+                )}
+                <div className='text-base xl:text-lg 2xl:text-2xl font-semibold leading-tight whitespace-nowrap'>
+                    {value}
+                </div>
+                {subText && (
+                    <div className={`text-xs 2xl:text-sm leading-tight ${getColorClass(subText)} ${subTextClassName || ''}`}>
+                        {subText}
+                    </div>
+                )}
             </div>
-            <div>{children}</div>
+            {children && <div className='shrink-0'>{children}</div>}
         </div>
     );
 };
@@ -92,8 +104,21 @@ export default function Header() {
         };
     }, []);
 
-    const spyHistory = Array.isArray(metaData?.spy_history) ? metaData!.spy_history : [];
-    const spyChartData = spyHistory.map(val => ({ value: Number(val) }));
+    const parseSpyHistory = (raw?: number[] | string | null): number[] => {
+        let parsed: unknown = raw;
+        if (typeof raw === 'string') {
+            try {
+                parsed = JSON.parse(raw);
+            } catch {
+                return [];
+            }
+        }
+        if (!Array.isArray(parsed)) return [];
+        return parsed.map(Number).filter((val) => Number.isFinite(val));
+    };
+
+    const spyHistory = parseSpyHistory(metaData?.spy_history);
+    const spyChartData = spyHistory.map(val => ({ value: val }));
     const baseline = spyChartData.length > 0 ? spyChartData[0].value : 0;
 
     const spyPrice =
@@ -141,30 +166,35 @@ export default function Header() {
     const [cronDate, cronTime] = formatLastRun(metaData?.last_run || metaData?.updated_at);
 
     return (
-        <header className="grid grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
+        <header className="grid grid-cols-3 lg:grid-cols-5 gap-2 2xl:gap-3 mb-2 2xl:mb-3 shrink-0">
             {/* Card 1 */}
-            <div className="border border-slate-800 bg-panel flex rounded-lg items-center">
-                <div className='w-30 h-30 shrink-0'>
+            <div className="border border-slate-800 bg-panel flex rounded-lg items-center p-2 2xl:p-3">
+                <div className='w-11 h-11 xl:w-14 xl:h-14 2xl:w-24 2xl:h-24 shrink-0'>
                     <img
                         src={logoImg}
                         alt="Logo"
                         className="w-full h-full object-contain"
                     />
                 </div>
-                <div className='hidden lg:block ml-3'>
-                    <h1 className='text-3xl font-bold'> Stock Screener</h1>
-                    <p>Swing trading dashboard</p>
+                <div className='hidden lg:block ml-2 2xl:ml-3 min-w-0'>
+                    <h1 className='text-base xl:text-xl 2xl:text-2xl font-bold leading-tight whitespace-nowrap'>Stock Screener</h1>
+                    <p className='hidden xl:block text-xs 2xl:text-sm text-slate-400 leading-tight'>Swing trading dashboard</p>
                 </div>
             </div>
 
             {/* Card 2 */}
             <MetricCard
                 className="hidden lg:flex"
-                title="S&P 500(SPY)"
+                title={
+                    <>
+                        <span className="2xl:hidden">SPY</span>
+                        <span className="hidden 2xl:inline">S&amp;P 500 (SPY)</span>
+                    </>
+                }
                 value={spyPrice != null ? `${spyPrice.toFixed(2)} pts` : (isLoading ? '...' : '-')}
                 subText={spyChange != null ? `${spyChange >= 0 ? '+' : ''}${spyChange.toFixed(2)}%` : ''}
             >
-                <div className="w-40 h-20 text-accent">
+                <div className="w-24 h-12 xl:w-28 xl:h-14 2xl:w-40 2xl:h-20 text-accent">
                     {spyChartData.length > 0 ? (
                         <SparkLine data={spyChartData} baseline={baseline} />
                     ) : (
@@ -177,13 +207,17 @@ export default function Header() {
 
             {/* Card 3 */}
             <MetricCard
+                invertColors
                 title={
-                    <div className="flex items-center gap-2 relative group cursor-help w-max">
-                        <span className="text-gray-400 text-sm">Volatility Index</span>
-                        <div className="text-gray-500 text-[10px] border border-gray-600 rounded-full w-4 h-4 flex items-center justify-center font-bold hover:bg-gray-700 transition-colors">?</div>
+                    <div className="flex items-center gap-1.5 relative group cursor-help w-max">
+                        <span className="text-gray-400 text-xs xl:text-sm">
+                            <span className="2xl:hidden">VIX</span>
+                            <span className="hidden 2xl:inline">Volatility Index</span>
+                        </span>
+                        <div className="hidden xl:flex text-gray-500 text-[10px] border border-gray-600 rounded-full w-4 h-4 items-center justify-center font-bold hover:bg-gray-700 transition-colors">?</div>
 
                         {/* Tooltip oculto que aparece en hover */}
-                        <div className="absolute top-6 left-0 w-64 p-3 bg-[#1e293b] border border-slate-700 rounded-lg shadow-xl text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none">
+                        <div className="hidden xl:block absolute top-6 left-0 w-64 p-3 bg-[#1e293b] border border-slate-700 rounded-lg shadow-xl text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none">
                             <p className="font-bold text-white mb-2">VIX Regimes:</p>
                             <ul className="space-y-1.5">
                                 <li><span className="text-emerald-400 font-bold">&lt; 15:</span> Risk-On. Low volatility, swing setups favored.</li>
@@ -196,8 +230,8 @@ export default function Header() {
                 value={vixValue != null ? vixValue.toFixed(2) : (isLoading ? '...' : '-')}
                 subText={vixChange != null ? `${vixChange >= 0 ? '+' : ''}${vixChange.toFixed(2)}%` : ''}
             >
-                <div className="mt-4">
-                    <span className={`px-2 py-1 text-l font-semibold rounded ${vixClasses}`}>
+                <div className="mt-1 2xl:mt-4">
+                    <span className={`px-2 py-0.5 2xl:py-1 text-xs xl:text-sm font-semibold rounded whitespace-nowrap ${vixClasses}`}>
                         {vixText}
                     </span>
                 </div>
@@ -208,9 +242,10 @@ export default function Header() {
                 title=""
                 value={metaData?.sma20_bull_pct != null ? `${sma20BullPct}% > SMA20` : (isLoading ? '...' : '-')}
                 subText="Bullish participation"
+                subTextClassName="hidden xl:block"
             >
                 {/* Forzamos un ancho mínimo (min-w) y usamos block para evitar colapsos de flexbox */}
-                <div className="block w-full min-w-[150px] h-2 bg-slate-700 rounded-full mt-3 overflow-hidden">
+                <div className="block w-full min-w-[90px] xl:min-w-[120px] 2xl:min-w-[150px] h-2 bg-slate-700 rounded-full mt-1.5 2xl:mt-3 overflow-hidden">
                     <div
                         className="h-full bg-accent rounded-full transition-all duration-500"
                         style={{ width: `${Math.min(100, Math.max(0, sma20BullPct))}%` }}
@@ -220,11 +255,19 @@ export default function Header() {
 
             {/* Card 5 */}
             <MetricCard
-                title="Cronjob"
-                value={cronDate}
+                title={<span className="hidden xl:inline">Cronjob</span>}
+                value={
+                    <>
+                        <span className="2xl:hidden">
+                            {cronTime ? `${cronDate} ${cronTime}` : cronDate}
+                        </span>
+                        <span className="hidden 2xl:inline">{cronDate}</span>
+                    </>
+                }
                 subText={cronTime}
+                subTextClassName="hidden 2xl:block"
             >
-                <div className='w-30 h-30 shrink-0 hidden lg:flex'>
+                <div className='hidden xl:flex xl:w-12 xl:h-12 2xl:w-20 2xl:h-20 shrink-0'>
                     <img
                         src={clockImg}
                         alt="cronClock"

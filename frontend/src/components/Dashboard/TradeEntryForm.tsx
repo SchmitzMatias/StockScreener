@@ -172,7 +172,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
 
     if (!isAuthenticated) {
         return (
-            <form onSubmit={handleLogin} className="flex flex-col gap-2.5 text-slate-300 text-xs pt-2">
+            <form onSubmit={handleLogin} className="flex flex-col gap-2.5 text-slate-300 text-xs pt-2 md:flex-1 md:min-h-0 md:overflow-y-auto md:pr-1">
                 <div className="flex items-start gap-2 rounded bg-slate-900/60 border border-slate-800 p-2 text-slate-400">
                     <Lock className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-400" />
                     <span>
@@ -230,7 +230,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 text-slate-300 text-xs pt-2">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 text-slate-300 text-xs pt-2 md:flex-1 md:min-h-0 md:overflow-y-auto md:pr-1">
             {/* Cabecera discreta de sesión activa */}
             <div className="flex items-center justify-between bg-slate-900/60 border border-slate-800 rounded px-2 py-1 text-[11px]">
                 <span className="text-slate-400 truncate" title={userEmail || 'Operador activo'}>

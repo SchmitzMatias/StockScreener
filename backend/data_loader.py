@@ -433,11 +433,12 @@ def persist_market_metadata(
         "sma20_bull_pct": meta_data.get("sma20_bull_pct"),
         "spy_price": meta_data.get("spy_price"),
         "spy_change": meta_data.get("spy_change"),
+        "spy_history": meta_data.get("spy_history", []),
     }
     full_payload = sanitize_for_db({
         **base_payload,
         "last_run": meta_data.get("last_run"),
-        "spy_history": meta_data.get("spy_history", []),
+        "updated_at": datetime.now().isoformat(),
     })
 
     try:
@@ -445,7 +446,7 @@ def persist_market_metadata(
         logger.info("Metadata macro actualizada exitosamente en Supabase (market_metadata id=1).")
         return full_payload
     except Exception as e:
-        if "PGRST204" in str(e) or "last_run" in str(e) or "spy_history" in str(e):
+        if "PGRST204" in str(e) or "last_run" in str(e):
             fallback_payload = sanitize_for_db({
                 **base_payload,
                 "updated_at": datetime.now().isoformat(),
