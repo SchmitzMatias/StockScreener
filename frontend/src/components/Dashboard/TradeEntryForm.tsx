@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Lock, LogOut, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import { Top5Candidate } from './DashboardTables';
+import { StrategyType, Top5Candidate } from './DashboardTables';
 
 interface TradeEntryFormProps {
+    activeStrategy: StrategyType;
     availableTickers: string[];
     selectedCandidate?: Top5Candidate | null;
     isAuthenticated?: boolean;
@@ -15,6 +16,7 @@ interface TradeEntryFormProps {
 const getTodayISO = () => new Date().toISOString().slice(0, 10);
 
 export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
+    activeStrategy,
     availableTickers,
     selectedCandidate = null,
     isAuthenticated = false,
@@ -30,7 +32,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
 
     // Estados del formulario de apertura (trades reales: taken = true)
     const [ticker, setTicker] = useState('');
-    const [strategy, setStrategy] = useState('kotegawa');
+    const [strategy, setStrategy] = useState<StrategyType>(activeStrategy);
     const [entryDate, setEntryDate] = useState(getTodayISO);
     const [entryPrice, setEntryPrice] = useState('');
     const [target, setTarget] = useState('');
@@ -43,12 +45,20 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
 
     const entryPriceInputRef = useRef<HTMLInputElement>(null);
 
+    // Sincronizar estrategia activa cuando cambia el selector global
+    useEffect(() => {
+        setStrategy(activeStrategy);
+        setTarget('');
+        setSubmitError(null);
+        setSubmitSuccess(null);
+    }, [activeStrategy]);
+
     // Quick-Add: copia literal desde el candidato del screener sin recalcular SL/TP (Invariante #4)
     useEffect(() => {
         if (!selectedCandidate) return;
 
         setTicker(selectedCandidate.ticker || '');
-        setStrategy(selectedCandidate.strategy || 'kotegawa');
+        setStrategy((selectedCandidate.strategy as StrategyType) || activeStrategy);
         setEntryPrice(
             selectedCandidate.close_price != null ? String(selectedCandidate.close_price) : ''
         );
@@ -62,7 +72,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
         requestAnimationFrame(() => {
             entryPriceInputRef.current?.focus();
         });
-    }, [selectedCandidate]);
+    }, [selectedCandidate, activeStrategy]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,8 +108,10 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
 
         const cleanTicker = ticker.trim().toUpperCase();
         const entryNum = Number(entryPrice);
-        const targetNum = Number(target);
+        const targetTrimmed = target.trim();
+        const targetNum = targetTrimmed !== '' ? Number(targetTrimmed) : null;
         const stopLossNum = Number(stopLoss);
+        const isTurtle = strategy === 'turtle';
 
         if (!cleanTicker) {
             setSubmitError('El ticker es obligatorio.');
@@ -109,27 +121,74 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
             setSubmitError('La fecha de entrada es obligatoria.');
             return;
         }
-        if (
-            !Number.isFinite(entryNum) ||
-            entryNum <= 0 ||
-            !Number.isFinite(targetNum) ||
-            targetNum <= 0 ||
-            !Number.isFinite(stopLossNum) ||
-            stopLossNum <= 0
-        ) {
-            setSubmitError('Entry Price, Target y Stop Loss deben ser valores numéricos mayores a 0.');
+        if (!Number.isFinite(entryNum) || entryNum <= 0 || !Number.isFinite(stopLossNum) || stopLossNum <= 0) {
+            setSubmitError('Entry Price y Stop Loss deben ser valores numéricos mayores a 0.');
             return;
         }
+        if (!isTurtle && (targetNum == null || !Number.isFinite(targetNum) || targetNum <= 0)) {
+            setSubmitError('Target debe ser un valor numérico mayor a 0.');
+            return;
+        }
+        if (isTurtle && targetNum != null && (!Number.isFinite(targetNum) || targetNum <= 0)) {
+            setSubmitError('Si ingresas un Target opcional, debe ser mayor a 0.');
+            return;
+        }
+
+        const buildStrategyProps = (): Record<string, any> => {
+            const baseNotes = notes.trim() ? { notes: notes.trim() } : {};
+            if (!isTurtle) {
+                return baseNotes;
+            }
+
+            const entryRounded = Number(entryNum.toFixed(2));
+            const stopRounded = Number(stopLossNum.toFixed(2));
+            const candProps = selectedCandidate?.strategy_props;
+            const nFromCandidate = candProps?.n_value != null ? Number(candProps.n_value) : null;
+            const nInferred =
+                nFromCandidate != null && Number.isFinite(nFromCandidate) && nFromCandidate > 0
+                    ? nFromCandidate
+                    : entryNum > stopLossNum
+                      ? Number(((entryNum - stopLossNum) / 2).toFixed(2))
+                      : null;
+
+            const stop2n =
+                nInferred != null
+                    ? Number((entryRounded - 2.0 * nInferred).toFixed(2))
+                    : stopRounded;
+            const trailingStop10d =
+                candProps?.donchian_low_10 != null
+                    ? Number(candProps.donchian_low_10)
+                    : stopRounded;
+            const nextPyramidPrice =
+                nInferred != null
+                    ? Number((entryRounded + 0.5 * nInferred).toFixed(2))
+                    : null;
+
+            return {
+                ...baseNotes,
+                n_at_entry: nInferred,
+                initial_entry_price: entryRounded,
+                units: 1,
+                max_units: 4,
+                unit_fills: [entryRounded],
+                stop_2n: stop2n,
+                trailing_stop_10d: trailingStop10d,
+                next_pyramid_price: nextPyramidPrice,
+                ...(candProps?.donchian_high_20 != null
+                    ? { donchian_high_20_entry: Number(candProps.donchian_high_20) }
+                    : {}),
+            };
+        };
 
         setIsSubmitting(true);
         try {
             const payload = {
                 ticker: cleanTicker,
-                strategy: strategy || 'kotegawa',
+                strategy: strategy || activeStrategy,
                 taken: true,
                 entry_date: entryDate,
                 entry_price: Number(entryNum.toFixed(2)),
-                target: Number(targetNum.toFixed(2)),
+                target: targetNum != null ? Number(targetNum.toFixed(2)) : null,
                 stop_loss: Number(stopLossNum.toFixed(2)),
                 status: 'OPEN',
                 exit_date: null,
@@ -137,7 +196,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
                 exit_reason: null,
                 pnl_percent: null,
                 days_held: null,
-                strategy_props: notes.trim() ? { notes: notes.trim() } : {},
+                strategy_props: buildStrategyProps(),
             };
 
             const { error } = await supabase.from('trades').insert(payload);
@@ -154,7 +213,7 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
             }
 
             setTicker('');
-            setStrategy('kotegawa');
+            setStrategy(activeStrategy);
             setEntryDate(getTodayISO());
             setEntryPrice('');
             setTarget('');
@@ -333,17 +392,17 @@ export const TradeEntryForm: React.FC<TradeEntryFormProps> = ({
             <div className="grid grid-cols-2 gap-2">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="trade-target" className="text-slate-400 font-medium">
-                        Target
+                        {strategy === 'turtle' ? 'Target (Opcional)' : 'Target'}
                     </label>
                     <input
                         id="trade-target"
                         type="number"
                         step="0.01"
                         min="0.01"
-                        required
+                        required={strategy !== 'turtle'}
                         value={target}
                         onChange={(e) => setTarget(e.target.value)}
-                        placeholder="0.00"
+                        placeholder={strategy === 'turtle' ? 'N/A (Trailing Stop)' : '0.00'}
                         className="bg-slate-900/50 border border-slate-700 rounded p-1.5 text-slate-100 focus:ring-1 focus:ring-accent focus:outline-none placeholder:text-slate-600"
                     />
                 </div>

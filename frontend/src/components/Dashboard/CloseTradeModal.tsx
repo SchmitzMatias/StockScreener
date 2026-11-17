@@ -9,7 +9,7 @@ interface CloseTradeModalProps {
     onTradeClosed: () => void;
 }
 
-type ExitReason = 'TP' | 'SL' | 'MANUAL' | 'TIME_STOP';
+type ExitReason = 'TP' | 'SL' | 'TRAILING_STOP' | 'MANUAL' | 'TIME_STOP';
 
 const getTodayISO = () => new Date().toISOString().slice(0, 10);
 
@@ -29,7 +29,7 @@ export const CloseTradeModal: React.FC<CloseTradeModalProps> = ({
         if (!trade) return;
         setExitPrice('');
         setExitDate(getTodayISO());
-        setExitReason('TP');
+        setExitReason(trade.strategy === 'turtle' ? 'TRAILING_STOP' : 'TP');
         setExitNotes('');
         setErrorMsg(null);
     }, [trade]);
@@ -221,6 +221,7 @@ export const CloseTradeModal: React.FC<CloseTradeModalProps> = ({
                             className="bg-slate-900/50 border border-slate-700 rounded p-1.5 text-slate-100 focus:ring-1 focus:ring-accent focus:outline-none"
                         >
                             <option value="TP">TP — Take Profit</option>
+                            <option value="TRAILING_STOP">TRAILING_STOP — Trailing Stop (10d / 2N)</option>
                             <option value="SL">SL — Stop Loss</option>
                             <option value="MANUAL">MANUAL — Cierre Manual</option>
                             <option value="TIME_STOP">TIME_STOP — Time Stop</option>

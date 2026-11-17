@@ -4,6 +4,12 @@ import logoImg from '../assets/logo.png';
 import clockImg from '../assets/clock.png';
 import SparkLine from './SparkLine';
 import { supabase } from '../lib/supabase';
+import { StrategyType } from './Dashboard/DashboardTables';
+
+interface HeaderProps {
+    activeStrategy: StrategyType;
+    onStrategyChange: (strategy: StrategyType) => void;
+}
 
 interface MetricCardProps {
     title: ReactNode;
@@ -69,7 +75,7 @@ const MetricCard = ({
     );
 };
 
-export default function Header() {
+export default function Header({ activeStrategy, onStrategyChange }: HeaderProps) {
     const [metaData, setMetaData] = useState<MarketMetadata | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -168,17 +174,49 @@ export default function Header() {
     return (
         <header className="grid grid-cols-3 lg:grid-cols-5 gap-2 2xl:gap-3 mb-2 2xl:mb-3 shrink-0">
             {/* Card 1 */}
-            <div className="border border-slate-800 bg-panel flex rounded-lg items-center p-2 2xl:p-3">
-                <div className='w-11 h-11 xl:w-14 xl:h-14 2xl:w-24 2xl:h-24 shrink-0'>
+            <div className="border border-slate-800 bg-panel flex rounded-lg items-center justify-between lg:justify-start gap-2 p-2 2xl:p-3">
+                <div className='w-10 h-10 xl:w-14 xl:h-14 2xl:w-20 2xl:h-20 shrink-0'>
                     <img
                         src={logoImg}
                         alt="Logo"
                         className="w-full h-full object-contain"
                     />
                 </div>
-                <div className='hidden lg:block ml-2 2xl:ml-3 min-w-0'>
-                    <h1 className='text-base xl:text-xl 2xl:text-2xl font-bold leading-tight whitespace-nowrap'>Stock Screener</h1>
-                    <p className='hidden xl:block text-xs 2xl:text-sm text-slate-400 leading-tight'>Swing trading dashboard</p>
+                <div className='flex flex-col gap-1 min-w-0'>
+                    <div className='hidden lg:block min-w-0'>
+                        <h1 className='text-base xl:text-lg 2xl:text-2xl font-bold leading-tight whitespace-nowrap'>Stock Screener</h1>
+                        <p className='hidden xl:block text-[11px] 2xl:text-sm text-slate-400 leading-tight truncate'>
+                            {activeStrategy === 'turtle' ? 'Trend Following (Turtle)' : 'Mean Reversion (Kotegawa)'}
+                        </p>
+                    </div>
+                    <div
+                        className="inline-flex items-center rounded-md bg-slate-900/80 border border-slate-700/80 p-0.5 w-fit"
+                        role="group"
+                        aria-label="Selector de estrategia"
+                    >
+                        <button
+                            type="button"
+                            onClick={() => onStrategyChange('kotegawa')}
+                            className={`px-1.5 py-0.5 xl:px-2 text-[10px] xl:text-[11px] font-semibold rounded transition-colors cursor-pointer whitespace-nowrap ${
+                                activeStrategy === 'kotegawa'
+                                    ? 'bg-accent/20 text-accent border border-accent/40'
+                                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                            }`}
+                        >
+                            Kotegawa
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => onStrategyChange('turtle')}
+                            className={`px-1.5 py-0.5 xl:px-2 text-[10px] xl:text-[11px] font-semibold rounded transition-colors cursor-pointer whitespace-nowrap ${
+                                activeStrategy === 'turtle'
+                                    ? 'bg-accent/20 text-accent border border-accent/40'
+                                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                            }`}
+                        >
+                            Turtle
+                        </button>
+                    </div>
                 </div>
             </div>
 

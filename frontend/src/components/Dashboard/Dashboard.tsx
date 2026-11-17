@@ -5,12 +5,14 @@ import {
     closedTradesColumns,
     getTop5Columns,
     getLivePositionsColumns,
+    StrategyType,
     Top5Candidate,
     ClosedTrade,
     LivePosition,
 } from './DashboardTables';
 import { TradeEntryForm } from './TradeEntryForm';
 import { CloseTradeModal } from './CloseTradeModal';
+import { PyramidTradeModal } from './PyramidTradeModal';
 import { supabase } from '../../lib/supabase';
 
 interface WidgetPanelProps {
@@ -42,7 +44,11 @@ const WidgetPanel = ({
     );
 };
 
-export default function Dashboard() {
+interface DashboardProps {
+    activeStrategy: StrategyType;
+}
+
+export default function Dashboard({ activeStrategy }: DashboardProps) {
     const [top5Data, setTop5Data] = useState<Top5Candidate[]>([]);
     const [mockTrades, setMockTrades] = useState<ClosedTrade[]>([]);
     const [realLivePositions, setRealLivePositions] = useState<LivePosition[]>([]);
@@ -53,6 +59,7 @@ export default function Dashboard() {
     const [session, setSession] = useState<Session | null>(null);
     const [selectedCandidate, setSelectedCandidate] = useState<Top5Candidate | null>(null);
     const [closingTrade, setClosingTrade] = useState<LivePosition | null>(null);
+    const [pyramidingTrade, setPyramidingTrade] = useState<LivePosition | null>(null);
     const [theoreticalTab, setTheoreticalTab] = useState<'CLOSED' | 'OPEN'>('CLOSED');
 
     const isMountedRef = useRef(true);
@@ -80,6 +87,7 @@ export default function Dashboard() {
             if (!currentSession) {
                 setSelectedCandidate(null);
                 setClosingTrade(null);
+                setPyramidingTrade(null);
             }
         });
 
@@ -98,12 +106,14 @@ export default function Dashboard() {
                 supabase
                     .from('screener_candidates')
                     .select('*')
+                    .eq('strategy', activeStrategy)
                     .order('created_at', { ascending: false })
                     .order('score', { ascending: false })
                     .limit(50),
                 supabase
                     .from('trades')
                     .select('*')
+                    .eq('strategy', activeStrategy)
                     .order('entry_date', { ascending: false }),
             ]);
 
@@ -153,7 +163,13 @@ export default function Dashboard() {
                 setIsLoading(false);
             }
         }
-    }, []);
+    }, [activeStrategy]);
+
+    useEffect(() => {
+        setSelectedCandidate(null);
+        setClosingTrade(null);
+        setPyramidingTrade(null);
+    }, [activeStrategy]);
 
     useEffect(() => {
         fetchDashboardData();
@@ -185,10 +201,10 @@ export default function Dashboard() {
     const avgDaysOpen = openCount > 0 ? Math.round(totalDaysOpen / openCount) : 0;
 
     const totalTrades = closedTrades.length;
-    const winTrades = closedTrades.filter(t => t.exit_reason === 'TP').length;
+    const winTrades = closedTrades.filter(t => Number(t.pnl_percent) > 0).length;
     const winRate = totalTrades > 0 ? (winTrades / totalTrades) * 100 : 0;
     const totalPnl = closedTrades.reduce((sum, trade) => sum + (Number(trade.pnl_percent) || 0), 0);
-    const rrr = "1 : 0.85";
+    const rrr = activeStrategy === 'turtle' ? '-' : '1 : 0.85';
 
     // Cálculos para el Footer de Real Portfolio (taken = true & status = 'CLOSED')
     const realTotalClosed = realTradeHistory.length;
@@ -227,6 +243,7 @@ export default function Dashboard() {
                     >
                         <DataTable
                             columns={getTop5Columns(
+                                activeStrategy,
                                 isAuthenticated ? (cand) => setSelectedCandidate(cand) : undefined
                             )}
                             data={top5Data}
@@ -239,6 +256,7 @@ export default function Dashboard() {
                         className="md:flex-1 md:min-h-0"
                     >
                         <TradeEntryForm
+                            activeStrategy={activeStrategy}
                             availableTickers={availableTickers}
                             selectedCandidate={selectedCandidate}
                             isAuthenticated={isAuthenticated}
@@ -285,7 +303,7 @@ export default function Dashboard() {
                             <DataTable columns={closedTradesColumns} data={theoricalData} />
                         ) : (
                             <DataTable
-                                columns={getLivePositionsColumns()}
+                                columns={getLivePositionsColumns(activeStrategy)}
                                 data={openTrades as LivePosition[]}
                             />
                         )}
@@ -318,7 +336,9 @@ export default function Dashboard() {
                     >
                         <DataTable
                             columns={getLivePositionsColumns(
-                                isAuthenticated ? (pos) => setClosingTrade(pos) : undefined
+                                activeStrategy,
+                                isAuthenticated ? (pos) => setClosingTrade(pos) : undefined,
+                                isAuthenticated ? (pos) => setPyramidingTrade(pos) : undefined
                             )}
                             data={realLivePositions}
                         />
@@ -352,6 +372,12 @@ export default function Dashboard() {
                 trade={closingTrade}
                 onClose={() => setClosingTrade(null)}
                 onTradeClosed={fetchDashboardData}
+            />
+
+            <PyramidTradeModal
+                trade={pyramidingTrade}
+                onClose={() => setPyramidingTrade(null)}
+                onTradePyramided={fetchDashboardData}
             />
         </div>
     );
