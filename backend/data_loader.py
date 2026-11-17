@@ -208,11 +208,38 @@ def get_ticker_fundamentals(ticker: str) -> Dict[str, Any]:
         
     return result
 
+MAX_OPEN_POSITIONS_PER_STRATEGY = 5
+ENABLED_STRATEGIES = ["kotegawa", "turtle"]
+
+
+def normalize_kotegawa_candidates(raw_candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Convierte la salida del scoring_engine de Kotegawa al contrato unificado multi-estrategia."""
+    normalized = []
+    for c in raw_candidates:
+        normalized.append({
+            "ticker": c.get("Ticker"),
+            "close_price": c.get("Price"),
+            "score": c.get("Bounce_Score"),
+            "target": c.get("Target_FrontRun"),
+            "stop_loss": c.get("Stop_Loss_Sugerido"),
+            "strategy_props": {
+                "rsi": c.get("RSI"),
+                "z_score": c.get("Z-Score"),
+                "atr_14": c.get("ATR_14"),
+            },
+        })
+    return normalized
+
+
 def evaluate_open_trades(supabase_client: Optional[Client] = None) -> List[Dict[str, Any]]:
     """
-    Consulta los trades teóricos abiertos (status == 'OPEN' y taken == False) en Supabase,
-    verifica el precio High/Low de la rueda de hoy con yfinance y actualiza a 'CLOSED'
-    en la tabla 'trades' si alcanza el SL o TP.
+    Evalúa los trades teóricos abiertos (status == 'OPEN' y taken == False) en Supabase:
+    - 'kotegawa': Cierra por SL fijo o TP fijo (RRR 1:0.85).
+    - 'turtle':
+        1) Descarga ventana '1mo' para calcular Donchian Low 10d y evalúa cierre por
+           Stop 2N ('SL') o Trailing Stop 10d ('TRAILING_STOP').
+        2) Si sobrevive, evalúa piramidación (+0.5N hasta máx 4 unidades) actualizando
+           entry_price promedio ponderado, stop_loss y strategy_props en la misma fila.
     """
     client = supabase_client or get_supabase_client()
     today_str = datetime.now().strftime("%Y-%m-%d")
@@ -235,37 +262,111 @@ def evaluate_open_trades(supabase_client: Optional[Client] = None) -> List[Dict[
 
     for trade in open_trades:
         ticker = trade.get("ticker")
+        strategy = trade.get("strategy", "kotegawa")
         if not ticker:
+            continue
+
+        entry_date_raw = str(trade.get("entry_date", today_str))[:10]
+        if entry_date_raw == today_str:
             continue
 
         try:
             ticker_obj = yf.Ticker(ticker)
-            data = ticker_obj.history(period="1d")
+            history_period = "1mo" if strategy == "turtle" else "1d"
+            data = ticker_obj.history(period=history_period)
             if data.empty:
                 continue
 
-            low = float(data["Low"].to_numpy().flatten()[-1])
-            high = float(data["High"].to_numpy().flatten()[-1])
+            low_today = float(data["Low"].to_numpy().flatten()[-1])
+            high_today = float(data["High"].to_numpy().flatten()[-1])
 
             entry_price = float(trade["entry_price"])
             stop_loss = float(trade["stop_loss"])
-            target = float(trade["target"])
+            target = float(trade["target"]) if trade.get("target") is not None else None
+            props = dict(trade.get("strategy_props") or {})
 
             exit_reason = None
             exit_price = None
 
-            if low <= stop_loss:
-                exit_reason = "SL"
-                exit_price = round(stop_loss, 2)
-            elif high >= target:
-                exit_reason = "TP"
-                exit_price = round(target, 2)
+            if strategy == "kotegawa":
+                if low_today <= stop_loss:
+                    exit_reason = "SL"
+                    exit_price = round(stop_loss, 2)
+                elif target is not None and high_today >= target:
+                    exit_reason = "TP"
+                    exit_price = round(target, 2)
+
+            elif strategy == "turtle":
+                low_series = pd.Series(data["Low"].to_numpy().flatten(), dtype=float)
+                low_10_series = low_series.shift(1).rolling(window=10).min()
+                donchian_low_10 = (
+                    round(float(low_10_series.iloc[-1]), 2)
+                    if len(low_10_series) >= 11 and not pd.isna(low_10_series.iloc[-1])
+                    else round(float(props.get("trailing_stop_10d", stop_loss)), 2)
+                )
+
+                stop_2n = float(props.get("stop_2n", stop_loss))
+                effective_stop = max(stop_2n, donchian_low_10)
+
+                if low_today <= effective_stop:
+                    if donchian_low_10 >= stop_2n and low_today <= donchian_low_10:
+                        exit_reason = "TRAILING_STOP"
+                        exit_price = round(donchian_low_10, 2)
+                    else:
+                        exit_reason = "SL"
+                        exit_price = round(stop_2n, 2)
+                else:
+                    units = int(props.get("units", 1))
+                    max_units = int(props.get("max_units", 4))
+                    n_entry = float(props.get("n_at_entry", 0.0))
+                    next_pyramid = props.get("next_pyramid_price")
+                    unit_fills = list(props.get("unit_fills", [entry_price]))
+
+                    pyramided = False
+                    while (
+                        units < max_units
+                        and n_entry > 0
+                        and next_pyramid is not None
+                        and high_today >= float(next_pyramid)
+                    ):
+                        fill_price = round(float(next_pyramid), 2)
+                        entry_price = round(((entry_price * units) + fill_price) / (units + 1), 2)
+                        units += 1
+                        unit_fills.append(fill_price)
+                        stop_2n = round(fill_price - (2.0 * n_entry), 2)
+                        next_pyramid = (
+                            round(fill_price + (0.5 * n_entry), 2)
+                            if units < max_units
+                            else None
+                        )
+                        pyramided = True
+
+                    new_effective_stop = round(max(stop_2n, donchian_low_10), 2)
+                    props.update({
+                        "units": units,
+                        "unit_fills": unit_fills,
+                        "stop_2n": stop_2n,
+                        "trailing_stop_10d": donchian_low_10,
+                        "next_pyramid_price": next_pyramid,
+                    })
+
+                    if pyramided or new_effective_stop != stop_loss:
+                        open_update = sanitize_for_db({
+                            "entry_price": entry_price,
+                            "stop_loss": new_effective_stop,
+                            "strategy_props": props,
+                        })
+                        client.table("trades").update(open_update).eq("id", trade["id"]).execute()
+                        if pyramided:
+                            logger.info(
+                                f"[{ticker}] Piramidación Tortuga -> {units} unidades | "
+                                f"Avg Entry: ${entry_price} | Nuevo Stop: ${new_effective_stop}"
+                            )
 
             if exit_reason and exit_price is not None:
                 pnl_percent = round(((exit_price - entry_price) / entry_price) * 100, 2)
-                entry_date_raw = str(trade.get("entry_date", today_str))[:10]
                 entry_date_obj = datetime.strptime(entry_date_raw, "%Y-%m-%d")
-                days_held = max(0, (datetime.now() - entry_date_obj).days)
+                days_held = max(1, (datetime.now() - entry_date_obj).days)
 
                 update_payload = sanitize_for_db({
                     "status": "CLOSED",
@@ -274,10 +375,14 @@ def evaluate_open_trades(supabase_client: Optional[Client] = None) -> List[Dict[
                     "exit_reason": exit_reason,
                     "pnl_percent": pnl_percent,
                     "days_held": days_held,
+                    "strategy_props": props,
                 })
 
                 client.table("trades").update(update_payload).eq("id", trade["id"]).execute()
-                logger.info(f"[{ticker}] Trade #{trade['id']} cerrado por {exit_reason} a ${exit_price} ({pnl_percent}%)")
+                logger.info(
+                    f"[{ticker}][{strategy}] Trade #{trade['id']} cerrado por {exit_reason} "
+                    f"a ${exit_price} ({pnl_percent}%)"
+                )
                 closed_trades.append({**trade, **update_payload})
         except Exception as e:
             logger.error(f"[{ticker}] Error evaluando trade abierto #{trade.get('id')}: {e}")
@@ -286,53 +391,107 @@ def evaluate_open_trades(supabase_client: Optional[Client] = None) -> List[Dict[
 
 
 def append_new_trades(
-    top5_candidates: List[Dict[str, Any]],
+    candidates: List[Dict[str, Any]],
     today_str: str,
+    strategy: str = "kotegawa",
     supabase_client: Optional[Client] = None
 ) -> List[Dict[str, Any]]:
     """
-    Inserta los nuevos trades teóricos de hoy (taken = False) en la tabla 'trades' de Supabase,
-    reutilizando exactamente el 'Target_FrontRun' y 'Stop_Loss_Sugerido' calculados por el screener (DRY).
-    Evita duplicados si ya existen mocks para la misma fecha y ticker.
+    Inserta nuevos trades teóricos (taken = False) para la estrategia dada,
+    respetando el límite de Portfolio Heat (MAX_OPEN_POSITIONS_PER_STRATEGY = 5)
+    y evitando duplicados de tickers ya OPEN o registrados en la misma fecha.
     """
     client = supabase_client or get_supabase_client()
     inserted_trades = []
 
     try:
-        existing_resp = (
+        open_resp = (
             client.table("trades")
             .select("ticker")
-            .eq("entry_date", today_str)
-            .eq("strategy", "kotegawa")
+            .eq("strategy", strategy)
+            .eq("status", "OPEN")
             .eq("taken", False)
             .execute()
         )
-        existing_tickers = {row["ticker"] for row in (existing_resp.data or [])}
-    except Exception as e:
-        logger.warning(f"No se pudo verificar existencia previa de trades para {today_str}: {e}")
-        existing_tickers = set()
+        open_tickers = {row["ticker"] for row in (open_resp.data or [])}
 
-    for candidate in top5_candidates:
-        ticker = candidate["Ticker"]
-        if ticker in existing_tickers:
-            logger.info(f"[{ticker}] Mock trade ya registrado para {today_str}, omitiendo duplicado.")
-            continue
+        today_resp = (
+            client.table("trades")
+            .select("ticker")
+            .eq("entry_date", today_str)
+            .eq("strategy", strategy)
+            .eq("taken", False)
+            .execute()
+        )
+        today_tickers = {row["ticker"] for row in (today_resp.data or [])}
+    except Exception as e:
+        logger.error(f"[{strategy}] Error verificando Portfolio Heat en trades: {e}")
+        return []
+
+    current_open_count = len(open_tickers)
+    available_slots = max(0, MAX_OPEN_POSITIONS_PER_STRATEGY - current_open_count)
+
+    if available_slots == 0:
+        logger.info(
+            f"[{strategy}] Portfolio Heat al máximo ({current_open_count}/"
+            f"{MAX_OPEN_POSITIONS_PER_STRATEGY} posiciones OPEN). No se abren nuevos mocks hoy."
+        )
+        return []
+
+    logger.info(
+        f"[{strategy}] Posiciones abiertas: {current_open_count}/{MAX_OPEN_POSITIONS_PER_STRATEGY}. "
+        f"Slots disponibles hoy: {available_slots}."
+    )
+
+    sorted_candidates = sorted(
+        candidates,
+        key=lambda c: float(c.get("score") or 0.0),
+        reverse=True,
+    )
+    eligible_candidates = [
+        c for c in sorted_candidates
+        if c.get("ticker") and c["ticker"] not in open_tickers and c["ticker"] not in today_tickers
+    ]
+    candidates_to_open = eligible_candidates[:available_slots]
+
+    for candidate in candidates_to_open:
+        ticker = candidate["ticker"]
+        entry_price = round(float(candidate["close_price"]), 2) if candidate.get("close_price") is not None else None
+        stop_loss = round(float(candidate["stop_loss"]), 2) if candidate.get("stop_loss") is not None else None
+        target = round(float(candidate["target"]), 2) if candidate.get("target") is not None else None
+
+        cand_props = dict(candidate.get("strategy_props") or {})
+        if strategy == "turtle" and entry_price is not None:
+            n_val = float(cand_props.get("n_value") or cand_props.get("atr_20") or 0.0)
+            trade_props = {
+                "n_at_entry": round(n_val, 2),
+                "initial_entry_price": entry_price,
+                "units": 1,
+                "max_units": 4,
+                "unit_fills": [entry_price],
+                "stop_2n": stop_loss,
+                "trailing_stop_10d": cand_props.get("donchian_low_10", stop_loss),
+                "next_pyramid_price": round(entry_price + (0.5 * n_val), 2) if n_val > 0 else None,
+                "donchian_high_20_entry": cand_props.get("donchian_high_20"),
+            }
+        else:
+            trade_props = {}
 
         new_trade = sanitize_for_db({
             "ticker": ticker,
-            "strategy": "kotegawa",
+            "strategy": strategy,
             "taken": False,
             "entry_date": today_str,
-            "entry_price": round(float(candidate["Price"]), 2) if candidate.get("Price") is not None else None,
-            "target": round(float(candidate["Target_FrontRun"]), 2) if candidate.get("Target_FrontRun") is not None else None,
-            "stop_loss": round(float(candidate["Stop_Loss_Sugerido"]), 2) if candidate.get("Stop_Loss_Sugerido") is not None else None,
+            "entry_price": entry_price,
+            "target": target,
+            "stop_loss": stop_loss,
             "status": "OPEN",
             "exit_date": None,
             "exit_price": None,
             "exit_reason": None,
             "pnl_percent": None,
             "days_held": None,
-            "strategy_props": {},
+            "strategy_props": trade_props,
         })
 
         try:
@@ -342,20 +501,21 @@ def append_new_trades(
             else:
                 inserted_trades.append(new_trade)
         except Exception as e:
-            logger.error(f"[{ticker}] Error al insertar mock trade en Supabase: {e}")
+            logger.error(f"[{ticker}][{strategy}] Error al insertar mock trade en Supabase: {e}")
 
-    logger.info(f"Se insertaron {len(inserted_trades)} nuevos trades teóricos en Supabase.")
+    logger.info(f"[{strategy}] Se insertaron {len(inserted_trades)} nuevos trades teóricos en Supabase.")
     return inserted_trades
 
 
 def persist_screener_candidates(
-    top5_candidates: List[Dict[str, Any]],
+    candidates: List[Dict[str, Any]],
     today_str: str,
+    strategy: str = "kotegawa",
     supabase_client: Optional[Client] = None
 ) -> List[Dict[str, Any]]:
     """
-    Persiste los candidatos del día en 'screener_candidates' mapeando las columnas universales
-    e inyectando las métricas específicas ('rsi', 'z_score', 'atr_14') en 'strategy_props' (JSONB).
+    Persiste los candidatos del día en 'screener_candidates' para la estrategia indicada,
+    mapeando las columnas universales y guardando las métricas específicas en 'strategy_props' (JSONB).
     """
     client = supabase_client or get_supabase_client()
     inserted_candidates = []
@@ -365,36 +525,33 @@ def persist_screener_candidates(
             client.table("screener_candidates")
             .select("ticker")
             .eq("created_at", today_str)
-            .eq("strategy", "kotegawa")
+            .eq("strategy", strategy)
             .execute()
         )
         existing_tickers = {row["ticker"] for row in (existing_resp.data or [])}
     except Exception as e:
-        logger.warning(f"No se pudo verificar candidatos previos para {today_str}: {e}")
+        logger.warning(f"[{strategy}] No se pudo verificar candidatos previos para {today_str}: {e}")
         existing_tickers = set()
 
-    for c in top5_candidates:
-        ticker = c.get("Ticker")
-        if ticker in existing_tickers:
-            logger.info(f"[{ticker}] Candidato ya registrado en screener_candidates para {today_str}, omitiendo duplicado.")
+    for c in candidates:
+        ticker = c.get("ticker")
+        if not ticker or ticker in existing_tickers:
+            if ticker in existing_tickers:
+                logger.info(f"[{ticker}][{strategy}] Candidato ya registrado para {today_str}, omitiendo duplicado.")
             continue
 
         candidate_base = {
             "created_at": today_str,
             "ticker": ticker,
-            "strategy": "kotegawa",
-            "close_price": c.get("Price"),
-            "score": c.get("Bounce_Score"),
-            "target": c.get("Target_FrontRun"),
-            "stop_loss": c.get("Stop_Loss_Sugerido"),
+            "strategy": strategy,
+            "close_price": c.get("close_price"),
+            "score": c.get("score"),
+            "target": c.get("target"),
+            "stop_loss": c.get("stop_loss"),
         }
         candidate_with_props = sanitize_for_db({
             **candidate_base,
-            "strategy_props": {
-                "rsi": c.get("RSI"),
-                "z_score": c.get("Z-Score"),
-                "atr_14": c.get("ATR_14"),
-            },
+            "strategy_props": c.get("strategy_props") or {},
         })
 
         try:
@@ -412,9 +569,9 @@ def persist_screener_candidates(
                 else:
                     inserted_candidates.append(clean_base)
             else:
-                logger.error(f"[{ticker}] Error al insertar candidato en screener_candidates: {e}")
+                logger.error(f"[{ticker}][{strategy}] Error al insertar candidato en screener_candidates: {e}")
 
-    logger.info(f"Se persistieron {len(inserted_candidates)} candidatos en screener_candidates.")
+    logger.info(f"[{strategy}] Se persistieron {len(inserted_candidates)} candidatos en screener_candidates.")
     return inserted_candidates
 
 
@@ -461,8 +618,9 @@ def persist_market_metadata(
 if __name__ == "__main__":
     from technical_analysis import process_technical_indicators, filter_base_technical
     from scoring_engine import apply_fundamental_filters_and_score
+    from turtle_engine import run_turtle_strategy
 
-    logger.info("Iniciando ejecución del pipeline diario Kotegawa hacia Supabase...")
+    logger.info("Iniciando ejecución del pipeline diario Multi-Estrategia hacia Supabase...")
     supabase = get_supabase_client()
     fecha_hoy = datetime.now().strftime("%Y-%m-%d")
 
@@ -481,29 +639,35 @@ if __name__ == "__main__":
         if not df_historico.empty:
             df_procesado = process_technical_indicators(df_historico)
 
-            if not df_procesado.empty:
-                tickers_filtrados = filter_base_technical(df_procesado)
+            for strategy_name in ENABLED_STRATEGIES:
+                logger.info(f"--- Ejecutando estrategia: {strategy_name} ---")
+                strategy_candidates: List[Dict[str, Any]] = []
 
-                if tickers_filtrados:
-                    top_5_results = apply_fundamental_filters_and_score(tickers_filtrados, df_procesado)
+                if strategy_name == "kotegawa":
+                    if not df_procesado.empty:
+                        tickers_filtrados = filter_base_technical(df_procesado)
+                        if tickers_filtrados:
+                            raw_top5 = apply_fundamental_filters_and_score(tickers_filtrados, df_procesado)
+                            strategy_candidates = normalize_kotegawa_candidates(raw_top5)
+                        else:
+                            logger.warning("[kotegawa] Ningún ticker pasó el filtro base técnico.")
+                elif strategy_name == "turtle":
+                    strategy_candidates = run_turtle_strategy(df_historico)
 
-                    if top_5_results:
-                        print("\n" + "=" * 50)
-                        print("🚀 TOP 5 - SELECCIÓN FINAL 'BOUNCE SCORE' 🚀")
-                        print("=" * 50)
-                        print(json.dumps(sanitize_for_db(top_5_results), indent=4))
+                if strategy_candidates:
+                    print("\n" + "=" * 50)
+                    print(f"🚀 TOP {len(strategy_candidates)} - ESTRATEGIA '{strategy_name.upper()}' 🚀")
+                    print("=" * 50)
+                    print(json.dumps(sanitize_for_db(strategy_candidates), indent=4))
 
-                        # Persistir candidatos en screener_candidates
-                        persist_screener_candidates(top_5_results, fecha_hoy, supabase)
-
-                        # 3. Generación de Mocks en trades (Invariante #5.3)
-                        append_new_trades(top_5_results, fecha_hoy, supabase)
-                    else:
-                        logger.info("No hay candidatas hoy que cumplan todos los filtros (Fundamentales/Scoring).")
+                    persist_screener_candidates(strategy_candidates, fecha_hoy, strategy_name, supabase)
+                    # 3. Generación de Mocks en trades respetando Portfolio Heat (Invariante #5.3)
+                    append_new_trades(strategy_candidates, fecha_hoy, strategy_name, supabase)
                 else:
-                    logger.warning("Ningún ticker pasó el filtro base técnico. No hay candidatas hoy.")
+                    logger.info(f"[{strategy_name}] No hay candidatas hoy que cumplan todos los filtros.")
 
-                # 4. Actualización Macro en market_metadata (Invariante #5.4)
+            # 4. Actualización Macro en market_metadata (Invariante #5.4)
+            if not df_procesado.empty:
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M")
                 spy_price, spy_change, spy_history = get_spy_metrics()
                 vix_price, vix_change = get_vix_metrics()

@@ -1,0 +1,16 @@
+# Tasks
+
+## 1. Motor Vectorizado de Tortugas (`backend/turtle_engine.py`)
+
+- [x] 1.1 Crear `backend/turtle_engine.py` con la función `run_turtle_strategy(df_raw: pd.DataFrame) -> List[Dict[str, Any]]` que apile el DataFrame MultiIndex de `yfinance` y calcule de forma vectorizada `SMA_200`, `High_20` (`shift(1).rolling(20).max()`), `Low_10` (`shift(1).rolling(10).min()`), `Avg_Vol_20`, `TR`, `ATR_20` y `ATR_Pct`; verificar con una prueba unitaria sobre un DataFrame sintético que filtre correctamente `Close > SMA_200`, `Avg_Vol_20 > 1_000_000`, `Close >= High_20` y `ATR_20 <= 10.00` omitiendo filas con `NaN`.
+- [x] 1.2 Formatear la salida de `run_turtle_strategy` retornando el Top 5 ordenado por `ATR_Pct` descendente bajo el contrato unificado (`ticker`, `close_price`, `score`, `target = None`, `stop_loss = Close - 2*N`, y `strategy_props` con `n_value`, `atr_20`, `atr_pct`, `donchian_high_20`, `donchian_low_10`, `sma_200`, `avg_vol_20`, `stop_distance_n` y `pyramid_triggers`); verificar el esquema JSON resultante con una aserción unitaria.
+
+## 2. Refactoreo Multi-Estrategia en `backend/data_loader.py`
+
+- [x] 2.1 Refactorizar `evaluate_open_trades` en `backend/data_loader.py` para discriminar por `strategy`: mantener la lógica `kotegawa` (`SL`/`TP`) e implementar para `turtle` la descarga de `period="1mo"`, el cálculo de `donchian_low_10`, la prioridad conservadora de salida (`SL` vs `TRAILING_STOP`), y la piramidación hasta `4` unidades cada `+0.5N` actualizando `entry_price` promedio ponderado, `stop_loss` y `strategy_props` en la misma fila; verificar mediante tests unitarios con mocks de `yfinance` y Supabase que cubre cierre por `TRAILING_STOP`, cierre por `SL` y piramidación multi-unidad en fila única.
+- [x] 2.2 Refactorizar `append_new_trades` en `backend/data_loader.py` para aceptar el parámetro `strategy` y aplicar `MAX_OPEN_POSITIONS_PER_STRATEGY = 5` (Portfolio Heat), excluyendo tickers ya `OPEN` o abiertos hoy y tomando solo `eligible_candidates[:available_slots]` ordenados por `score` descendente, inicializando el payload `strategy_props` de `turtle`; verificar mediante test unitario que con 4 posiciones `OPEN` y 5 candidatos solo inserta el candidato #1.
+- [x] 2.3 Parametrizar `persist_screener_candidates(candidates, today_str, strategy, supabase_client)` y adaptar el bloque `__main__` de `backend/data_loader.py` para normalizar la salida de `kotegawa` al contrato unificado e iterar secuencialmente sobre `ENABLED_STRATEGIES = ["kotegawa", "turtle"]` reutilizando la misma descarga `df_historico` (`period="250d"`); verificar ejecutando un smoke test local (o dry-run con mocks) que ambas estrategias producen candidatos válidos y `sanitize_for_db` no deja `NaN`/`Infinity`.
+
+## 3. Validación de Esquema y Pipeline End-to-End
+
+- [x] 3.1 Validar que la tabla `public.screener_candidates` y `public.trades` en Supabase aceptan `target = NULL` para registros con `strategy = 'turtle'` (y documentar/aplicar `ALTER TABLE ... ALTER COLUMN target DROP NOT NULL` si fuera necesario) y ejecutar `python backend/data_loader.py` (o prueba controlada) verificando que inserta registros con `strategy = 'kotegawa'` y `strategy = 'turtle'` sin errores de esquema.
