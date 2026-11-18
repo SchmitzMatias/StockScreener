@@ -172,9 +172,9 @@ export default function Header({ activeStrategy, onStrategyChange }: HeaderProps
     const [cronDate, cronTime] = formatLastRun(metaData?.last_run || metaData?.updated_at);
 
     return (
-        <header className="grid grid-cols-3 lg:grid-cols-5 gap-2 2xl:gap-3 mb-2 2xl:mb-3 shrink-0">
+        <header className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 2xl:gap-3 mb-2 2xl:mb-3 shrink-0">
             {/* Card 1 */}
-            <div className="border border-slate-800 bg-panel flex rounded-lg items-center justify-between lg:justify-start gap-2 p-2 2xl:p-3">
+            <div className="col-span-2 md:col-span-1 border border-slate-800 bg-panel flex rounded-lg items-center justify-between lg:justify-start gap-2 p-2 2xl:p-3">
                 <div className='w-10 h-10 xl:w-14 xl:h-14 2xl:w-20 2xl:h-20 shrink-0'>
                     <img
                         src={logoImg}
@@ -277,6 +277,7 @@ export default function Header({ activeStrategy, onStrategyChange }: HeaderProps
 
             {/* Card 4 */}
             <MetricCard
+                className="hidden md:flex"
                 title=""
                 value={metaData?.sma20_bull_pct != null ? `${sma20BullPct}% > SMA20` : (isLoading ? '...' : '-')}
                 subText="Bullish participation"
